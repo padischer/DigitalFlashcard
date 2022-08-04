@@ -1,6 +1,6 @@
 ﻿namespace Flashcard
 {
-    partial class MainForm
+    partial class mainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -55,6 +55,7 @@
             this.btnSwitchDifficulty.TabIndex = 1;
             this.btnSwitchDifficulty.Text = "Basis";
             this.btnSwitchDifficulty.UseVisualStyleBackColor = true;
+            this.btnSwitchDifficulty.Click += new System.EventHandler(this.btnSwitchDifficulty_Click);
             // 
             // btnAddCard
             // 
@@ -115,8 +116,9 @@
             this.btnSubmit.TabIndex = 7;
             this.btnSubmit.Text = "Bestätigen";
             this.btnSubmit.UseVisualStyleBackColor = true;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
-            // MainForm
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -129,8 +131,9 @@
             this.Controls.Add(this.btnAddCard);
             this.Controls.Add(this.btnSwitchDifficulty);
             this.Controls.Add(this.btnSwitchLanguage);
-            this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Name = "mainForm";
+            this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
