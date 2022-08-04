@@ -58,7 +58,8 @@
             // 
             // btnAddCard
             // 
-            this.btnAddCard.Location = new System.Drawing.Point(172, 411);
+            this.btnAddCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddCard.Location = new System.Drawing.Point(139, 411);
             this.btnAddCard.Name = "btnAddCard";
             this.btnAddCard.Size = new System.Drawing.Size(108, 23);
             this.btnAddCard.TabIndex = 2;
@@ -67,16 +68,18 @@
             // 
             // cbSlotNumber
             // 
+            this.cbSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbSlotNumber.FormattingEnabled = true;
-            this.cbSlotNumber.Location = new System.Drawing.Point(45, 411);
+            this.cbSlotNumber.Location = new System.Drawing.Point(12, 411);
             this.cbSlotNumber.Name = "cbSlotNumber";
             this.cbSlotNumber.Size = new System.Drawing.Size(121, 23);
             this.cbSlotNumber.TabIndex = 3;
             // 
             // lblSlotNumber
             // 
+            this.lblSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSlotNumber.AutoSize = true;
-            this.lblSlotNumber.Location = new System.Drawing.Point(72, 389);
+            this.lblSlotNumber.Location = new System.Drawing.Point(48, 389);
             this.lblSlotNumber.Name = "lblSlotNumber";
             this.lblSlotNumber.Size = new System.Drawing.Size(48, 15);
             this.lblSlotNumber.TabIndex = 4;
@@ -84,6 +87,7 @@
             // 
             // lblWordToTranslate
             // 
+            this.lblWordToTranslate.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblWordToTranslate.AutoSize = true;
             this.lblWordToTranslate.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblWordToTranslate.Location = new System.Drawing.Point(110, 179);
@@ -94,6 +98,7 @@
             // 
             // lbTranslationList
             // 
+            this.lbTranslationList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbTranslationList.FormattingEnabled = true;
             this.lbTranslationList.ItemHeight = 15;
             this.lbTranslationList.Location = new System.Drawing.Point(524, 25);
@@ -103,6 +108,7 @@
             // 
             // btnSubmit
             // 
+            this.btnSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSubmit.Location = new System.Drawing.Point(577, 411);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(75, 23);
@@ -110,11 +116,11 @@
             this.btnSubmit.Text = "Bestätigen";
             this.btnSubmit.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(745, 450);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.lbTranslationList);
             this.Controls.Add(this.lblWordToTranslate);
@@ -123,7 +129,7 @@
             this.Controls.Add(this.btnAddCard);
             this.Controls.Add(this.btnSwitchDifficulty);
             this.Controls.Add(this.btnSwitchLanguage);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -8,9 +8,9 @@ namespace Flashcard
 {
     internal class Card
     {
-        public string difficulty { get; set; }
-        public string englishCard { get; set; }
-        public string germanCard { get; set; }
+        public string Difficulty { get; set; }
+        public string EnglishCard { get; set; }
+        public string GermanCard { get; set; }
 
     }
 }
