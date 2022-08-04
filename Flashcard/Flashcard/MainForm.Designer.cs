@@ -1,6 +1,6 @@
 ﻿namespace Flashcard
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -40,7 +40,7 @@
             // 
             // btnSwitchLanguage
             // 
-            this.btnSwitchLanguage.Location = new System.Drawing.Point(45, 28);
+            this.btnSwitchLanguage.Location = new System.Drawing.Point(12, 25);
             this.btnSwitchLanguage.Name = "btnSwitchLanguage";
             this.btnSwitchLanguage.Size = new System.Drawing.Size(75, 23);
             this.btnSwitchLanguage.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // btnSwitchDifficulty
             // 
-            this.btnSwitchDifficulty.Location = new System.Drawing.Point(143, 28);
+            this.btnSwitchDifficulty.Location = new System.Drawing.Point(93, 25);
             this.btnSwitchDifficulty.Name = "btnSwitchDifficulty";
             this.btnSwitchDifficulty.Size = new System.Drawing.Size(75, 23);
             this.btnSwitchDifficulty.TabIndex = 1;
@@ -85,9 +85,10 @@
             // lblWordToTranslate
             // 
             this.lblWordToTranslate.AutoSize = true;
-            this.lblWordToTranslate.Location = new System.Drawing.Point(143, 205);
+            this.lblWordToTranslate.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblWordToTranslate.Location = new System.Drawing.Point(110, 179);
             this.lblWordToTranslate.Name = "lblWordToTranslate";
-            this.lblWordToTranslate.Size = new System.Drawing.Size(36, 15);
+            this.lblWordToTranslate.Size = new System.Drawing.Size(119, 54);
             this.lblWordToTranslate.TabIndex = 5;
             this.lblWordToTranslate.Text = "Word";
             // 
@@ -95,14 +96,14 @@
             // 
             this.lbTranslationList.FormattingEnabled = true;
             this.lbTranslationList.ItemHeight = 15;
-            this.lbTranslationList.Location = new System.Drawing.Point(573, 25);
+            this.lbTranslationList.Location = new System.Drawing.Point(524, 25);
             this.lbTranslationList.Name = "lbTranslationList";
             this.lbTranslationList.Size = new System.Drawing.Size(186, 379);
             this.lbTranslationList.TabIndex = 6;
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(635, 410);
+            this.btnSubmit.Location = new System.Drawing.Point(577, 411);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(75, 23);
             this.btnSubmit.TabIndex = 7;
