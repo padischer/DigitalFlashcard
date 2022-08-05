@@ -76,6 +76,7 @@
             this._cbSlotNumber.Name = "_cbSlotNumber";
             this._cbSlotNumber.Size = new System.Drawing.Size(121, 23);
             this._cbSlotNumber.TabIndex = 3;
+            this._cbSlotNumber.SelectedIndexChanged += new System.EventHandler(this.CbSlotNumberSelectIndexChanged);
             // 
             // _lblSlotNumber
             // 
