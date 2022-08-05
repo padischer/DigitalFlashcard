@@ -8,7 +8,7 @@ namespace Flashcard
 {
     internal class Slot
     {
-        public int SlotID { get; set; }
-        public List<Card> CardList { get; set; }
+        public int _SlotID { get; set; }
+        public List<Card> _CardList { get; set; }
     }
 }

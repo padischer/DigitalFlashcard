@@ -8,9 +8,15 @@ namespace Flashcard
 {
     internal class Card
     {
-        public string Difficulty { get; set; }
-        public string EnglishCard { get; set; }
-        public string GermanCard { get; set; }
+        public string _Difficulty { get; set; }
+        public string _EnglishWord { get; set; }
+        public string _GermanWord { get; set; }
+        
+        public Card(string gerWord, string engWord)
+        {
+            this._GermanWord = gerWord;
+            this._EnglishWord = engWord;
+        }
 
     }
 }

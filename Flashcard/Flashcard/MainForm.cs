@@ -20,7 +20,7 @@ namespace Flashcard
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
             _currendCard = listOfCards[randomWordIndex];
-            _lblWordToTranslate.Text = _currendCard.GermanCard;
+            _lblWordToTranslate.Text = _currendCard._GermanWord;
             
         }
         
@@ -31,7 +31,7 @@ namespace Flashcard
             //printing data to interce
             foreach (Card card in listOfCards)
             {
-                _lbTranslationList.Items.Add(card.EnglishCard);
+                _lbTranslationList.Items.Add(card._EnglishWord);
             }
 
             
@@ -49,15 +49,9 @@ namespace Flashcard
 
 
             //generating example data
-            Card firstCard = new Card();
-            firstCard.GermanCard = "Hallo";
-            firstCard.EnglishCard = "hello";
-            Card secondCard = new Card();
-            secondCard.GermanCard = "Tag";
-            secondCard.EnglishCard = "day";
-            Card thirdCard = new Card();
-            thirdCard.GermanCard = "Tisch";
-            thirdCard.EnglishCard = "table";
+            Card firstCard = new Card("Hallo", "hello");
+            Card secondCard = new Card("Tag", "day");
+            Card thirdCard = new Card("Tisch", "Table");
 
             _cardList.Add(firstCard);
             _cardList.Add(secondCard);
@@ -79,13 +73,13 @@ namespace Flashcard
         {
             if(_btnSubmit.Text == "Bestätigen")
             {
-                if (_lbTranslationList.SelectedItem.ToString() == _currendCard.EnglishCard)
+                if (_lbTranslationList.SelectedItem.ToString() == _currendCard._EnglishWord)
                 {
                     _lblValidation.Text = "Korrekt";
                 }
                 else
                 {
-                    _lblValidation.Text = "Falsch! " + _currendCard.EnglishCard + " wäre richtig gewesen";
+                    _lblValidation.Text = "Falsch! " + _currendCard._EnglishWord + " wäre richtig gewesen";
                 }
                 _btnSubmit.Text = "Weiter";
             }
