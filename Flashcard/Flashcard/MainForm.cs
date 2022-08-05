@@ -19,17 +19,19 @@ namespace Flashcard
         {
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
-            lblWordToTranslate.Text = listOfCards[randomWordIndex].GermanCard;   
+            _currendCard = listOfCards[randomWordIndex];
+            _lblWordToTranslate.Text = _currendCard.GermanCard;
+            
         }
         
         //clear lbTanslation List and fill it with each eng word of a list of cards 
         private void fillTranslationList(List<Card> listOfCards)
         {
-            lbTranslationList.Items.Clear();
+            _lbTranslationList.Items.Clear();
             //printing data to interce
             foreach (Card card in listOfCards)
             {
-                lbTranslationList.Items.Add(card.EnglishCard);
+                _lbTranslationList.Items.Add(card.EnglishCard);
             }
 
             
@@ -37,6 +39,15 @@ namespace Flashcard
         
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+            string[] fileData = System.IO.File.ReadAllLines("data.txt");
+
+            for (int i = 0; i < fileData.Length / 3; i++)
+            {
+                
+            }
+
+
             //generating example data
             Card firstCard = new Card();
             firstCard.GermanCard = "Hallo";
@@ -56,6 +67,7 @@ namespace Flashcard
             fillTranslationList(_cardList);
             setRandomWordToTranslate(_cardList);
 
+            
         }
 
         private void btnSwitchDifficulty_Click(object sender, EventArgs e)
@@ -65,9 +77,25 @@ namespace Flashcard
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            /*
-             * Test
-             */
+            if(_btnSubmit.Text == "Bestätigen")
+            {
+                if (_lbTranslationList.SelectedItem.ToString() == _currendCard.EnglishCard)
+                {
+                    _lblValidation.Text = "Korrekt";
+                }
+                else
+                {
+                    _lblValidation.Text = "Falsch! " + _currendCard.EnglishCard + " wäre richtig gewesen";
+                }
+                _btnSubmit.Text = "Weiter";
+            }
+            else
+            {
+                _lblValidation.Text = "";
+                _lbTranslationList.ClearSelected();
+                _btnSubmit.Text = "Bestätigen";
+                setRandomWordToTranslate(_cardList);
+            }
             
             
         }
