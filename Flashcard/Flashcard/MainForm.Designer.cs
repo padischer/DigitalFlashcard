@@ -28,120 +28,124 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnSwitchLanguage = new System.Windows.Forms.Button();
-            this.btnSwitchDifficulty = new System.Windows.Forms.Button();
-            this.btnAddCard = new System.Windows.Forms.Button();
-            this.cbSlotNumber = new System.Windows.Forms.ComboBox();
-            this.lblSlotNumber = new System.Windows.Forms.Label();
-            this.lblWordToTranslate = new System.Windows.Forms.Label();
-            this.lbTranslationList = new System.Windows.Forms.ListBox();
-            this.btnSubmit = new System.Windows.Forms.Button();
+            this._btnSwitchLanguage = new System.Windows.Forms.Button();
+            this._btnSwitchDifficulty = new System.Windows.Forms.Button();
+            this._btnAddCard = new System.Windows.Forms.Button();
+            this._cbSlotNumber = new System.Windows.Forms.ComboBox();
+            this._lblSlotNumber = new System.Windows.Forms.Label();
+            this._lblWordToTranslate = new System.Windows.Forms.Label();
+            this._lbTranslationList = new System.Windows.Forms.ListBox();
+            this._btnSubmit = new System.Windows.Forms.Button();
             this._lblValidation = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // btnSwitchLanguage
+            // _btnSwitchLanguage
             // 
-            this.btnSwitchLanguage.Location = new System.Drawing.Point(12, 25);
-            this.btnSwitchLanguage.Name = "btnSwitchLanguage";
-            this.btnSwitchLanguage.Size = new System.Drawing.Size(75, 23);
-            this.btnSwitchLanguage.TabIndex = 0;
-            this.btnSwitchLanguage.Text = "deu->eng";
-            this.btnSwitchLanguage.UseVisualStyleBackColor = true;
+            this._btnSwitchLanguage.Location = new System.Drawing.Point(12, 25);
+            this._btnSwitchLanguage.Name = "_btnSwitchLanguage";
+            this._btnSwitchLanguage.Size = new System.Drawing.Size(75, 23);
+            this._btnSwitchLanguage.TabIndex = 0;
+            this._btnSwitchLanguage.Text = "deu->eng";
+            this._btnSwitchLanguage.UseVisualStyleBackColor = true;
             // 
-            // btnSwitchDifficulty
+            // _btnSwitchDifficulty
             // 
-            this.btnSwitchDifficulty.Location = new System.Drawing.Point(93, 25);
-            this.btnSwitchDifficulty.Name = "btnSwitchDifficulty";
-            this.btnSwitchDifficulty.Size = new System.Drawing.Size(75, 23);
-            this.btnSwitchDifficulty.TabIndex = 1;
-            this.btnSwitchDifficulty.Text = "Basis";
-            this.btnSwitchDifficulty.UseVisualStyleBackColor = true;
-            this.btnSwitchDifficulty.Click += new System.EventHandler(this.btnSwitchDifficulty_Click);
+            this._btnSwitchDifficulty.Location = new System.Drawing.Point(93, 25);
+            this._btnSwitchDifficulty.Name = "_btnSwitchDifficulty";
+            this._btnSwitchDifficulty.Size = new System.Drawing.Size(75, 23);
+            this._btnSwitchDifficulty.TabIndex = 1;
+            this._btnSwitchDifficulty.Text = "Basis";
+            this._btnSwitchDifficulty.UseVisualStyleBackColor = true;
+            this._btnSwitchDifficulty.Click += new System.EventHandler(this.btnSwitchDifficulty_Click);
             // 
-            // btnAddCard
+            // _btnAddCard
             // 
-            this.btnAddCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddCard.Location = new System.Drawing.Point(139, 448);
-            this.btnAddCard.Name = "btnAddCard";
-            this.btnAddCard.Size = new System.Drawing.Size(108, 23);
-            this.btnAddCard.TabIndex = 2;
-            this.btnAddCard.Text = "Karte Hinzufügen";
-            this.btnAddCard.UseVisualStyleBackColor = true;
+            this._btnAddCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._btnAddCard.Location = new System.Drawing.Point(139, 448);
+            this._btnAddCard.Name = "_btnAddCard";
+            this._btnAddCard.Size = new System.Drawing.Size(108, 23);
+            this._btnAddCard.TabIndex = 2;
+            this._btnAddCard.Text = "Karte Hinzufügen";
+            this._btnAddCard.UseVisualStyleBackColor = true;
             // 
-            // cbSlotNumber
+            // _cbSlotNumber
             // 
-            this.cbSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbSlotNumber.FormattingEnabled = true;
-            this.cbSlotNumber.Location = new System.Drawing.Point(12, 448);
-            this.cbSlotNumber.Name = "cbSlotNumber";
-            this.cbSlotNumber.Size = new System.Drawing.Size(121, 23);
-            this.cbSlotNumber.TabIndex = 3;
+            this._cbSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._cbSlotNumber.FormattingEnabled = true;
+            this._cbSlotNumber.Location = new System.Drawing.Point(12, 448);
+            this._cbSlotNumber.Name = "_cbSlotNumber";
+            this._cbSlotNumber.Size = new System.Drawing.Size(121, 23);
+            this._cbSlotNumber.TabIndex = 3;
             // 
-            // lblSlotNumber
+            // _lblSlotNumber
             // 
-            this.lblSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSlotNumber.AutoSize = true;
-            this.lblSlotNumber.Location = new System.Drawing.Point(48, 426);
-            this.lblSlotNumber.Name = "lblSlotNumber";
-            this.lblSlotNumber.Size = new System.Drawing.Size(48, 15);
-            this.lblSlotNumber.TabIndex = 4;
-            this.lblSlotNumber.Text = "Slot-Nr.";
+            this._lblSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._lblSlotNumber.AutoSize = true;
+            this._lblSlotNumber.Location = new System.Drawing.Point(48, 426);
+            this._lblSlotNumber.Name = "_lblSlotNumber";
+            this._lblSlotNumber.Size = new System.Drawing.Size(48, 15);
+            this._lblSlotNumber.TabIndex = 4;
+            this._lblSlotNumber.Text = "Slot-Nr.";
             // 
-            // lblWordToTranslate
+            // _lblWordToTranslate
             // 
-            this.lblWordToTranslate.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblWordToTranslate.AutoSize = true;
-            this.lblWordToTranslate.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblWordToTranslate.Location = new System.Drawing.Point(110, 197);
-            this.lblWordToTranslate.Name = "lblWordToTranslate";
-            this.lblWordToTranslate.Size = new System.Drawing.Size(119, 54);
-            this.lblWordToTranslate.TabIndex = 5;
-            this.lblWordToTranslate.Text = "Word";
+            this._lblWordToTranslate.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this._lblWordToTranslate.AutoSize = true;
+            this._lblWordToTranslate.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this._lblWordToTranslate.Location = new System.Drawing.Point(110, 197);
+            this._lblWordToTranslate.Name = "_lblWordToTranslate";
+            this._lblWordToTranslate.Size = new System.Drawing.Size(119, 54);
+            this._lblWordToTranslate.TabIndex = 5;
+            this._lblWordToTranslate.Text = "Word";
             // 
-            // lbTranslationList
+            // _lbTranslationList
             // 
-            this.lbTranslationList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTranslationList.FormattingEnabled = true;
-            this.lbTranslationList.ItemHeight = 15;
-            this.lbTranslationList.Location = new System.Drawing.Point(501, 25);
-            this.lbTranslationList.Name = "lbTranslationList";
-            this.lbTranslationList.Size = new System.Drawing.Size(186, 379);
-            this.lbTranslationList.TabIndex = 6;
+            this._lbTranslationList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._lbTranslationList.FormattingEnabled = true;
+            this._lbTranslationList.ItemHeight = 15;
+            this._lbTranslationList.Location = new System.Drawing.Point(501, 25);
+            this._lbTranslationList.Name = "_lbTranslationList";
+            this._lbTranslationList.Size = new System.Drawing.Size(186, 379);
+            this._lbTranslationList.TabIndex = 6;
             // 
-            // btnSubmit
+            // _btnSubmit
             // 
-            this.btnSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSubmit.Location = new System.Drawing.Point(556, 410);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
-            this.btnSubmit.TabIndex = 7;
-            this.btnSubmit.Text = "Bestätigen";
-            this.btnSubmit.UseVisualStyleBackColor = true;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this._btnSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnSubmit.Location = new System.Drawing.Point(556, 410);
+            this._btnSubmit.Name = "_btnSubmit";
+            this._btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this._btnSubmit.TabIndex = 7;
+            this._btnSubmit.Text = "Bestätigen";
+            this._btnSubmit.UseVisualStyleBackColor = true;
+            this._btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // _lblValidation
             // 
-            this._lblValidation.AutoSize = true;
-            this._lblValidation.Location = new System.Drawing.Point(556, 452);
+            this._lblValidation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._lblValidation.AutoEllipsis = true;
+            this._lblValidation.Location = new System.Drawing.Point(501, 448);
             this._lblValidation.Name = "_lblValidation";
-            this._lblValidation.Size = new System.Drawing.Size(0, 15);
+            this._lblValidation.Size = new System.Drawing.Size(186, 15);
             this._lblValidation.TabIndex = 8;
+            this._lblValidation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this._lblValidation.Click += new System.EventHandler(this._lblValidation_Click);
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(745, 487);
             this.Controls.Add(this._lblValidation);
-            this.Controls.Add(this.btnSubmit);
-            this.Controls.Add(this.lbTranslationList);
-            this.Controls.Add(this.lblWordToTranslate);
-            this.Controls.Add(this.lblSlotNumber);
-            this.Controls.Add(this.cbSlotNumber);
-            this.Controls.Add(this.btnAddCard);
-            this.Controls.Add(this.btnSwitchDifficulty);
-            this.Controls.Add(this.btnSwitchLanguage);
+            this.Controls.Add(this._btnSubmit);
+            this.Controls.Add(this._lbTranslationList);
+            this.Controls.Add(this._lblWordToTranslate);
+            this.Controls.Add(this._lblSlotNumber);
+            this.Controls.Add(this._cbSlotNumber);
+            this.Controls.Add(this._btnAddCard);
+            this.Controls.Add(this._btnSwitchDifficulty);
+            this.Controls.Add(this._btnSwitchLanguage);
             this.Name = "mainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -152,14 +156,14 @@
 
         #endregion
 
-        private Button btnSwitchLanguage;
-        private Button btnSwitchDifficulty;
-        private Button btnAddCard;
-        private ComboBox cbSlotNumber;
-        private Label lblSlotNumber;
-        private Label lblWordToTranslate;
-        private ListBox lbTranslationList;
-        private Button btnSubmit;
+        private Button _btnSwitchLanguage;
+        private Button _btnSwitchDifficulty;
+        private Button _btnAddCard;
+        private ComboBox _cbSlotNumber;
+        private Label _lblSlotNumber;
+        private Label _lblWordToTranslate;
+        private ListBox _lbTranslationList;
+        private Button _btnSubmit;
         private Label _lblValidation;
     }
 }
