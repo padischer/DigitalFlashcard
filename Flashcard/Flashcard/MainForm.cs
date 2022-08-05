@@ -14,13 +14,29 @@ namespace Flashcard
         private List<Card> _cardList = new List<Card>();
         private Card _currendCard;
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            
+            //reading data from data.txt and putting it into Cards
+            string[] fileInputData = System.IO.File.ReadAllLines(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt");
+ 
+            for (int i = 0; i < fileInputData.Length; i=i+2)
+            {
+                _cardList.Add(new Card(fileInputData[i], fileInputData[i + 1]));
+            }
+            
+            //printing data to interface
+            fillTranslationList(_cardList);
+            setRandomWordToTranslate(_cardList);
+        }
+
         //print a random ger word of a list of cards to the lblWordToTranslate control and set its card to the _currentCard
         private void setRandomWordToTranslate(List<Card> listOfCards)
         {
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
             _currendCard = listOfCards[randomWordIndex];
-            _lblWordToTranslate.Text = _currendCard.GermanCard;
+            _lblWordToTranslate.Text = _currendCard._GermanWord;
             
         }
         
@@ -31,41 +47,8 @@ namespace Flashcard
             //printing data to interce
             foreach (Card card in listOfCards)
             {
-                _lbTranslationList.Items.Add(card.EnglishCard);
+                _lbTranslationList.Items.Add(card._EnglishWord);
             }
-
-            
-        }
-        
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-            string[] fileData = System.IO.File.ReadAllLines("data.txt");
-
-            for (int i = 0; i < fileData.Length / 3; i++)
-            {
-                
-            }
-
-
-            //generating example data
-            Card firstCard = new Card();
-            firstCard.GermanCard = "Hallo";
-            firstCard.EnglishCard = "hello";
-            Card secondCard = new Card();
-            secondCard.GermanCard = "Tag";
-            secondCard.EnglishCard = "day";
-            Card thirdCard = new Card();
-            thirdCard.GermanCard = "Tisch";
-            thirdCard.EnglishCard = "table";
-
-            _cardList.Add(firstCard);
-            _cardList.Add(secondCard);
-            _cardList.Add(thirdCard);
-
-            //printing data to interce
-            fillTranslationList(_cardList);
-            setRandomWordToTranslate(_cardList);
 
             
         }
@@ -75,17 +58,18 @@ namespace Flashcard
             setRandomWordToTranslate(_cardList);
         }
 
+        //checking wether the selected item in _lbTranslationList equals the correct Translation of _lblWordToTranslate
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             if(_btnSubmit.Text == "Bestätigen")
             {
-                if (_lbTranslationList.SelectedItem.ToString() == _currendCard.EnglishCard)
+                if (_lbTranslationList.SelectedItem.ToString() == _currendCard._EnglishWord)
                 {
                     _lblValidation.Text = "Korrekt";
                 }
                 else
                 {
-                    _lblValidation.Text = "Falsch! " + _currendCard.EnglishCard + " wäre richtig gewesen";
+                    _lblValidation.Text = "Falsch! " + _currendCard._EnglishWord + " wäre richtig gewesen";
                 }
                 _btnSubmit.Text = "Weiter";
             }
@@ -103,6 +87,23 @@ namespace Flashcard
         private void _lblValidation_Click(object sender, EventArgs e)
         {
 
+        }
+
+        
+
+        private void MainForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            
+            //Writing all GermanWord and EnglishWord of all Cards into data.txt
+            System.IO.File.WriteAllText(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt", "");
+            string[] fileOutputData = new string[_lbTranslationList.Items.Count*2];
+            for (int i = 0; i < fileOutputData.Length; i = i + 2)
+            {
+                fileOutputData[i] = _cardList.ElementAt(i / 2)._GermanWord;
+                fileOutputData[i + 1] = _cardList.ElementAt(i / 2)._EnglishWord;
+            }
+            System.IO.File.WriteAllLines(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt", fileOutputData);
+            
         }
     }
 }

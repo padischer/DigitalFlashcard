@@ -148,6 +148,7 @@
             this.Controls.Add(this._btnSwitchLanguage);
             this.Name = "mainForm";
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
