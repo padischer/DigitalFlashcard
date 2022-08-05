@@ -3,14 +3,16 @@ namespace Flashcard
     public partial class mainForm : Form
     {
 
-        private List<Card> _cardList = new List<Card>();
-        private Card _currendCard;
+        
         public mainForm()
         {
             InitializeComponent();
 
             
         }
+
+        private List<Card> _cardList = new List<Card>();
+        private Card _currendCard;
 
         //print a random ger word of a list of cards to the lblWordToTranslate control and set its card to the _currentCard
         private void setRandomWordToTranslate(List<Card> listOfCards)
@@ -68,6 +70,11 @@ namespace Flashcard
              */
             
             
+        }
+
+        private void _lblValidation_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
