@@ -106,6 +106,7 @@
             this._lbTranslationList.Location = new System.Drawing.Point(501, 25);
             this._lbTranslationList.Name = "_lbTranslationList";
             this._lbTranslationList.Size = new System.Drawing.Size(186, 379);
+            this._lbTranslationList.Sorted = true;
             this._lbTranslationList.TabIndex = 6;
             // 
             // _btnSubmit

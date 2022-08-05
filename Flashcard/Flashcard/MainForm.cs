@@ -5,8 +5,6 @@ namespace Flashcard
         public mainForm()
         {
             InitializeComponent();
-
-            
         }
 
         private List<Card> _cardList = new List<Card>();
@@ -14,20 +12,23 @@ namespace Flashcard
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
-             
             //reading data from data.txt and putting it into Cards
-            string[] fileInputData = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() +"/data.txt");
-            
-            for (int i = 0; i < fileInputData.Length; i++)
-            {
-                string[] dataLine = fileInputData[i].Split(",");
-                _cardList.Add(new Card(dataLine[0], dataLine[1]));
-            }
+            ReadDataFromFile(_cardList);
             
             //printing data to interface
             FillTranslationList(_cardList);
             SetRandomWordToTranslate(_cardList);
+        }
+
+        private void ReadDataFromFile(List<Card> listOfCards)
+        {
+            string[] fileInputData = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + "/data.txt");
+
+            for (int i = 0; i < fileInputData.Length; i++)
+            {
+                string[] dataLine = fileInputData[i].Split(",");
+                listOfCards.Add(new Card(dataLine[0], dataLine[1]));
+            }
         }
 
         //print a random ger word of a list of cards to the lblWordToTranslate control and set its card to the _currentCard
@@ -49,12 +50,13 @@ namespace Flashcard
         private void FillTranslationList(List<Card> listOfCards)
         {
             _lbTranslationList.Items.Clear();
-            //printing data to interce
             foreach (Card card in listOfCards)
             {
                 _lbTranslationList.Items.Add(card.EnglishWord);
             } 
         }
+
+        //checking wether the selected item in _lbTranslationList equals the correct Translation of _lblWordToTranslate
         private void BtnSubmit_Click(object sender, EventArgs e)
         {
             if (_btnSubmit.Text == "Bestätigen")
@@ -78,25 +80,24 @@ namespace Flashcard
             }
         }
 
-        private void WriteCardsToFile()
+        private void WriteCardsToFile(string path)
         {
             //Writing all GermanWord and EnglishWord of all Cards into data.txt
-            System.IO.File.WriteAllText(Directory.GetCurrentDirectory() + "/data.txt", "");
+            System.IO.File.WriteAllText(path, "");
             string[] fileOutputData = new string[_lbTranslationList.Items.Count];
             for (int i = 0; i < fileOutputData.Length; i++)
             {
                 Card selectedCard = _cardList.ElementAt(i);
                 fileOutputData[i] = selectedCard.GermanWord + "," + selectedCard.EnglishWord;
-
             }
-            System.IO.File.WriteAllLines(Directory.GetCurrentDirectory() + "/data.txt", fileOutputData);
+            System.IO.File.WriteAllLines(path, fileOutputData);
         }
         private void MainForm_Closing(object sender, FormClosingEventArgs e)
         {
-            WriteCardsToFile();            
+            WriteCardsToFile(Directory.GetCurrentDirectory() + "/data.txt");            
         }
 
-        //checking wether the selected item in _lbTranslationList equals the correct Translation of _lblWordToTranslate
+        
         
 
         
