@@ -11,16 +11,21 @@ namespace Flashcard
         private Slot _slot1 = new Slot();
         private Slot _slot2 = new Slot();
         private Slot _slot3 = new Slot();
+        private List<Slot> _slotList = new List<Slot>();
+        private int _currentSlotID = 1;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             
             _slot1.SlotID = 1;
             _slot1.CardList = new List<Card>();
+            _slotList.Add(_slot1);
             _slot2.SlotID = 2;
-            _slot1.CardList = new List<Card>();
+            _slot2.CardList = new List<Card>();
+            _slotList.Add(_slot2);
             _slot3.SlotID = 3;
-            _slot1.CardList = new List<Card>();
+            _slot3.CardList = new List<Card>();
+            _slotList.Add(_slot3);
 
             _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
             _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
@@ -51,8 +56,7 @@ namespace Flashcard
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
             _currendCard = listOfCards[randomWordIndex];
-            _lblWordToTranslate.Text = _currendCard.GermanWord;
-            
+            _lblWordToTranslate.Text = _currendCard.GermanWord;    
         }
 
         private void BtnSwitchDifficulty_Click(object sender, EventArgs e)
@@ -113,7 +117,8 @@ namespace Flashcard
 
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
-
+            
+            FillTranslationList(_slotList.ElementAt(Int32.Parse(_cbSlotNumber.SelectedItem.ToString())-1).CardList);
         }
     }
 }
