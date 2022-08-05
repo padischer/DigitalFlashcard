@@ -19,10 +19,11 @@ namespace Flashcard
             
             //reading data from data.txt and putting it into Cards
             string[] fileInputData = System.IO.File.ReadAllLines(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt");
- 
-            for (int i = 0; i < fileInputData.Length; i=i+2)
+            
+            for (int i = 0; i < fileInputData.Length; i++)
             {
-                _cardList.Add(new Card(fileInputData[i], fileInputData[i + 1]));
+                string[] dataLine = fileInputData[i].Split(",");
+                _cardList.Add(new Card(dataLine[0], dataLine[1]));
             }
             
             //printing data to interface
@@ -36,7 +37,7 @@ namespace Flashcard
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
             _currendCard = listOfCards[randomWordIndex];
-            _lblWordToTranslate.Text = _currendCard._GermanWord;
+            _lblWordToTranslate.Text = _currendCard.GermanWord;
             
         }
         
@@ -47,7 +48,7 @@ namespace Flashcard
             //printing data to interce
             foreach (Card card in listOfCards)
             {
-                _lbTranslationList.Items.Add(card._EnglishWord);
+                _lbTranslationList.Items.Add(card.EnglishWord);
             }
 
             
@@ -63,13 +64,13 @@ namespace Flashcard
         {
             if(_btnSubmit.Text == "Bestätigen")
             {
-                if (_lbTranslationList.SelectedItem.ToString() == _currendCard._EnglishWord)
+                if (_lbTranslationList.SelectedItem.ToString() == _currendCard.EnglishWord)
                 {
                     _lblValidation.Text = "Korrekt";
                 }
                 else
                 {
-                    _lblValidation.Text = "Falsch! " + _currendCard._EnglishWord + " wäre richtig gewesen";
+                    _lblValidation.Text = "Falsch! " + _currendCard.EnglishWord + " wäre richtig gewesen";
                 }
                 _btnSubmit.Text = "Weiter";
             }
@@ -90,20 +91,22 @@ namespace Flashcard
         }
 
         
-
-        private void MainForm_Closing(object sender, FormClosingEventArgs e)
+        private void WriteCardsToFile()
         {
-            
             //Writing all GermanWord and EnglishWord of all Cards into data.txt
             System.IO.File.WriteAllText(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt", "");
-            string[] fileOutputData = new string[_lbTranslationList.Items.Count*2];
-            for (int i = 0; i < fileOutputData.Length; i = i + 2)
+            string[] fileOutputData = new string[_lbTranslationList.Items.Count];
+            for (int i = 0; i < fileOutputData.Length; i++)
             {
-                fileOutputData[i] = _cardList.ElementAt(i / 2)._GermanWord;
-                fileOutputData[i + 1] = _cardList.ElementAt(i / 2)._EnglishWord;
+                Card selectedCard = _cardList.ElementAt(i);
+                fileOutputData[i] = selectedCard.GermanWord + "," + selectedCard.EnglishWord;
+                
             }
             System.IO.File.WriteAllLines(@"D:\Projects\DigitalFlashcard\Flashcard\Flashcard\data.txt", fileOutputData);
-            
+        }
+        private void MainForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            WriteCardsToFile();            
         }
     }
 }
