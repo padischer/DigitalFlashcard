@@ -56,7 +56,7 @@
             this._btnSwitchDifficulty.TabIndex = 1;
             this._btnSwitchDifficulty.Text = "Basis";
             this._btnSwitchDifficulty.UseVisualStyleBackColor = true;
-            this._btnSwitchDifficulty.Click += new System.EventHandler(this.btnSwitchDifficulty_Click);
+            this._btnSwitchDifficulty.Click += new System.EventHandler(this.BtnSwitchDifficulty_Click);
             // 
             // _btnAddCard
             // 
@@ -117,7 +117,7 @@
             this._btnSubmit.TabIndex = 7;
             this._btnSubmit.Text = "Bestätigen";
             this._btnSubmit.UseVisualStyleBackColor = true;
-            this._btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this._btnSubmit.Click += new System.EventHandler(this.BtnSubmit_Click);
             // 
             // _lblValidation
             // 
@@ -129,7 +129,6 @@
             this._lblValidation.Size = new System.Drawing.Size(186, 15);
             this._lblValidation.TabIndex = 8;
             this._lblValidation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._lblValidation.Click += new System.EventHandler(this._lblValidation_Click);
             // 
             // mainForm
             // 

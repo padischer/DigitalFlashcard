@@ -1,7 +1,0 @@
-Geld,money
-Sonne,sun
-Haus,house
-Hallo,hello
-Kunde,customer
-Stuhl,chair
-Tisch,table
