@@ -70,7 +70,7 @@ namespace Flashcard
             if(_btnSubmit.Text == buttonText)
             {
                 _btnSubmit.Text = "Weiter";
-                _lblValidation.Text = _box.Validate(_lbTranslationList.SelectedItem.ToString());
+                _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
             }
             else
             {
