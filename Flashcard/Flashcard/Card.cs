@@ -8,14 +8,14 @@ namespace Flashcard
 {
     internal class Card
     {
-        public string _difficulty { get; set; }
-        public string _englishWord { get; set; }
-        public string _germanWord { get; set; }
+        public string Difficulty { get; set; }
+        public string EnglishWord { get; set; }
+        public string GermanWord { get; set; }
         
         public Card(string gerWord, string engWord)
         {
-            this._germanWord = gerWord;
-            this._englishWord = engWord;
+            GermanWord = gerWord;
+            EnglishWord = engWord;
         }
 
     }
