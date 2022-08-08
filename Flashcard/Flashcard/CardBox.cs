@@ -10,10 +10,10 @@ namespace Flashcard
     {
         public List<Slot> SlotList { get; set; }
         private int CurrentSlotIndex;
-        public Card CurrentCard { get; private set; }
+        private Card CurrentCard;
 
 
-
+        //constructor reading input data and putting into 
         public CardBox(List<Slot> slotList, string dataSource)
         {
             SlotList = slotList;
@@ -28,6 +28,7 @@ namespace Flashcard
             CurrentSlotIndex = 0;
         }
 
+        //returning all translations from current Slot
         public string[] ShowPossibleTranslations()
         {
             List<Card> currentCardList = SlotList[CurrentSlotIndex].CardList;
@@ -39,6 +40,7 @@ namespace Flashcard
             return translationList;
         }
 
+        //returning a random german word from current Slot
         public string SelectRandomWordToTranslate()
         {
             Random rnd = new Random();
@@ -46,7 +48,8 @@ namespace Flashcard
             return CurrentCard.GermanWord;
         }
 
-        public string Validate(string input)
+        //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
+        public string VerifyTranslation(string input)
         {
             string returnMessage;
             if(CurrentCard.EnglishWord == input)
@@ -58,7 +61,7 @@ namespace Flashcard
                     SlotList[CurrentSlotIndex].CardList.Add(CurrentCard);
                     CurrentSlotIndex--;
                 }
-                returnMessage = "Korrekt";
+                return "Korrekt";
             }
             else
             {
@@ -67,14 +70,13 @@ namespace Flashcard
                     SlotList[CurrentSlotIndex].CardList.Remove(CurrentCard);
                     CurrentSlotIndex--;
                     SlotList[CurrentSlotIndex].CardList.Add(CurrentCard);
+                    CurrentSlotIndex++;
                 }
-                returnMessage = "Falsch!" + CurrentCard.EnglishWord + " wäre richtig gewesen";
-            }
-
-            return returnMessage;
-
+                return "Falsch! " + CurrentCard.EnglishWord + " wäre richtig gewesen";
+            }        
         }
 
+        //changing current Slotnumber
         public void switchSlot(int slotNumber)
         {
             CurrentSlotIndex = slotNumber-1;
