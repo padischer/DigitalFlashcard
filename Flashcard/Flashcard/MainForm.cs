@@ -13,40 +13,41 @@ namespace Flashcard
         private Slot _slot3 = new Slot();
         private List<Slot> _slotList = new List<Slot>();
         private int _currentSlotID = 1;
+        private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             SetSlotVariables();
 
-            _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
+            _cbSlotNumber.Items.Add(_slot1._slotID.ToString());
+            _cbSlotNumber.Items.Add(_slot2._slotID.ToString());
+            _cbSlotNumber.Items.Add(_slot3._slotID.ToString());
             _cbSlotNumber.SelectedIndex = 0;
 
             //reading data from data.txt and putting it into Cards
-            ReadDataFromFile(_slot1.CardList);
+            ReadDataFromFile(_slot1._cardList);
             
             //printing data to interface
-            FillTranslationList(_slot1.CardList);
-            SetRandomWordToTranslate(_slot1.CardList);
+            FillTranslationList(_slot1._cardList);
+            SetRandomWordToTranslate(_slot1._cardList);
         }
 
         private void SetSlotVariables()
         {
-            _slot1.SlotID = 1;
-            _slot1.CardList = new List<Card>();
+            _slot1._slotID = 1;
+            _slot1._cardList = new List<Card>();
             _slotList.Add(_slot1);
-            _slot2.SlotID = 2;
-            _slot2.CardList = new List<Card>();
+            _slot2._slotID = 2;
+            _slot2._cardList = new List<Card>();
             _slotList.Add(_slot2);
-            _slot3.SlotID = 3;
-            _slot3.CardList = new List<Card>();
+            _slot3._slotID = 3;
+            _slot3._cardList = new List<Card>();
             _slotList.Add(_slot3);
         }
 
         private void ReadDataFromFile(List<Card> listOfCards)
         {
-            string[] fileInputData = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + "/data.txt");
+            string[] fileInputData = System.IO.File.ReadAllLines(_dataFilePath);
 
             for (int i = 0; i < fileInputData.Length; i++)
             {
@@ -61,12 +62,12 @@ namespace Flashcard
             Random chooseRandomWord = new Random();
             int randomWordIndex = Convert.ToInt32(chooseRandomWord.NextInt64(0, listOfCards.Count));
             _currendCard = listOfCards[randomWordIndex];
-            _lblWordToTranslate.Text = _currendCard.GermanWord;    
+            _lblWordToTranslate.Text = _currendCard._germanWord;    
         }
 
         private void BtnSwitchDifficulty_Click(object sender, EventArgs e)
         {
-            SetRandomWordToTranslate(_slot1.CardList);
+            SetRandomWordToTranslate(_slot1._cardList);
         }
 
         //clear lbTanslation List and fill it with each eng word of a list of cards 
@@ -75,7 +76,7 @@ namespace Flashcard
             _lbTranslationList.Items.Clear();
             foreach (Card card in listOfCards)
             {
-                _lbTranslationList.Items.Add(card.EnglishWord);
+                _lbTranslationList.Items.Add(card._englishWord);
             } 
         }
 
@@ -84,13 +85,13 @@ namespace Flashcard
         {
             if (_btnSubmit.Text == "Bestätigen")
             {
-                if (_lbTranslationList.SelectedItem.ToString() == _currendCard.EnglishWord)
+                if (_lbTranslationList.SelectedItem.ToString() == _currendCard._englishWord)
                 {
                     _lblValidation.Text = "Korrekt";
                 }
                 else
                 {
-                    _lblValidation.Text = "Falsch! " + _currendCard.EnglishWord + " wäre richtig gewesen";
+                    _lblValidation.Text = "Falsch! " + _currendCard._englishWord + " wäre richtig gewesen";
                 }
                 _btnSubmit.Text = "Weiter";
             }
@@ -99,7 +100,7 @@ namespace Flashcard
                 _lblValidation.Text = "";
                 _lbTranslationList.ClearSelected();
                 _btnSubmit.Text = "Bestätigen";
-                SetRandomWordToTranslate(_slot1.CardList);
+                SetRandomWordToTranslate(_slot1._cardList);
             }
         }
 
@@ -109,21 +110,21 @@ namespace Flashcard
             string[] fileOutputData = new string[_lbTranslationList.Items.Count];
             for (int i = 0; i < fileOutputData.Length; i++)
             {
-                Card selectedCard = _slot1.CardList.ElementAt(i);
-                fileOutputData[i] = selectedCard.GermanWord + "," + selectedCard.EnglishWord;
+                Card selectedCard = _slot1._cardList.ElementAt(i);
+                fileOutputData[i] = selectedCard._germanWord + "," + selectedCard._englishWord;
             }
             
             System.IO.File.WriteAllLines(path, fileOutputData);
         }
         private void MainForm_Closing(object sender, FormClosingEventArgs e)
         {
-            WriteCardsToFile(Directory.GetCurrentDirectory() + "\\data.txt");            
+            WriteCardsToFile(_dataFilePath);            
         }
 
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
             
-            FillTranslationList(_slotList.ElementAt(Int32.Parse(_cbSlotNumber.SelectedItem.ToString())-1).CardList);
+            FillTranslationList(_slotList.ElementAt(Int32.Parse(_cbSlotNumber.SelectedItem.ToString())-1)._cardList);
         }
     }
 }

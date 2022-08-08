@@ -1,0 +1,10 @@
+Tisch,table
+Kunde,customer
+Sonne,sun
+gehen,go
+fallen,fall
+gut,good
+schlecht,bad
+aussergwöhnlich,extraordinary
+Geld,money
+Haus,house
