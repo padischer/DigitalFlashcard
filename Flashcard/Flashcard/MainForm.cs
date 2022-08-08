@@ -23,13 +23,10 @@ namespace Flashcard
             _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
             _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
             _cbSlotNumber.SelectedIndex = 0;
-
-            //reading data from data.txt and putting it into Cards
-
             
             //printing data to interface
             FillTranslationList();
-            _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
+            SetRandomWordToTranslate();
         }
 
         private void SetClassVariables()
@@ -77,20 +74,16 @@ namespace Flashcard
             {
                 _btnSubmit.Text = buttonText;
                 _lblValidation.Text = "";
-                _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
+                SetRandomWordToTranslate();
             }
-            
-            
+
+
             FillTranslationList();
         }
 
         private void SetRandomWordToTranslate()
         {
             _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
-        }
-
-        private void MainForm_Closing(object sender, EventArgs e)
-        {
 
         }
 
@@ -98,6 +91,12 @@ namespace Flashcard
         {
             _box.switchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
             FillTranslationList();
+            SetRandomWordToTranslate();
+        }
+
+        private void MainForm_Closing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }
