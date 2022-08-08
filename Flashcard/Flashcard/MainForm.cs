@@ -16,7 +16,23 @@ namespace Flashcard
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            SetSlotVariables();
+
+            _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
+            _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
+            _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
+            _cbSlotNumber.SelectedIndex = 0;
+
+            //reading data from data.txt and putting it into Cards
+            ReadDataFromFile(_slot1.CardList);
             
+            //printing data to interface
+            FillTranslationList(_slot1.CardList);
+            SetRandomWordToTranslate(_slot1.CardList);
+        }
+
+        private void SetSlotVariables()
+        {
             _slot1.SlotID = 1;
             _slot1.CardList = new List<Card>();
             _slotList.Add(_slot1);
@@ -26,17 +42,6 @@ namespace Flashcard
             _slot3.SlotID = 3;
             _slot3.CardList = new List<Card>();
             _slotList.Add(_slot3);
-
-            _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
-            _cbSlotNumber.SelectedIndex = 0;
-            //reading data from data.txt and putting it into Cards
-            ReadDataFromFile(_slot1.CardList);
-            
-            //printing data to interface
-            FillTranslationList(_slot1.CardList);
-            SetRandomWordToTranslate(_slot1.CardList);
         }
 
         private void ReadDataFromFile(List<Card> listOfCards)
@@ -98,21 +103,21 @@ namespace Flashcard
             }
         }
 
-        private void WriteCardsToFile(string path)
+        private async void WriteCardsToFile(string path)
         {
             //Writing all GermanWord and EnglishWord of all Cards into data.txt
-            System.IO.File.WriteAllText(path, "");
             string[] fileOutputData = new string[_lbTranslationList.Items.Count];
             for (int i = 0; i < fileOutputData.Length; i++)
             {
                 Card selectedCard = _slot1.CardList.ElementAt(i);
                 fileOutputData[i] = selectedCard.GermanWord + "," + selectedCard.EnglishWord;
             }
+            
             System.IO.File.WriteAllLines(path, fileOutputData);
         }
         private void MainForm_Closing(object sender, FormClosingEventArgs e)
         {
-            WriteCardsToFile(Directory.GetCurrentDirectory() + "/data.txt");            
+            WriteCardsToFile(Directory.GetCurrentDirectory() + "\\data.txt");            
         }
 
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
