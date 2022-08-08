@@ -1,6 +1,6 @@
 ﻿namespace Flashcard
 {
-    partial class mainForm
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -132,7 +132,7 @@
             this._lblValidation.TabIndex = 8;
             this._lblValidation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -147,7 +147,7 @@
             this.Controls.Add(this._btnAddCard);
             this.Controls.Add(this._btnSwitchDifficulty);
             this.Controls.Add(this._btnSwitchLanguage);
-            this.Name = "mainForm";
+            this.Name = "MainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);

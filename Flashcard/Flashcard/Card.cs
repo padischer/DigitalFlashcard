@@ -12,6 +12,7 @@ namespace Flashcard
         public string EnglishWord { get; set; }
         public string GermanWord { get; set; }
         
+        //constructor setting German and Englisch word of Card
         public Card(string gerWord, string engWord)
         {
             GermanWord = gerWord;

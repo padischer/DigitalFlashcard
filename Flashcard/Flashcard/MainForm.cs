@@ -1,8 +1,8 @@
 namespace Flashcard
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -19,6 +19,7 @@ namespace Flashcard
         {
             SetClassVariables();
 
+            //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
             _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
             _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
@@ -29,6 +30,7 @@ namespace Flashcard
             SetRandomWordToTranslate();
         }
 
+        //setting class variables of slot and CardBox objects
         private void SetClassVariables()
         {
             _slot1.SlotID = 1;
@@ -43,7 +45,7 @@ namespace Flashcard
             _box = new CardBox(_slotList, _dataFilePath);
         }
 
-
+        //temp choosing a random word to Translate
         private void BtnSwitchDifficulty_Click(object sender, EventArgs e)
         {
             SetRandomWordToTranslate();
@@ -81,6 +83,7 @@ namespace Flashcard
             FillTranslationList();
         }
 
+        //choosing a random word to Translate
         private void SetRandomWordToTranslate()
         {
             _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
@@ -92,11 +95,6 @@ namespace Flashcard
             _box.switchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
             FillTranslationList();
             SetRandomWordToTranslate();
-        }
-
-        private void MainForm_Closing(object sender, FormClosingEventArgs e)
-        {
-
         }
     }
 }

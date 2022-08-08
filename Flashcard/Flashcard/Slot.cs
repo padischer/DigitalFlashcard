@@ -10,8 +10,5 @@ namespace Flashcard
     {
         public int SlotID { get; set; }
         public List<Card> CardList { get; set; }
-
-
-        
     }
 }
