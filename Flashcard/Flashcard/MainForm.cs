@@ -58,10 +58,11 @@ namespace Flashcard
                 _btnSubmit.Text = buttonText;
                 _lblValidation.Text = "";
                 SetRandomWordToTranslate();
+                FillTranslationList();
             }
 
 
-            FillTranslationList();
+            
         }
 
         //choosing a random word to Translate
