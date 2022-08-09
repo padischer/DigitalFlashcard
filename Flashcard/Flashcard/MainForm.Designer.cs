@@ -68,6 +68,7 @@
             this._btnAddCard.TabIndex = 2;
             this._btnAddCard.Text = "Karte Hinzufügen";
             this._btnAddCard.UseVisualStyleBackColor = true;
+            this._btnAddCard.Click += new System.EventHandler(this.BtnAddCard_OnClick);
             // 
             // _cbSlotNumber
             // 

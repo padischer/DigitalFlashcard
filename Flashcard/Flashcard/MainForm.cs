@@ -6,7 +6,7 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        
+        private AddCard _addCard;
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
@@ -46,30 +46,29 @@ namespace Flashcard
         //checking wether the selected item in _lbTranslationList equals the correct Translation of _lblWordToTranslate
         private void BtnSubmit_Click(object sender, EventArgs e)
         {
-            const string buttonText = "Bestätigen";
-
-            if(_btnSubmit.Text == buttonText)
+            if (_lbTranslationList.SelectedItems.Count == 1)
             {
-                _btnSubmit.Text = "Weiter";
-                _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
-            }
-            else
-            {
-                _btnSubmit.Text = buttonText;
-                _lblValidation.Text = "";
-                SetRandomWordToTranslate();
-                FillTranslationList();
-            }
+                const string buttonText = "Bestätigen";
 
-
-            
+                if (_btnSubmit.Text == buttonText)
+                {
+                    _btnSubmit.Text = "Weiter";
+                    _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
+                }
+                else
+                {
+                    _btnSubmit.Text = buttonText;
+                    _lblValidation.Text = "";
+                    SetRandomWordToTranslate();
+                    FillTranslationList();
+                }
+            }
         }
 
         //choosing a random word to Translate
         private void SetRandomWordToTranslate()
         {
             _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
-
         }
 
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
@@ -85,6 +84,18 @@ namespace Flashcard
             _box.SwitchAllCardLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void BtnAddCard_OnClick(object sender, EventArgs e)
+        { 
+            
+            AddCard _addCard = new AddCard(this);
+            _addCard.ShowDialog();
+            if (_addCard.ShouldExecute)
+            {
+                _box.AddNewCard(_addCard.GetGermanWord(), _addCard.GetEnglishWord());
+                FillTranslationList();
+            }
         }
     }
 }
