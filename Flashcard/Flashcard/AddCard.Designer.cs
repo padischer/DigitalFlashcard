@@ -54,6 +54,7 @@
             this.btnSubmit.TabIndex = 1;
             this.btnSubmit.Text = "Bestätigen";
             this.btnSubmit.UseVisualStyleBackColor = true;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // btnCancel
             // 
@@ -110,6 +111,7 @@
             this.Controls.Add(this.lblNewCard);
             this.Name = "AddCard";
             this.Text = "AddCard";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddCard_Closed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

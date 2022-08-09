@@ -6,7 +6,7 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        
+        AddCard addCard;
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
@@ -85,6 +85,14 @@ namespace Flashcard
             _box.SwitchAllCardLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void BtnAddCard_OnClick(object sender, EventArgs e)
+        {
+            
+            AddCard addCard = new AddCard();
+            addCard.Show();
+            
         }
     }
 }

@@ -17,6 +17,14 @@ namespace Flashcard
             InitializeComponent();
         }
 
+        private void AddCard_Closed(object sender, FormClosedEventArgs e)
+        {
 
+        }
+
+        public void btnSubmit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
