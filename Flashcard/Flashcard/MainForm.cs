@@ -101,7 +101,7 @@ namespace Flashcard
 
         private void BtnSwitchLanguage_Click(object sender, EventArgs e)
         {
-            _box.SwitchLanguage();
+            _box.SwitchAllCardLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
         }
