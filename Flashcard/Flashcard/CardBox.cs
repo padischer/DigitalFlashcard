@@ -51,7 +51,6 @@ namespace Flashcard
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
         public string VerifyTranslation(string input)
         {
-            string returnMessage;
             if(CurrentCard.EnglishWord == input)
             {
                 if(CurrentSlotIndex != 2)
