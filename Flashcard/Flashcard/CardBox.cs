@@ -8,30 +8,52 @@ namespace Flashcard
 {
     internal class CardBox
     {
-        public List<Slot> SlotList { get; set; }
-        private int CurrentSlotIndex;
-        private Card CurrentCard;
-
+        public List<Slot> SlotList { get; private set; }
+        public Slot Slot1 { get; private set; }
+        public Slot Slot2 { get; private set; }
+        public Slot Slot3 { get; private set; }
+        private int _currentSlotIndex;
+        private Card _currentCard;
+        
 
         //constructor reading input data and putting into 
-        public CardBox(List<Slot> slotList, string dataSource)
+        public CardBox(string dataSource)
         {
-            SlotList = slotList;
+            SetClassVariables();
 
             string[] fileInputData = System.IO.File.ReadAllLines(dataSource);
 
             for (int i = 0; i < fileInputData.Length; i++)
             {
                 string[] dataLine = fileInputData[i].Split(",");
-                slotList[0].CardList.Add(new Card(dataLine[0], dataLine[1]));
+                SlotList[0].CardList.Add(new Card(dataLine[0], dataLine[1]));
             }
-            CurrentSlotIndex = 0;
+            _currentSlotIndex = 0;
+        }
+
+        public void SetClassVariables()
+        {
+            SlotList = new List<Slot>();
+            Slot1 = new Slot();
+            Slot1.SlotID = 1;
+            Slot1.CardList = new List<Card>();
+            SlotList.Add(Slot1);
+
+            Slot2 = new Slot();
+            Slot2.SlotID = 2;
+            Slot2.CardList = new List<Card>();
+            SlotList.Add(Slot2);
+
+            Slot1 = new Slot();
+            Slot1.SlotID = 3;
+            Slot1.CardList = new List<Card>();
+            SlotList.Add(Slot1);
         }
 
         //returning all translations from current Slot
         public string[] ShowPossibleTranslations()
         {
-            List<Card> currentCardList = SlotList[CurrentSlotIndex].CardList;
+            List<Card> currentCardList = SlotList[_currentSlotIndex].CardList;
             string[] translationList = new string[currentCardList.Count];
             for(int i = 0; i < currentCardList.Count;i++)
             {
@@ -44,41 +66,41 @@ namespace Flashcard
         public string SelectRandomWordToTranslate()
         {
             Random rnd = new Random();
-            CurrentCard = SlotList[CurrentSlotIndex].CardList[rnd.Next(0, SlotList[CurrentSlotIndex].CardList.Count)];
-            return CurrentCard.WordToTranslate;
+            _currentCard = SlotList[_currentSlotIndex].CardList[rnd.Next(0, SlotList[_currentSlotIndex].CardList.Count)];
+            return _currentCard.WordToTranslate;
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
         public string VerifyTranslation(string input)
         {
-            if(CurrentCard.Translation == input)
+            if(_currentCard.VerityTranslation(input))
             {
-                if(CurrentSlotIndex != 2)
+                if(_currentSlotIndex != 2)
                 {
-                    SlotList[CurrentSlotIndex].CardList.Remove(CurrentCard);
-                    CurrentSlotIndex++;
-                    SlotList[CurrentSlotIndex].CardList.Add(CurrentCard);
-                    CurrentSlotIndex--;
+                    SlotList[_currentSlotIndex].CardList.Remove(_currentCard);
+                    _currentSlotIndex++;
+                    SlotList[_currentSlotIndex].CardList.Add(_currentCard);
+                    _currentSlotIndex--;
                 }
                 return "Korrekt";
             }
             else
             {
-                if(CurrentSlotIndex != 0)
+                if(_currentSlotIndex != 0)
                 {
-                    SlotList[CurrentSlotIndex].CardList.Remove(CurrentCard);
-                    CurrentSlotIndex--;
-                    SlotList[CurrentSlotIndex].CardList.Add(CurrentCard);
-                    CurrentSlotIndex++;
+                    SlotList[_currentSlotIndex].CardList.Remove(_currentCard);
+                    _currentSlotIndex--;
+                    SlotList[_currentSlotIndex].CardList.Add(_currentCard);
+                    _currentSlotIndex++;
                 }
-                return "Falsch! " + CurrentCard.Translation + " wäre richtig gewesen";
+                return "Falsch! " + _currentCard.Translation + " wäre richtig gewesen";
             }        
         }
 
         //changing current Slotnumber
-        public void switchSlot(int slotNumber)
+        public void SwitchSlot(int slotNumber)
         {
-            CurrentSlotIndex = slotNumber-1;
+            _currentSlotIndex = slotNumber-1;
         }
 
         //switching cardtext between ger->eng and eng->ger
@@ -88,9 +110,7 @@ namespace Flashcard
             {
                 foreach (Card card in slot.CardList)
                 {
-                    string tempSave = card.WordToTranslate;
-                    card.WordToTranslate = card.Translation;
-                    card.Translation = tempSave;
+                    card.SwitchLanguage();
                 }
             }
         }

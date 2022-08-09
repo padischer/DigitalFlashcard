@@ -18,5 +18,21 @@ namespace Flashcard
             WordToTranslate = gerWord;
             Translation = engWord;
         }
+
+        public void SwitchLanguage()
+        {
+            string tempSave = WordToTranslate;
+            WordToTranslate = Translation;
+            Translation = tempSave;
+        }
+
+        public bool VerityTranslation(string input)
+        {
+            if (input == Translation)
+            {
+                return true;
+            }
+            else return false;
+        }
     }
 }
