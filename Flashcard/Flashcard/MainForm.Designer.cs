@@ -47,6 +47,7 @@
             this._btnSwitchLanguage.TabIndex = 0;
             this._btnSwitchLanguage.Text = "deu->eng";
             this._btnSwitchLanguage.UseVisualStyleBackColor = true;
+            this._btnSwitchLanguage.Click += new System.EventHandler(this._btnSwitchLanguage_Click);
             // 
             // _btnSwitchDifficulty
             // 

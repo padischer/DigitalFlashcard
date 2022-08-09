@@ -15,6 +15,7 @@ namespace Flashcard
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
+        //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
             SetClassVariables();
@@ -90,11 +91,17 @@ namespace Flashcard
 
         }
 
+        //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
             _box.switchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void _btnSwitchLanguage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
