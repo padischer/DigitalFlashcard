@@ -46,19 +46,22 @@ namespace Flashcard
         //checking wether the selected item in _lbTranslationList equals the correct Translation of _lblWordToTranslate
         private void BtnSubmit_Click(object sender, EventArgs e)
         {
-            const string buttonText = "Bestätigen";
+            if (_lbTranslationList.SelectedItems.Count == 1)
+            {
+                const string buttonText = "Bestätigen";
 
-            if(_btnSubmit.Text == buttonText)
-            {
-                _btnSubmit.Text = "Weiter";
-                _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
-            }
-            else
-            {
-                _btnSubmit.Text = buttonText;
-                _lblValidation.Text = "";
-                SetRandomWordToTranslate();
-                FillTranslationList();
+                if (_btnSubmit.Text == buttonText)
+                {
+                    _btnSubmit.Text = "Weiter";
+                    _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
+                }
+                else
+                {
+                    _btnSubmit.Text = buttonText;
+                    _lblValidation.Text = "";
+                    SetRandomWordToTranslate();
+                    FillTranslationList();
+                }
             }
         }
 
