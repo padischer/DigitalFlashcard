@@ -8,10 +8,7 @@ namespace Flashcard
         }
 
         
-        private Slot _slot1 = new Slot();
-        private Slot _slot2 = new Slot();
-        private Slot _slot3 = new Slot();
-        private List<Slot> _slotList = new List<Slot>();
+        
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
@@ -21,9 +18,9 @@ namespace Flashcard
             SetClassVariables();
 
             //editing comboBox _cbSlotNumber
-            _cbSlotNumber.Items.Add(_slot1.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot2.SlotID.ToString());
-            _cbSlotNumber.Items.Add(_slot3.SlotID.ToString());
+            _cbSlotNumber.Items.Add(_box.SlotList[0].SlotID.ToString());
+            _cbSlotNumber.Items.Add(_box.SlotList[1].SlotID.ToString());
+            _cbSlotNumber.Items.Add(_box.SlotList[2].SlotID.ToString());
             _cbSlotNumber.SelectedIndex = 0;
             
             //printing data to interface
@@ -34,16 +31,7 @@ namespace Flashcard
         //setting class variables of slot and CardBox objects
         private void SetClassVariables()
         {
-            _slot1.SlotID = 1;
-            _slot1.CardList = new List<Card>();
-            _slotList.Add(_slot1);
-            _slot2.SlotID = 2;
-            _slot2.CardList = new List<Card>();
-            _slotList.Add(_slot2);
-            _slot3.SlotID = 3;
-            _slot3.CardList = new List<Card>();
-            _slotList.Add(_slot3);
-            _box = new CardBox(_slotList, _dataFilePath);
+            _box = new CardBox(_dataFilePath);
         }
 
         //temp choosing a random word to Translate
@@ -94,7 +82,7 @@ namespace Flashcard
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
-            _box.switchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
+            _box.SwitchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
             FillTranslationList();
             SetRandomWordToTranslate();
         }
