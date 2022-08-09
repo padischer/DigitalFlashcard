@@ -65,9 +65,17 @@ namespace Flashcard
         //returning a random german word from current Slot
         public string SelectRandomWordToTranslate()
         {
-            Random rnd = new Random();
-            _currentCard = SlotList[_currentSlotIndex].CardList[rnd.Next(0, SlotList[_currentSlotIndex].CardList.Count)];
-            return _currentCard.WordToTranslate;
+            if (SlotList[_currentSlotIndex].CardList.Count > 0)
+            {
+                Random rnd = new Random();
+                _currentCard = SlotList[_currentSlotIndex].CardList[rnd.Next(0, SlotList[_currentSlotIndex].CardList.Count)];
+                return _currentCard.WordToTranslate;
+            }
+            else
+            {
+                return "";
+            }
+            
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
