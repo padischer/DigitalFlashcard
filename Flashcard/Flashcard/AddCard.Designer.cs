@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this._lblNewCard = new System.Windows.Forms.Label();
             this._btnSubmit = new System.Windows.Forms.Button();
             this._btnCancel = new System.Windows.Forms.Button();
@@ -35,6 +36,8 @@
             this._lblEngWord = new System.Windows.Forms.Label();
             this._txtGerWord = new System.Windows.Forms.TextBox();
             this._txtEngWord = new System.Windows.Forms.TextBox();
+            this._errorProviderGer = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).BeginInit();
             this.SuspendLayout();
             // 
             // _lblNewCard
@@ -90,6 +93,7 @@
             this._txtGerWord.Name = "_txtGerWord";
             this._txtGerWord.Size = new System.Drawing.Size(100, 23);
             this._txtGerWord.TabIndex = 5;
+            this._txtGerWord.TextChanged += new System.EventHandler(this.ValidateGermanWord);
             // 
             // _txtEngWord
             // 
@@ -97,6 +101,10 @@
             this._txtEngWord.Name = "_txtEngWord";
             this._txtEngWord.Size = new System.Drawing.Size(100, 23);
             this._txtEngWord.TabIndex = 6;
+            // 
+            // _errorProviderGer
+            // 
+            this._errorProviderGer.ContainerControl = this;
             // 
             // AddCard
             // 
@@ -112,7 +120,7 @@
             this.Controls.Add(this._lblNewCard);
             this.Name = "AddCard";
             this.Text = "AddCard";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddCard_Closed);
+            ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,5 +135,6 @@
         private Label _lblEngWord;
         private TextBox _txtGerWord;
         private TextBox _txtEngWord;
+        private ErrorProvider _errorProviderGer;
     }
 }

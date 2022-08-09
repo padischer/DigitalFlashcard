@@ -30,27 +30,45 @@ namespace Flashcard
         {
             return _txtEngWord.Text;
         }
-        
+
 
         public MainForm OriginalForm { get; set; }
 
-        private void AddCard_Closed(object sender, FormClosedEventArgs e)
-        {
-
-        }
-
         public void BtnSubmit_Click(object sender, EventArgs e)
+        {
+            if (ValidateChildren(ValidationConstraints.Enabled))
+            {
+                
+            }
+            else
+            {
+                ShouldExecute = false;
+                this.Close();
+                OriginalForm.Show();
+            }
+            
+        }
+        
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             ShouldExecute = true;
             this.Close();
             OriginalForm.Show();
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
+        private void ValidateGermanWord(object sender, EventArgs e)
         {
-            ShouldExecute = false;
-            this.Close();
-            OriginalForm.Show();
+            if (string.IsNullOrWhiteSpace(_txtGerWord.Text))
+            {
+                _txtGerWord.Focus();
+                _errorProviderGer.SetError(_txtGerWord, "Name should not be left blank!");
+                _btnSubmit.Enabled = false;
+            }
+            else
+            {
+                _errorProviderGer.SetError(_txtGerWord, "");
+                _btnSubmit.Enabled=true;
+            }
         }
     }
 }
