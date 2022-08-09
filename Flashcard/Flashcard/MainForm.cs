@@ -6,8 +6,6 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-
-        
         
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
@@ -15,7 +13,7 @@ namespace Flashcard
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
-            SetClassVariables();
+            _box = new CardBox(_dataFilePath);
 
             //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add(_box.SlotList[0].SlotID.ToString());
@@ -26,12 +24,6 @@ namespace Flashcard
             //printing data to interface
             FillTranslationList();
             SetRandomWordToTranslate();
-        }
-
-        //setting class variables of slot and CardBox objects
-        private void SetClassVariables()
-        {
-            _box = new CardBox(_dataFilePath);
         }
 
         //temp choosing a random word to Translate

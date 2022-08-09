@@ -10,5 +10,11 @@ namespace Flashcard
     {
         public int SlotID { get; set; }
         public List<Card> CardList { get; set; }
+
+        public void AddCard(string wordToTranslate, string translation)
+        {
+            CardList.Add(new Card(wordToTranslate, translation));
+        }
+
     }
 }
