@@ -9,15 +9,14 @@ namespace Flashcard
     internal class Card
     {
         public string Difficulty { get; set; }
-        public string EnglishWord { get; set; }
-        public string GermanWord { get; set; }
+        public string WordToTranslate { get; set; }
+        public string Translation { get; set; }
         
         //constructor setting German and Englisch word of Card
         public Card(string gerWord, string engWord)
         {
-            GermanWord = gerWord;
-            EnglishWord = engWord;
+            WordToTranslate = gerWord;
+            Translation = engWord;
         }
-
     }
 }

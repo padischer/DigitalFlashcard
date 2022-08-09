@@ -35,7 +35,7 @@ namespace Flashcard
             string[] translationList = new string[currentCardList.Count];
             for(int i = 0; i < currentCardList.Count;i++)
             {
-                translationList[i] = currentCardList[i].EnglishWord;
+                translationList[i] = currentCardList[i].Translation;
             }
             return translationList;
         }
@@ -45,13 +45,13 @@ namespace Flashcard
         {
             Random rnd = new Random();
             CurrentCard = SlotList[CurrentSlotIndex].CardList[rnd.Next(0, SlotList[CurrentSlotIndex].CardList.Count)];
-            return CurrentCard.GermanWord;
+            return CurrentCard.WordToTranslate;
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
         public string VerifyTranslation(string input)
         {
-            if(CurrentCard.EnglishWord == input)
+            if(CurrentCard.Translation == input)
             {
                 if(CurrentSlotIndex != 2)
                 {
@@ -71,7 +71,7 @@ namespace Flashcard
                     SlotList[CurrentSlotIndex].CardList.Add(CurrentCard);
                     CurrentSlotIndex++;
                 }
-                return "Falsch! " + CurrentCard.EnglishWord + " wäre richtig gewesen";
+                return "Falsch! " + CurrentCard.Translation + " wäre richtig gewesen";
             }        
         }
 
@@ -79,6 +79,20 @@ namespace Flashcard
         public void switchSlot(int slotNumber)
         {
             CurrentSlotIndex = slotNumber-1;
+        }
+
+        //switching cardtext between ger->eng and eng->ger
+        public void SwitchAllCardLanguage()
+        {
+            foreach(Slot slot in SlotList)
+            {
+                foreach (Card card in slot.CardList)
+                {
+                    string tempSave = card.WordToTranslate;
+                    card.WordToTranslate = card.Translation;
+                    card.Translation = tempSave;
+                }
+            }
         }
 
     }

@@ -99,9 +99,11 @@ namespace Flashcard
             SetRandomWordToTranslate();
         }
 
-        private void _btnSwitchLanguage_Click(object sender, EventArgs e)
+        private void BtnSwitchLanguage_Click(object sender, EventArgs e)
         {
-
+            _box.SwitchLanguage();
+            FillTranslationList();
+            SetRandomWordToTranslate();
         }
     }
 }
