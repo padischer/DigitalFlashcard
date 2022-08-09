@@ -6,7 +6,7 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        AddCard addCard;
+        private AddCard _addCard;
         private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
@@ -60,16 +60,12 @@ namespace Flashcard
                 SetRandomWordToTranslate();
                 FillTranslationList();
             }
-
-
-            
         }
 
         //choosing a random word to Translate
         private void SetRandomWordToTranslate()
         {
             _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
-
         }
 
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
@@ -88,11 +84,15 @@ namespace Flashcard
         }
 
         private void BtnAddCard_OnClick(object sender, EventArgs e)
-        {
+        { 
             
-            AddCard addCard = new AddCard();
-            addCard.Show();
-            
+            AddCard _addCard = new AddCard(this);
+            _addCard.ShowDialog();
+            if (_addCard.ShouldExecute)
+            {
+                _box.AddNewCard(_addCard.GetGermanWord(), _addCard.GetEnglishWord());
+                FillTranslationList();
+            }
         }
     }
 }

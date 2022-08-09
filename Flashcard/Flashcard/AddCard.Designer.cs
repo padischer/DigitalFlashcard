@@ -28,87 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblNewCard = new System.Windows.Forms.Label();
-            this.btnSubmit = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.lblGerWord = new System.Windows.Forms.Label();
-            this.lblEngWord = new System.Windows.Forms.Label();
-            this.txtGerWord = new System.Windows.Forms.TextBox();
-            this.txtEngWord = new System.Windows.Forms.TextBox();
+            this._lblNewCard = new System.Windows.Forms.Label();
+            this._btnSubmit = new System.Windows.Forms.Button();
+            this._btnCancel = new System.Windows.Forms.Button();
+            this._lblGerWord = new System.Windows.Forms.Label();
+            this._lblEngWord = new System.Windows.Forms.Label();
+            this._txtGerWord = new System.Windows.Forms.TextBox();
+            this._txtEngWord = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // lblNewCard
+            // _lblNewCard
             // 
-            this.lblNewCard.AutoSize = true;
-            this.lblNewCard.Location = new System.Drawing.Point(184, 57);
-            this.lblNewCard.Name = "lblNewCard";
-            this.lblNewCard.Size = new System.Drawing.Size(130, 15);
-            this.lblNewCard.TabIndex = 0;
-            this.lblNewCard.Text = "Neue Karte Hinzufügen";
+            this._lblNewCard.AutoSize = true;
+            this._lblNewCard.Location = new System.Drawing.Point(184, 57);
+            this._lblNewCard.Name = "_lblNewCard";
+            this._lblNewCard.Size = new System.Drawing.Size(130, 15);
+            this._lblNewCard.TabIndex = 0;
+            this._lblNewCard.Text = "Neue Karte Hinzufügen";
             // 
-            // btnSubmit
+            // _btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(162, 192);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
-            this.btnSubmit.TabIndex = 1;
-            this.btnSubmit.Text = "Bestätigen";
-            this.btnSubmit.UseVisualStyleBackColor = true;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this._btnSubmit.Location = new System.Drawing.Point(162, 192);
+            this._btnSubmit.Name = "_btnSubmit";
+            this._btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this._btnSubmit.TabIndex = 1;
+            this._btnSubmit.Text = "Bestätigen";
+            this._btnSubmit.UseVisualStyleBackColor = true;
+            this._btnSubmit.Click += new System.EventHandler(this.BtnSubmit_Click);
             // 
-            // btnCancel
+            // _btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(250, 192);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Abbrechen";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Location = new System.Drawing.Point(250, 192);
+            this._btnCancel.Name = "_btnCancel";
+            this._btnCancel.Size = new System.Drawing.Size(75, 23);
+            this._btnCancel.TabIndex = 2;
+            this._btnCancel.Text = "Abbrechen";
+            this._btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // lblGerWord
+            // _lblGerWord
             // 
-            this.lblGerWord.AutoSize = true;
-            this.lblGerWord.Location = new System.Drawing.Point(148, 111);
-            this.lblGerWord.Name = "lblGerWord";
-            this.lblGerWord.Size = new System.Drawing.Size(89, 15);
-            this.lblGerWord.TabIndex = 3;
-            this.lblGerWord.Text = "deutsches Wort";
+            this._lblGerWord.AutoSize = true;
+            this._lblGerWord.Location = new System.Drawing.Point(148, 111);
+            this._lblGerWord.Name = "_lblGerWord";
+            this._lblGerWord.Size = new System.Drawing.Size(89, 15);
+            this._lblGerWord.TabIndex = 3;
+            this._lblGerWord.Text = "deutsches Wort";
             // 
-            // lblEngWord
+            // _lblEngWord
             // 
-            this.lblEngWord.AutoSize = true;
-            this.lblEngWord.Location = new System.Drawing.Point(146, 145);
-            this.lblEngWord.Name = "lblEngWord";
-            this.lblEngWord.Size = new System.Drawing.Size(91, 15);
-            this.lblEngWord.TabIndex = 4;
-            this.lblEngWord.Text = "englisches Wort";
+            this._lblEngWord.AutoSize = true;
+            this._lblEngWord.Location = new System.Drawing.Point(146, 145);
+            this._lblEngWord.Name = "_lblEngWord";
+            this._lblEngWord.Size = new System.Drawing.Size(91, 15);
+            this._lblEngWord.TabIndex = 4;
+            this._lblEngWord.Text = "englisches Wort";
             // 
-            // txtGerWord
+            // _txtGerWord
             // 
-            this.txtGerWord.Location = new System.Drawing.Point(250, 108);
-            this.txtGerWord.Name = "txtGerWord";
-            this.txtGerWord.Size = new System.Drawing.Size(100, 23);
-            this.txtGerWord.TabIndex = 5;
+            this._txtGerWord.Location = new System.Drawing.Point(250, 108);
+            this._txtGerWord.Name = "_txtGerWord";
+            this._txtGerWord.Size = new System.Drawing.Size(100, 23);
+            this._txtGerWord.TabIndex = 5;
             // 
-            // txtEngWord
+            // _txtEngWord
             // 
-            this.txtEngWord.Location = new System.Drawing.Point(250, 142);
-            this.txtEngWord.Name = "txtEngWord";
-            this.txtEngWord.Size = new System.Drawing.Size(100, 23);
-            this.txtEngWord.TabIndex = 6;
+            this._txtEngWord.Location = new System.Drawing.Point(250, 142);
+            this._txtEngWord.Name = "_txtEngWord";
+            this._txtEngWord.Size = new System.Drawing.Size(100, 23);
+            this._txtEngWord.TabIndex = 6;
             // 
             // AddCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(525, 376);
-            this.Controls.Add(this.txtEngWord);
-            this.Controls.Add(this.txtGerWord);
-            this.Controls.Add(this.lblEngWord);
-            this.Controls.Add(this.lblGerWord);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSubmit);
-            this.Controls.Add(this.lblNewCard);
+            this.ClientSize = new System.Drawing.Size(525, 332);
+            this.Controls.Add(this._txtEngWord);
+            this.Controls.Add(this._txtGerWord);
+            this.Controls.Add(this._lblEngWord);
+            this.Controls.Add(this._lblGerWord);
+            this.Controls.Add(this._btnCancel);
+            this.Controls.Add(this._btnSubmit);
+            this.Controls.Add(this._lblNewCard);
             this.Name = "AddCard";
             this.Text = "AddCard";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddCard_Closed);
@@ -119,12 +120,12 @@
 
         #endregion
 
-        private Label lblNewCard;
-        private Button btnSubmit;
-        private Button btnCancel;
-        private Label lblGerWord;
-        private Label lblEngWord;
-        private TextBox txtGerWord;
-        private TextBox txtEngWord;
+        private Label _lblNewCard;
+        private Button _btnSubmit;
+        private Button _btnCancel;
+        private Label _lblGerWord;
+        private Label _lblEngWord;
+        private TextBox _txtGerWord;
+        private TextBox _txtEngWord;
     }
 }

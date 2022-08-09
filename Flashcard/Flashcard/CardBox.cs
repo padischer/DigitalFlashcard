@@ -114,5 +114,10 @@ namespace Flashcard
                 }
             }
         }
+
+        public void AddNewCard(string gerWord, string engWord)
+        {
+            this.SlotList[_currentSlotIndex].AddCard(gerWord, engWord);
+        }
     }
 }

@@ -12,19 +12,45 @@ namespace Flashcard
 {
     public partial class AddCard : Form
     {
-        public AddCard()
+        public AddCard(MainForm form)
         {
+            OriginalForm = form;
             InitializeComponent();
         }
+
+        public bool ShouldExecute { get; set; }
+
+
+        public string GetGermanWord()
+        {
+            return _txtGerWord.Text;
+        }
+
+        public string GetEnglishWord()
+        {
+            return _txtEngWord.Text;
+        }
+        
+
+        public MainForm OriginalForm { get; set; }
 
         private void AddCard_Closed(object sender, FormClosedEventArgs e)
         {
 
         }
 
-        public void btnSubmit_Click(object sender, EventArgs e)
+        public void BtnSubmit_Click(object sender, EventArgs e)
         {
+            ShouldExecute = true;
             this.Close();
+            OriginalForm.Show();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            ShouldExecute = false;
+            this.Close();
+            OriginalForm.Show();
         }
     }
 }
