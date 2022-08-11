@@ -22,6 +22,13 @@ namespace Flashcard
             InitializeComponent();
         }
 
+
+        private void AddCard_Load(object sender, EventArgs e)
+        {
+            _cbDifficulty.Items.Add("basis");
+            _cbDifficulty.Items.Add("advanced");
+        }
+
         public string GetGermanWord()
         {
             return _txtGerWord.Text;
@@ -32,6 +39,10 @@ namespace Flashcard
             return _txtEngWord.Text;
         }
 
+        public string GetDifficulty()
+        {
+            return _cbDifficulty.SelectedItem.ToString();
+        }
         
 
         private void BtnSubmit_Click(object sender, EventArgs e)
@@ -48,33 +59,35 @@ namespace Flashcard
             this.Close();
             OriginalForm.Show();
         }
-        /*
-        private void ValidateGermanWord(object sender, EventArgs e)
-        {
-            ValidateTextBox(_txtGerWord, _errorProviderGer, _gerTextIsSet);
-        }
-
-        private void ValidateEnglishWord(object sender, EventArgs e)
-        {
-            ValidateTextBox(_txtEngWord, _errorProviderEng, _engTextIsSet);
-        }
-
-        private void ValidateTextBox(TextBox textBox, ErrorProvider errorProv, bool textIsSet)
-        {
-            if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                textBox.Focus();
-                errorProv.SetError(textBox, "Bitte geben sie ein deutsches Wort an");
-                textIsSet = false;
-            }
-            else
-            {
-                errorProv.SetError(textBox, "");
-                textIsSet = true;
-            }
-        }
-        */
 
         
+        /*
+private void ValidateGermanWord(object sender, EventArgs e)
+{
+   ValidateTextBox(_txtGerWord, _errorProviderGer, _gerTextIsSet);
+}
+
+private void ValidateEnglishWord(object sender, EventArgs e)
+{
+   ValidateTextBox(_txtEngWord, _errorProviderEng, _engTextIsSet);
+}
+
+private void ValidateTextBox(TextBox textBox, ErrorProvider errorProv, bool textIsSet)
+{
+   if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
+   {
+       textBox.Focus();
+       errorProv.SetError(textBox, "Bitte geben sie ein deutsches Wort an");
+       textIsSet = false;
+   }
+   else
+   {
+       errorProv.SetError(textBox, "");
+       textIsSet = true;
+   }
+}
+*/
+
+
     }
 }

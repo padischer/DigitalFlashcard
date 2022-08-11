@@ -29,6 +29,8 @@ namespace Flashcard
         //temp choosing a random word to Translate
         private void BtnSwitchDifficulty_Click(object sender, EventArgs e)
         {
+            _box.SwitchDifficulty();
+            FillTranslationList();
             SetRandomWordToTranslate();
         }
 
@@ -89,11 +91,11 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            AddCard _addCard = new AddCard(this);
-            _addCard.ShowDialog();
-            if (_addCard.ShouldExecute)
+            AddCard addCard = new AddCard(this);
+            addCard.ShowDialog();
+            if (addCard.ShouldExecute)
             {
-                _box.AddNewCard(_addCard.GetGermanWord(), _addCard.GetEnglishWord());
+                _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
         }

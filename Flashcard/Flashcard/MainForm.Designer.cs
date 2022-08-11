@@ -55,7 +55,7 @@
             this._btnSwitchDifficulty.Name = "_btnSwitchDifficulty";
             this._btnSwitchDifficulty.Size = new System.Drawing.Size(75, 23);
             this._btnSwitchDifficulty.TabIndex = 1;
-            this._btnSwitchDifficulty.Text = "Basis";
+            this._btnSwitchDifficulty.Text = "basis";
             this._btnSwitchDifficulty.UseVisualStyleBackColor = true;
             this._btnSwitchDifficulty.Click += new System.EventHandler(this.BtnSwitchDifficulty_Click);
             // 
