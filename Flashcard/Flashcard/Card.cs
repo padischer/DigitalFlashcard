@@ -8,6 +8,7 @@ namespace Flashcard
 {
     internal class Card
     {
+        
         public string Difficulty { get; set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }

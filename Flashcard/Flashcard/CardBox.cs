@@ -14,6 +14,7 @@ namespace Flashcard
         public Slot Slot3 { get; private set; }
         private int _currentSlotIndex;
         private Card _currentCard;
+        private string _primaryLanguage = "german";
         public List<Slot> SlotList { get; private set; }
 
     //constructor reading input data and putting into 
@@ -110,11 +111,27 @@ namespace Flashcard
                     card.SwitchLanguage();
                 }
             }
+
+            if(_primaryLanguage == "german")
+            {
+                _primaryLanguage = "english";
+            }
+            else
+            {
+                _primaryLanguage = "german";
+            }
         }
 
         public void AddNewCard(string gerWord, string engWord)
         {
-            this.SlotList[_currentSlotIndex].AddCard(gerWord, engWord);
+            if(_primaryLanguage == "german")
+            {
+                this.SlotList[_currentSlotIndex].AddCard(gerWord, engWord);
+            }
+            else
+            {
+                this.SlotList[_currentSlotIndex].AddCard(engWord, gerWord);
+            }
         }
     }
 }
