@@ -8,64 +8,51 @@ namespace Flashcard
 {
     internal class CardBox
     {
-        
-        public Slot Slot1 { get; private set; }
-        public Slot Slot2 { get; private set; }
-        public Slot Slot3 { get; private set; }
-        private int _currentSlotIndex;
+        private int _currentSlotIndex = 0;
         private Card _currentCard;
         private string _primaryLanguage = "german";
-        public List<Slot> SlotList { get; private set; }
+        private List<Card> CardList = new List<Card>();
+        private string _currentDifficulty;
 
-    //constructor reading input data and putting into 
+        //constructor reading input data and putting into 
         public CardBox(string dataSource)
         {
-            InitializeSlots();
 
             string[] fileInputData = System.IO.File.ReadAllLines(dataSource);
 
             for (int i = 0; i < fileInputData.Length; i++)
             {
                 string[] dataLine = fileInputData[i].Split(",");
-                SlotList[0].CardList.Add(new Card(dataLine[0], dataLine[1]));
+                CardList.Add(new Card(dataLine[0], dataLine[1], 1));
             }
-            _currentSlotIndex = 0;
         }
 
-        private void InitializeSlots()
+        private List<Card> GetCurrentCards()
         {
-            SlotList = new List<Slot>();
-
-            Slot1 = new Slot(1);
-            SlotList.Add(Slot1);
-
-            Slot2 = new Slot(2);
-            SlotList.Add(Slot2);
-
-            Slot1 = new Slot(3);
-            SlotList.Add(Slot1);
+            return CardList.Where(c => c.SlotID == _currentSlotIndex+1).ToList();
         }
 
         //returning all translations from current Slot
         public string[] GetPossibleTranslations()
         {
-            return SlotList[_currentSlotIndex].CardList.Select(c => c.Translation).ToArray();
+            return GetCurrentCards().Select(c => c.Translation).ToArray();
         }
+        
 
         //returning a random german word from current Slot
         public string SelectRandomWordToTranslate()
         {
-            if (SlotList[_currentSlotIndex].CardList.Count > 0)
+            if (CardList.Where(c => c.SlotID == _currentSlotIndex+1).ToList().Count > 0)
             {
                 Random rnd = new Random();
-                _currentCard = SlotList[_currentSlotIndex].CardList[rnd.Next(0, SlotList[_currentSlotIndex].CardList.Count)];
+                var reeee = GetCurrentCards().Count;
+                _currentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
                 return _currentCard.WordToTranslate;
             }
             else
             {
                 return "";
             }
-            
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
@@ -75,10 +62,7 @@ namespace Flashcard
             {
                 if(_currentSlotIndex != 2)
                 {
-                    SlotList[_currentSlotIndex].CardList.Remove(_currentCard);
-                    _currentSlotIndex++;
-                    SlotList[_currentSlotIndex].CardList.Add(_currentCard);
-                    _currentSlotIndex--;
+                    _currentCard.SlotID++;
                 }
                 return "Korrekt";
             }
@@ -86,10 +70,7 @@ namespace Flashcard
             {
                 if(_currentSlotIndex != 0)
                 {
-                    SlotList[_currentSlotIndex].CardList.Remove(_currentCard);
-                    _currentSlotIndex--;
-                    SlotList[_currentSlotIndex].CardList.Add(_currentCard);
-                    _currentSlotIndex++;
+                    _currentCard.SlotID--;
                 }
                 return "Falsch! " + _currentCard.Translation + " wäre richtig gewesen";
             }        
@@ -104,12 +85,9 @@ namespace Flashcard
         //switching cardtext between ger->eng and eng->ger
         public void SwitchAllCardLanguage()
         {
-            foreach(Slot slot in SlotList)
+            foreach(Card card in CardList)
             {
-                foreach (Card card in slot.CardList)
-                {
-                    card.SwitchLanguage();
-                }
+                card.SwitchLanguage();
             }
 
             if(_primaryLanguage == "german")
@@ -126,11 +104,23 @@ namespace Flashcard
         {
             if(_primaryLanguage == "german")
             {
-                this.SlotList[_currentSlotIndex].AddCard(gerWord, engWord);
+                CardList.Add(new Card(gerWord, engWord, 1));
             }
             else
             {
-                this.SlotList[_currentSlotIndex].AddCard(engWord, gerWord);
+                CardList.Add(new Card(engWord, gerWord, 1));
+            }
+        }
+        
+        public void SwitcDifficulty()
+        {
+            if(_currentDifficulty == "basic")
+            {
+                _currentDifficulty = "advanced";
+            }
+            else
+            {
+                _currentDifficulty = "basic";
             }
         }
     }

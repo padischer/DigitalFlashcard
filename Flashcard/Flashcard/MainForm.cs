@@ -16,9 +16,9 @@ namespace Flashcard
             _box = new CardBox(_dataFilePath);
 
             //editing comboBox _cbSlotNumber
-            _cbSlotNumber.Items.Add(_box.SlotList[0].SlotID.ToString());
-            _cbSlotNumber.Items.Add(_box.SlotList[1].SlotID.ToString());
-            _cbSlotNumber.Items.Add(_box.SlotList[2].SlotID.ToString());
+            _cbSlotNumber.Items.Add("1");
+            _cbSlotNumber.Items.Add("2");
+            _cbSlotNumber.Items.Add("3");
             _cbSlotNumber.SelectedIndex = 0;
             
             //printing data to interface
