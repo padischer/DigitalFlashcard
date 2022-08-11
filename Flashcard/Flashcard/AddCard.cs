@@ -12,6 +12,9 @@ namespace Flashcard
 {
     public partial class AddCard : Form
     {
+        private bool _gerTextIsSet = false;
+        private bool _engTextIsSet = false;
+
         public AddCard(MainForm form)
         {
             OriginalForm = form;
@@ -36,39 +39,45 @@ namespace Flashcard
 
         public void BtnSubmit_Click(object sender, EventArgs e)
         {
-            if (ValidateChildren(ValidationConstraints.Enabled))
-            {
-                
-            }
-            else
-            {
-                ShouldExecute = false;
-                this.Close();
-                OriginalForm.Show();
-            }
-            
+
+             ShouldExecute = true;
+             this.Close();
+             OriginalForm.Show();          
         }
         
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            ShouldExecute = true;
+            ShouldExecute = false;
             this.Close();
             OriginalForm.Show();
         }
-
+        /*
         private void ValidateGermanWord(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_txtGerWord.Text))
+            ValidateTextBox(_txtGerWord, _errorProviderGer, _gerTextIsSet);
+        }
+
+        private void ValidateEnglishWord(object sender, EventArgs e)
+        {
+            ValidateTextBox(_txtEngWord, _errorProviderEng, _engTextIsSet);
+        }
+
+        private void ValidateTextBox(TextBox textBox, ErrorProvider errorProv, bool textIsSet)
+        {
+            if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
             {
-                _txtGerWord.Focus();
-                _errorProviderGer.SetError(_txtGerWord, "Name should not be left blank!");
-                _btnSubmit.Enabled = false;
+                textBox.Focus();
+                errorProv.SetError(textBox, "Bitte geben sie ein deutsches Wort an");
+                textIsSet = false;
             }
             else
             {
-                _errorProviderGer.SetError(_txtGerWord, "");
-                _btnSubmit.Enabled=true;
+                errorProv.SetError(textBox, "");
+                textIsSet = true;
             }
         }
+        */
+
+        
     }
 }
