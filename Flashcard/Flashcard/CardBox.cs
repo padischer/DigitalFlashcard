@@ -12,7 +12,7 @@ namespace Flashcard
         private Card _currentCard;
         private string _primaryLanguage = "german";
         private List<Card> CardList = new List<Card>();
-        private string _currentDifficulty = "basic";
+        private string _currentDifficulty = "basis";
 
         //constructor reading input data and putting into 
         public CardBox(string dataSource)
@@ -116,13 +116,13 @@ namespace Flashcard
         
         public void SwitchDifficulty()
         {
-            if(_currentDifficulty == "basic")
+            if(_currentDifficulty == "basis")
             {
-                _currentDifficulty = "advanced";
+                _currentDifficulty = "erweitert";
             }
             else
             {
-                _currentDifficulty = "basic";
+                _currentDifficulty = "basis";
             }
         }
     }

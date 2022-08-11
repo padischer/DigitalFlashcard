@@ -26,7 +26,7 @@ namespace Flashcard
         private void AddCard_Load(object sender, EventArgs e)
         {
             _cbDifficulty.Items.Add("basis");
-            _cbDifficulty.Items.Add("advanced");
+            _cbDifficulty.Items.Add("erweitert");
         }
 
         public string GetGermanWord()

@@ -32,6 +32,14 @@ namespace Flashcard
             _box.SwitchDifficulty();
             FillTranslationList();
             SetRandomWordToTranslate();
+            if (_btnSwitchDifficulty.Text == "basis")
+            {
+                _btnSwitchDifficulty.Text = "erweitert";
+            }
+            else
+            {
+                _btnSwitchDifficulty.Text = "basis";
+            }
         }
 
         //clear lbTanslation List and fill it with each eng word of a list of cards 
@@ -86,6 +94,14 @@ namespace Flashcard
             _box.SwitchAllCardLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
+            if(_btnSwitchLanguage.Text == "deu->eng")
+            {
+                _btnSwitchLanguage.Text = "eng->deu";
+            }
+            else
+            {
+                _btnSwitchLanguage.Text = "deu->eng";
+            }
         }
 
         private void BtnAddCard_OnClick(object sender, EventArgs e)
