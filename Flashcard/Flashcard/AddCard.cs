@@ -14,14 +14,14 @@ namespace Flashcard
     {
         private bool _gerTextIsSet = false;
         private bool _engTextIsSet = false;
-
+        public bool ShouldExecute { get; set; }
         public AddCard(MainForm form)
         {
             OriginalForm = form;
             InitializeComponent();
         }
 
-        public bool ShouldExecute { get; set; }
+        
 
 
         public string GetGermanWord()
