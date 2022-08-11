@@ -21,9 +21,6 @@ namespace Flashcard
             InitializeComponent();
         }
 
-        
-
-
         public string GetGermanWord()
         {
             return _txtGerWord.Text;
@@ -33,7 +30,6 @@ namespace Flashcard
         {
             return _txtEngWord.Text;
         }
-
 
         public MainForm OriginalForm { get; set; }
 

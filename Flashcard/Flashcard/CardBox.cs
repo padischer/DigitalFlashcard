@@ -8,18 +8,18 @@ namespace Flashcard
 {
     internal class CardBox
     {
-        public List<Slot> SlotList { get; private set; }
+        
         public Slot Slot1 { get; private set; }
         public Slot Slot2 { get; private set; }
         public Slot Slot3 { get; private set; }
         private int _currentSlotIndex;
         private Card _currentCard;
-        
+        public List<Slot> SlotList { get; private set; }
 
-        //constructor reading input data and putting into 
+    //constructor reading input data and putting into 
         public CardBox(string dataSource)
         {
-            SetClassVariables();
+            InitializeSlots();
 
             string[] fileInputData = System.IO.File.ReadAllLines(dataSource);
 
@@ -31,35 +31,24 @@ namespace Flashcard
             _currentSlotIndex = 0;
         }
 
-        public void SetClassVariables()
+        private void InitializeSlots()
         {
             SlotList = new List<Slot>();
-            Slot1 = new Slot();
-            Slot1.SlotID = 1;
-            Slot1.CardList = new List<Card>();
+
+            Slot1 = new Slot(1);
             SlotList.Add(Slot1);
 
-            Slot2 = new Slot();
-            Slot2.SlotID = 2;
-            Slot2.CardList = new List<Card>();
+            Slot2 = new Slot(2);
             SlotList.Add(Slot2);
 
-            Slot1 = new Slot();
-            Slot1.SlotID = 3;
-            Slot1.CardList = new List<Card>();
+            Slot1 = new Slot(3);
             SlotList.Add(Slot1);
         }
 
         //returning all translations from current Slot
-        public string[] ShowPossibleTranslations()
+        public string[] GetPossibleTranslations()
         {
-            List<Card> currentCardList = SlotList[_currentSlotIndex].CardList;
-            string[] translationList = new string[currentCardList.Count];
-            for(int i = 0; i < currentCardList.Count;i++)
-            {
-                translationList[i] = currentCardList[i].Translation;
-            }
-            return translationList;
+            return SlotList[_currentSlotIndex].CardList.Select(c => c.Translation).ToArray();
         }
 
         //returning a random german word from current Slot
