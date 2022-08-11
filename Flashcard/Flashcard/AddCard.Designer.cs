@@ -38,6 +38,8 @@
             this._txtEngWord = new System.Windows.Forms.TextBox();
             this._errorProviderGer = new System.Windows.Forms.ErrorProvider(this.components);
             this._errorProviderEng = new System.Windows.Forms.ErrorProvider(this.components);
+            this._lblDifficulty = new System.Windows.Forms.Label();
+            this._cbDifficulty = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderEng)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +55,7 @@
             // 
             // _btnSubmit
             // 
-            this._btnSubmit.Location = new System.Drawing.Point(162, 192);
+            this._btnSubmit.Location = new System.Drawing.Point(162, 226);
             this._btnSubmit.Name = "_btnSubmit";
             this._btnSubmit.Size = new System.Drawing.Size(75, 23);
             this._btnSubmit.TabIndex = 1;
@@ -63,7 +65,7 @@
             // 
             // _btnCancel
             // 
-            this._btnCancel.Location = new System.Drawing.Point(250, 192);
+            this._btnCancel.Location = new System.Drawing.Point(250, 226);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 2;
@@ -111,11 +113,30 @@
             // 
             this._errorProviderEng.ContainerControl = this;
             // 
+            // _lblDifficulty
+            // 
+            this._lblDifficulty.AutoSize = true;
+            this._lblDifficulty.Location = new System.Drawing.Point(171, 180);
+            this._lblDifficulty.Name = "_lblDifficulty";
+            this._lblDifficulty.Size = new System.Drawing.Size(44, 15);
+            this._lblDifficulty.TabIndex = 7;
+            this._lblDifficulty.Text = "Modus";
+            // 
+            // _cbDifficulty
+            // 
+            this._cbDifficulty.FormattingEnabled = true;
+            this._cbDifficulty.Location = new System.Drawing.Point(250, 177);
+            this._cbDifficulty.Name = "_cbDifficulty";
+            this._cbDifficulty.Size = new System.Drawing.Size(100, 23);
+            this._cbDifficulty.TabIndex = 8;
+            // 
             // AddCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(525, 332);
+            this.Controls.Add(this._cbDifficulty);
+            this.Controls.Add(this._lblDifficulty);
             this.Controls.Add(this._txtEngWord);
             this.Controls.Add(this._txtGerWord);
             this.Controls.Add(this._lblEngWord);
@@ -125,6 +146,7 @@
             this.Controls.Add(this._lblNewCard);
             this.Name = "AddCard";
             this.Text = "AddCard";
+            this.Load += new System.EventHandler(this.AddCard_Load);
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderEng)).EndInit();
             this.ResumeLayout(false);
@@ -143,5 +165,7 @@
         private TextBox _txtEngWord;
         private ErrorProvider _errorProviderGer;
         private ErrorProvider _errorProviderEng;
+        private ComboBox _cbDifficulty;
+        private Label _lblDifficulty;
     }
 }
