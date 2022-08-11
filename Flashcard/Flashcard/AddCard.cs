@@ -14,15 +14,13 @@ namespace Flashcard
     {
         private bool _gerTextIsSet = false;
         private bool _engTextIsSet = false;
-        public bool ShouldExecute { get; set; }
+        public bool ShouldExecute { get; private set; }
+        private MainForm OriginalForm { get; set; }
         public AddCard(MainForm form)
         {
             OriginalForm = form;
             InitializeComponent();
         }
-
-        
-
 
         public string GetGermanWord()
         {
@@ -34,10 +32,9 @@ namespace Flashcard
             return _txtEngWord.Text;
         }
 
+        
 
-        public MainForm OriginalForm { get; set; }
-
-        public void BtnSubmit_Click(object sender, EventArgs e)
+        private void BtnSubmit_Click(object sender, EventArgs e)
         {
 
              ShouldExecute = true;

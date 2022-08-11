@@ -8,9 +8,10 @@ namespace Flashcard
 {
     internal class Card
     {
+        
         public string Difficulty { get; set; }
-        public string WordToTranslate { get; set; }
-        public string Translation { get; set; }
+        public string WordToTranslate { get; private set; }
+        public string Translation { get; private set; }
         
         //constructor setting German and Englisch word of Card
         public Card(string wordToTranslate, string translation)
@@ -28,11 +29,7 @@ namespace Flashcard
 
         public bool VerityTranslation(string input)
         {
-            if (input == Translation)
-            {
-                return true;
-            }
-            else return false;
+            return input == Translation;
         }
     }
 }

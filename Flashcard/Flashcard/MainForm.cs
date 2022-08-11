@@ -36,7 +36,7 @@ namespace Flashcard
         private void FillTranslationList()
         {
             _lbTranslationList.Items.Clear();
-            string[] listOfTranslations = _box.ShowPossibleTranslations();
+            string[] listOfTranslations = _box.GetPossibleTranslations();
             foreach (string word in listOfTranslations)
             {
                 _lbTranslationList.Items.Add(word);
