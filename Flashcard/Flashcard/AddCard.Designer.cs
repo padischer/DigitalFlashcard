@@ -37,7 +37,9 @@
             this._txtGerWord = new System.Windows.Forms.TextBox();
             this._txtEngWord = new System.Windows.Forms.TextBox();
             this._errorProviderGer = new System.Windows.Forms.ErrorProvider(this.components);
+            this._errorProviderEng = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._errorProviderEng)).BeginInit();
             this.SuspendLayout();
             // 
             // _lblNewCard
@@ -93,7 +95,6 @@
             this._txtGerWord.Name = "_txtGerWord";
             this._txtGerWord.Size = new System.Drawing.Size(100, 23);
             this._txtGerWord.TabIndex = 5;
-            this._txtGerWord.TextChanged += new System.EventHandler(this.ValidateGermanWord);
             // 
             // _txtEngWord
             // 
@@ -105,6 +106,10 @@
             // _errorProviderGer
             // 
             this._errorProviderGer.ContainerControl = this;
+            // 
+            // _errorProviderEng
+            // 
+            this._errorProviderEng.ContainerControl = this;
             // 
             // AddCard
             // 
@@ -121,6 +126,7 @@
             this.Name = "AddCard";
             this.Text = "AddCard";
             ((System.ComponentModel.ISupportInitialize)(this._errorProviderGer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._errorProviderEng)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,5 +142,6 @@
         private TextBox _txtGerWord;
         private TextBox _txtEngWord;
         private ErrorProvider _errorProviderGer;
+        private ErrorProvider _errorProviderEng;
     }
 }
