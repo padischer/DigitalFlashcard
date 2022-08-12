@@ -1,3 +1,4 @@
+using AirtableApiClient;
 namespace Flashcard
 {
     public partial class MainForm : Form
@@ -7,13 +8,11 @@ namespace Flashcard
             InitializeComponent();
         }
         private AddCard _addCard;
-        private CardBox _box;
+        private CardBox _box = new CardBox();
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _box = new CardBox(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Cards.txt"));
-
             //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add("1");
             _cbSlotNumber.Items.Add("2");
@@ -115,9 +114,12 @@ namespace Flashcard
             }
         }
 
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _box.WriteCardsToFile(Path.Combine(Directory.GetCurrentDirectory(), "Cards.txt"));
+            _box.PostDataFromCards();
+            //_box.WriteCardsToFile(Path.Combine(Directory.GetCurrentDirectory(), "Cards.txt"));
+            //System.IO.File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory() + "savestate.txt"), "");
         }
     }
 }

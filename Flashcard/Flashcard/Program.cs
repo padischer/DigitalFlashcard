@@ -1,7 +1,11 @@
+using AirtableApiClient;
+
+
 namespace Flashcard
 {
     internal static class Program
     {
+		static List<AirtableRecord> dataInput;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -11,12 +15,11 @@ namespace Flashcard
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+			ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
 
-          
-            
-
         }
-    }
+
+		
+	}
 }
