@@ -65,7 +65,7 @@ namespace Flashcard
 			using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
 			{
 
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord("Projects", recordInput, true);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord("Projects", recordInput, false);
 				AirtableCreateUpdateReplaceRecordResponse response = await task;
 
 				if (!response.Success)
@@ -91,7 +91,10 @@ namespace Flashcard
 		public void PostData(Fields input)
         {
 			var a = ReturnSendDataTask(input);
-			a.Wait();
+            while (!a.IsCompleted)
+            {
+
+            }
         }
 	}
 }

@@ -139,20 +139,15 @@ namespace Flashcard
             }
         }
 
-        public void PostDataFromCards()
+        public void PostNewCard(string germanWord, string translation, string difficulty)
         {
+            Fields cardData = new Fields();
             
-            Fields[] outputData = new Fields[CardList.Count/3];
-            for (int i = 0; i< CardList.Count/3; i++)
-            {
-                Fields cardData = new Fields();
-                cardData.AddField("GermanWOrd", CardList[i].WordToTranslate);
-                cardData.AddField("EnglishWord", CardList[i].Translation);
-                cardData.AddField("Difficulty", CardList[i].Difficulty);
-                outputData[i] = cardData;
-                
-            }
-            accessData.PostData(outputData);
+            cardData.AddField("GermanWord", germanWord);
+            cardData.AddField("EnglishWord", translation);
+            cardData.AddField("Difficulty", difficulty);
+         
+            accessData.PostData(cardData);
         }
         /*
         public string[] GetSaveState()

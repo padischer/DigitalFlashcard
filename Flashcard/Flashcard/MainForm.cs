@@ -109,7 +109,9 @@ namespace Flashcard
             addCard.ShowDialog();
             if (addCard.ShouldExecute)
             {
+                
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
+                _box.PostNewCard(addCard.GetEnglishWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
         }
@@ -117,7 +119,7 @@ namespace Flashcard
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _box.PostDataFromCards();
+            
             //_box.WriteCardsToFile(Path.Combine(Directory.GetCurrentDirectory(), "Cards.txt"));
             //System.IO.File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory() + "savestate.txt"), "");
         }
