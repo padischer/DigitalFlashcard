@@ -7,4 +7,5 @@ gut,good,basis
 schlecht,bad,basis
 aussergwöhnlich,extraordinary,erweitert
 Geld,money,erweitert
-Haus,house,erweitert
+Haus,house,basis
+Bildschirm,screen,erweitert

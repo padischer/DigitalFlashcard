@@ -53,8 +53,7 @@ namespace Flashcard
                 ShouldExecute = true;
                 this.Close();
                 OriginalForm.Show();
-            } 
-                     
+            }      
         }
         
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -63,9 +62,7 @@ namespace Flashcard
             this.Close();
             OriginalForm.Show();
         }
-
-        
-        
+               
         private void ValidateGermanWord(object sender, EventArgs e)
         {
             _gerTextIsSet = ValidateTextBox(_txtGerWord, _errorProviderGer);
