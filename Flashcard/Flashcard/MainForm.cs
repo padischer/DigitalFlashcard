@@ -7,13 +7,12 @@ namespace Flashcard
             InitializeComponent();
         }
         private AddCard _addCard;
-        private string _dataFilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "data.txt");
         private CardBox _box;
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _box = new CardBox(_dataFilePath);
+            _box = new CardBox(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Cards.txt"));
 
             //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add("1");
@@ -114,6 +113,11 @@ namespace Flashcard
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _box.WriteCardsToFile(Path.Combine(Directory.GetCurrentDirectory(), "Cards.txt"));
         }
     }
 }

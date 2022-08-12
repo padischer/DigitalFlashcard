@@ -97,6 +97,7 @@
             this._txtGerWord.Name = "_txtGerWord";
             this._txtGerWord.Size = new System.Drawing.Size(100, 23);
             this._txtGerWord.TabIndex = 5;
+            this._txtGerWord.TextChanged += new System.EventHandler(this.ValidateGermanWord);
             // 
             // _txtEngWord
             // 
@@ -104,6 +105,7 @@
             this._txtEngWord.Name = "_txtEngWord";
             this._txtEngWord.Size = new System.Drawing.Size(100, 23);
             this._txtEngWord.TabIndex = 6;
+            this._txtEngWord.TextChanged += new System.EventHandler(this.ValidateEnglishWord);
             // 
             // _errorProviderGer
             // 

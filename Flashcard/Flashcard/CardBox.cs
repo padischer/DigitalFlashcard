@@ -22,7 +22,9 @@ namespace Flashcard
 
             for (int i = 0; i < fileInputData.Length; i++)
             {
-                string[] dataLine = fileInputData[i].Split(",");
+                string[] dataLine = fileInputData[i].Split(",",3);
+                int test = dataLine.Length;
+                int tmep = fileInputData.Length;
                 CardList.Add(new Card(dataLine[0], dataLine[1], 1, dataLine[2]));
             }
         }
@@ -125,5 +127,20 @@ namespace Flashcard
                 _currentDifficulty = "basis";
             }
         }
+
+        public void WriteCardsToFile(string path)
+        {
+            string[] fileInput = new string[CardList.Count];
+
+            for (int i = 0; i < CardList.Count; i++)
+            {
+                fileInput[i] = CardList[i].WordToTranslate + "," + CardList[i].Translation + "," + CardList[i].Difficulty;
+            }
+
+            System.IO.File.WriteAllLines(path, fileInput);
+        }
+        
+
+
     }
 }
