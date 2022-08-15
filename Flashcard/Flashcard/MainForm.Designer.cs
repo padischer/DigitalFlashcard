@@ -115,9 +115,9 @@
             // _btnSubmit
             // 
             this._btnSubmit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this._btnSubmit.Location = new System.Drawing.Point(580, 410);
+            this._btnSubmit.Location = new System.Drawing.Point(584, 422);
             this._btnSubmit.Name = "_btnSubmit";
-            this._btnSubmit.Size = new System.Drawing.Size(71, 31);
+            this._btnSubmit.Size = new System.Drawing.Size(71, 22);
             this._btnSubmit.TabIndex = 7;
             this._btnSubmit.Text = "Bestätigen";
             this._btnSubmit.UseVisualStyleBackColor = true;

@@ -11,10 +11,20 @@ namespace Flashcard
     {
         private int _currentSlotIndex = 0;
         private Card _currentCard;
-        private string _primaryLanguage = "german";
+        private Languages _primaryLanguage = Languages.German;
         private List<Card> _cardList = new List<Card>();
-        private string _currentDifficulty = "basis";
+        private Difficulties _currentDifficulty = Difficulties.Basic;
         private AccessData _dataManager = new AccessData();
+        public enum Languages
+        {
+            German = 0,
+            English = 1
+        }
+        public enum Difficulties
+        {
+            Basic = 0,
+            Advanced = 1
+        }
 
         //constructor reading input data and putting into 
         public CardBox()
@@ -31,11 +41,13 @@ namespace Flashcard
                 }
             }
             string[] fileInputData = data.ToArray();
-
+            
             for (int i = 0; i < fileInputData.Length; i=i+3)
             {
                 string[] dataLine = {fileInputData[i], fileInputData[i+1], fileInputData[i+2]};
-                _cardList.Add(new Card(dataLine[2], dataLine[1], 1, dataLine[0]));
+                Difficulties difficulty = Enum.Parse(Difficulties, dataLine[0]);
+
+                _cardList.Add(new Card(dataLine[2], dataLine[1], 1, difficulty));
             }
         }
 
@@ -72,7 +84,7 @@ namespace Flashcard
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
         public string VerifyTranslation(string input)
         {
-            if(_currentCard.VerityTranslation(input))
+            if(_currentCard.VerifyTranslation(input))
             {
                 if(_currentSlotIndex != 2)
                 {
@@ -95,28 +107,28 @@ namespace Flashcard
         {
             _currentSlotIndex = slotNumber-1;
         }
-
+        1
         //switching cardtext between ger->eng and eng->ger
-        public void SwitchAllCardLanguage()
+        public void SwitchLanguage()
         {
             foreach(Card card in _cardList)
             {
                 card.SwitchLanguage();
             }
 
-            if(_primaryLanguage == "german")
+            if (_primaryLanguage == Languages.German)
             {
-                _primaryLanguage = "english";
+                _primaryLanguage = Languages.English;
             }
             else
             {
-                _primaryLanguage = "german";
+                _primaryLanguage = Languages.German;
             }
         }
 
         public void AddNewCard(string gerWord, string engWord, string difficulty)
         {
-            if(_primaryLanguage == "german")
+            if(_primaryLanguage == Languages.German)
             {
                 _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
             }
@@ -128,9 +140,9 @@ namespace Flashcard
         
         public void SwitchDifficulty()
         {
-            if(_currentDifficulty == "basis")
+            if(_currentDifficulty == Difficulties.basic)
             {
-                _currentDifficulty = "erweitert";
+                _currentDifficulty = Difficulties.advanced;
             }
             else
             {
