@@ -103,7 +103,7 @@
             // 
             // _lbTranslationList
             // 
-            this._lbTranslationList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._lbTranslationList.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this._lbTranslationList.FormattingEnabled = true;
             this._lbTranslationList.ItemHeight = 15;
             this._lbTranslationList.Location = new System.Drawing.Point(525, 25);
@@ -114,10 +114,10 @@
             // 
             // _btnSubmit
             // 
-            this._btnSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnSubmit.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this._btnSubmit.Location = new System.Drawing.Point(580, 410);
             this._btnSubmit.Name = "_btnSubmit";
-            this._btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this._btnSubmit.Size = new System.Drawing.Size(71, 31);
             this._btnSubmit.TabIndex = 7;
             this._btnSubmit.Text = "Bestätigen";
             this._btnSubmit.UseVisualStyleBackColor = true;
@@ -129,7 +129,7 @@
             this._lblValidation.AutoEllipsis = true;
             this._lblValidation.Location = new System.Drawing.Point(485, 448);
             this._lblValidation.Name = "_lblValidation";
-            this._lblValidation.Size = new System.Drawing.Size(256, 15);
+            this._lblValidation.Size = new System.Drawing.Size(256, 23);
             this._lblValidation.TabIndex = 8;
             this._lblValidation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -137,7 +137,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(792, 487);
             this.Controls.Add(this._lblValidation);
             this.Controls.Add(this._btnSubmit);
@@ -150,7 +149,6 @@
             this.Controls.Add(this._btnSwitchLanguage);
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

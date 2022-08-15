@@ -5,8 +5,6 @@ namespace Flashcard
 {
     internal static class Program
     {
-		static List<AirtableRecord> dataInput;
-
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

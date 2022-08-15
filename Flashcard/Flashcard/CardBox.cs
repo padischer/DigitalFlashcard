@@ -149,18 +149,16 @@ namespace Flashcard
             _dataManager.CreateRecord("Card", cardData);
         }
 
-        public void PostSaveState()
+        public void UpdateSaveState()
         {
-            _dataManager.DeleteRecord("SaveState", "1");
-            /*
             Fields saveStateData = new Fields();
+            
 
             saveStateData.AddField("Slot", _currentSlotIndex+1);
             saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
             saveStateData.AddField("Difficulty", _currentDifficulty);
-
-            _dataManager.CreateRecord("SaveState", saveStateData);
-            */
+            
+            _dataManager.UpdateRecord("SaveState", "1", saveStateData);
         }
     }
 }
