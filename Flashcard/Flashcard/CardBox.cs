@@ -14,12 +14,12 @@ namespace Flashcard
         private string _primaryLanguage = "german";
         private List<Card> CardList = new List<Card>();
         private string _currentDifficulty = "basis";
-        private AccessData accessData = new AccessData();
+        private AccessData dataManager = new AccessData();
 
         //constructor reading input data and putting into 
         public CardBox()
         {
-            List<AirtableRecord> dataSource = accessData.GetData();
+            List<AirtableRecord> dataSource = dataManager.GetAllCards();
 
             List<string> data = new List<string>();
             
@@ -147,15 +147,7 @@ namespace Flashcard
             cardData.AddField("EnglishWord", translation);
             cardData.AddField("Difficulty", difficulty);
          
-            accessData.PostData(cardData);
+            dataManager.CreateCard(cardData);
         }
-        /*
-        public string[] GetSaveState()
-        {
-            string[] saveState = new string[3];
-            saveState[0] = _currentSlotIndex.ToString() + ",";
-            saveState[1] =
-        }
-        */
     }
 }
