@@ -7,7 +7,6 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        private AddCard _addCard;
         private CardBox _box = new CardBox();
 
         //on start of Form adding Slotnumbers to combobox
@@ -114,14 +113,6 @@ namespace Flashcard
                 _box.PostNewCard(addCard.GetEnglishWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
-        }
-
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
-            //_box.WriteCardsToFile(Path.Combine(Directory.GetCurrentDirectory(), "Cards.txt"));
-            //System.IO.File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory() + "savestate.txt"), "");
         }
     }
 }

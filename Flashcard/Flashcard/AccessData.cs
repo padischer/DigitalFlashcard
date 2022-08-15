@@ -14,7 +14,7 @@ namespace Flashcard
 		private readonly string baseId = "appeI57le2itTZ5OB";
 		private readonly string appKey = "keyRRvdduRcmmFRuY";
 
-		private async Task ReturnGetDataTask()
+		private async Task GetAllCardsTask()
 		{
 			string offset = null;
 			string errorMessage = null;
@@ -51,7 +51,7 @@ namespace Flashcard
 			
 		}
 
-		private async Task ReturnSendDataTask(Fields recordInput)
+		private async void CreateCardTask(Fields recordInput)
         {
 			string offset = null;
 			string errorMessage = null;
@@ -81,23 +81,16 @@ namespace Flashcard
 			}
 		}
 
-		public List<AirtableRecord> GetData()
+		public List<AirtableRecord> GetAllCards()
 		{
-			var a = ReturnGetDataTask();
+			var a = GetAllCardsTask();
 			a.Wait();
 			return data;
 		}
 
-		public void PostData(Fields input)
+		public void CreateCard(Fields input)
         {
-			var a = ReturnSendDataTask(input);
-			/*
-            while (!a.IsCompleted)
-            {
-
-            }
-			*/
-			a.Wait(0);
+			CreateCardTask(input);
         }
 	}
 }
