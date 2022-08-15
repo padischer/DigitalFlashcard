@@ -12,14 +12,14 @@ namespace Flashcard
         private int _currentSlotIndex = 0;
         private Card _currentCard;
         private string _primaryLanguage = "german";
-        private List<Card> CardList = new List<Card>();
+        private List<Card> _cardList = new List<Card>();
         private string _currentDifficulty = "basis";
-        private AccessData dataManager = new AccessData();
+        private AccessData _dataManager = new AccessData();
 
         //constructor reading input data and putting into 
         public CardBox()
         {
-            List<AirtableRecord> dataSource = dataManager.GetAllCards();
+            List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
 
             List<string> data = new List<string>();
             
@@ -35,7 +35,7 @@ namespace Flashcard
             for (int i = 0; i < fileInputData.Length; i=i+3)
             {
                 string[] dataLine = {fileInputData[i], fileInputData[i+1], fileInputData[i+2]};
-                CardList.Add(new Card(dataLine[2], dataLine[1], 1, dataLine[0]));
+                _cardList.Add(new Card(dataLine[2], dataLine[1], 1, dataLine[0]));
             }
         }
 
@@ -50,7 +50,7 @@ namespace Flashcard
 
         public List<Card> GetCurrentCards()
         {
-            List<Card> cardsFromCurrentSlot = CardList.Where(c => c.SlotID == _currentSlotIndex + 1).ToList();
+            List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.SlotID == _currentSlotIndex + 1).ToList();
             return cardsFromCurrentSlot.Where(c => c.Difficulty == _currentDifficulty).ToList();
         }
 
@@ -99,7 +99,7 @@ namespace Flashcard
         //switching cardtext between ger->eng and eng->ger
         public void SwitchAllCardLanguage()
         {
-            foreach(Card card in CardList)
+            foreach(Card card in _cardList)
             {
                 card.SwitchLanguage();
             }
@@ -118,11 +118,11 @@ namespace Flashcard
         {
             if(_primaryLanguage == "german")
             {
-                CardList.Add(new Card(gerWord, engWord, 1, difficulty));
+                _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
             }
             else
             {
-                CardList.Add(new Card(engWord, gerWord, 1, difficulty));
+                _cardList.Add(new Card(engWord, gerWord, 1, difficulty));
             }
         }
         
@@ -146,7 +146,20 @@ namespace Flashcard
             cardData.AddField("EnglishWord", translation);
             cardData.AddField("Difficulty", difficulty);
          
-            dataManager.CreateCard(cardData);
+            _dataManager.CreateRecord("Cards", cardData);
+        }
+
+        public void PostSaveState()
+        {
+            _dataManager.DeleteRecord("SaveState", "1");
+
+            Fields saveStateData = new Fields();
+
+            saveStateData.AddField("Slot", _currentSlotIndex+1);
+            saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
+            saveStateData.AddField("Difficulty", _currentDifficulty);
+
+            _dataManager.CreateRecord("SaveState", saveStateData);
         }
     }
 }
