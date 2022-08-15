@@ -11,14 +11,11 @@ namespace Flashcard
     {
 
 		private List<AirtableRecord> data = new List<AirtableRecord>();
+		private readonly string baseId = "appeI57le2itTZ5OB";
+		private readonly string appKey = "keyRRvdduRcmmFRuY";
 
-
-		
 		private async Task ReturnGetDataTask()
 		{
-			string baseId = "appeI57le2itTZ5OB";
-			string appKey = "keyRRvdduRcmmFRuY";
-
 			string offset = null;
 			string errorMessage = null;
 			var records = new List<AirtableRecord>();
@@ -56,21 +53,24 @@ namespace Flashcard
 
 		private async Task ReturnSendDataTask(Fields recordInput)
         {
-			string baseId = "appeI57le2itTZ5OB";
-			string appKey = "keyRRvdduRcmmFRuY";
-
 			string offset = null;
 			string errorMessage = null;
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
 			{
-
 				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord("Projects", recordInput, false);
 				AirtableCreateUpdateReplaceRecordResponse response = await task;
 
 				if (!response.Success)
 				{
-					
+					if (response.AirtableApiError is AirtableApiException)
+					{
+						errorMessage = response.AirtableApiError.ErrorMessage;
+					}
+					else
+					{
+						errorMessage = "Unknown error";
+					}
 					// Report errorMessage
 				}
 				else
@@ -78,7 +78,7 @@ namespace Flashcard
 					var record = response.Record;
 					// Do something with your created record.
 				}
-				}
+			}
 		}
 
 		public List<AirtableRecord> GetData()
@@ -91,10 +91,13 @@ namespace Flashcard
 		public void PostData(Fields input)
         {
 			var a = ReturnSendDataTask(input);
+			/*
             while (!a.IsCompleted)
             {
 
             }
+			*/
+			a.Wait(0);
         }
 	}
 }
