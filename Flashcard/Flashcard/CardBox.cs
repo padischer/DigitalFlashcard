@@ -146,13 +146,13 @@ namespace Flashcard
             cardData.AddField("EnglishWord", translation);
             cardData.AddField("Difficulty", difficulty);
          
-            _dataManager.CreateRecord("Cards", cardData);
+            _dataManager.CreateRecord("Card", cardData);
         }
 
         public void PostSaveState()
         {
             _dataManager.DeleteRecord("SaveState", "1");
-
+            /*
             Fields saveStateData = new Fields();
 
             saveStateData.AddField("Slot", _currentSlotIndex+1);
@@ -160,6 +160,7 @@ namespace Flashcard
             saveStateData.AddField("Difficulty", _currentDifficulty);
 
             _dataManager.CreateRecord("SaveState", saveStateData);
+            */
         }
     }
 }

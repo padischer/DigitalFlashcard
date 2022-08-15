@@ -114,5 +114,10 @@ namespace Flashcard
                 FillTranslationList();
             }
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _box.PostSaveState();
+        }
     }
 }

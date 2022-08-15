@@ -15,8 +15,6 @@ namespace Flashcard
 		private readonly string _baseId = "appeI57le2itTZ5OB";
 		private readonly string _appKey = "keyRRvdduRcmmFRuY";
 
-
-
 		public async void DeleteRecord(string table, string idOfRecord)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
@@ -165,7 +163,10 @@ namespace Flashcard
 			}
 		}
 
-		private  AirtableRecord GetRecord(string table, string id)
+
+		
+
+		public AirtableRecord GetRecord(string table, string id)
         {
 			var task = GetRecordTask(table, id);
 			task.Wait();
