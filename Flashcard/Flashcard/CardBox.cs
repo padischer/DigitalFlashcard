@@ -32,7 +32,6 @@ namespace Flashcard
             }
             string[] fileInputData = data.ToArray();
 
-
             for (int i = 0; i < fileInputData.Length; i=i+3)
             {
                 string[] dataLine = {fileInputData[i], fileInputData[i+1], fileInputData[i+2]};
