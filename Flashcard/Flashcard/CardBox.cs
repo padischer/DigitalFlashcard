@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AirtableApiClient;
 
 namespace Flashcard
 {
@@ -13,19 +14,29 @@ namespace Flashcard
         private string _primaryLanguage = "german";
         private List<Card> CardList = new List<Card>();
         private string _currentDifficulty = "basis";
+        private AccessData accessData = new AccessData();
 
         //constructor reading input data and putting into 
-        public CardBox(string dataSource)
+        public CardBox()
         {
+            List<AirtableRecord> dataSource = accessData.GetData();
 
-            string[] fileInputData = System.IO.File.ReadAllLines(dataSource);
-
-            for (int i = 0; i < fileInputData.Length; i++)
+            List<string> data = new List<string>();
+            
+            foreach (AirtableRecord record in dataSource)
             {
-                string[] dataLine = fileInputData[i].Split(",",3);
-                int test = dataLine.Length;
-                int tmep = fileInputData.Length;
-                CardList.Add(new Card(dataLine[0], dataLine[1], 1, dataLine[2]));
+                foreach(var field in record.Fields)
+                {
+                    data.Add(field.Value.ToString());
+                }
+            }
+            string[] fileInputData = data.ToArray();
+
+
+            for (int i = 0; i < fileInputData.Length; i=i+3)
+            {
+                string[] dataLine = {fileInputData[i], fileInputData[i+1], fileInputData[i+2]};
+                CardList.Add(new Card(dataLine[2], dataLine[1], 1, dataLine[0]));
             }
         }
 
@@ -128,19 +139,23 @@ namespace Flashcard
             }
         }
 
-        public void WriteCardsToFile(string path)
+        public void PostNewCard(string germanWord, string translation, string difficulty)
         {
-            string[] fileInput = new string[CardList.Count];
-
-            for (int i = 0; i < CardList.Count; i++)
-            {
-                fileInput[i] = CardList[i].WordToTranslate + "," + CardList[i].Translation + "," + CardList[i].Difficulty;
-            }
-
-            System.IO.File.WriteAllLines(path, fileInput);
+            Fields cardData = new Fields();
+            
+            cardData.AddField("GermanWord", germanWord);
+            cardData.AddField("EnglishWord", translation);
+            cardData.AddField("Difficulty", difficulty);
+         
+            accessData.PostData(cardData);
         }
-        
-
-
+        /*
+        public string[] GetSaveState()
+        {
+            string[] saveState = new string[3];
+            saveState[0] = _currentSlotIndex.ToString() + ",";
+            saveState[1] =
+        }
+        */
     }
 }
