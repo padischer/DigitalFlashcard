@@ -49,8 +49,6 @@ namespace Flashcard
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				do
-				{
 					Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(tableName);
 					AirtableListRecordsResponse response = await task;
 
@@ -66,14 +64,11 @@ namespace Flashcard
 							errorMessage += "\nDetailed error message: ";
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
-						break;
 					}
 					else
 					{
 						errorMessage = "Unknown error";
-						break;
 					}
-				} while (offset != null);
 			}
 
 			
@@ -108,7 +103,7 @@ namespace Flashcard
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord(tableName, record, false);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord(tableName, record, true);
 				AirtableCreateUpdateReplaceRecordResponse response = await task;
 
 				if (!response.Success)

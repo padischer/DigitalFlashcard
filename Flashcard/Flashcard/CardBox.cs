@@ -29,12 +29,14 @@ namespace Flashcard
         //constructor reading input data and putting into 
         public CardBox()
         {
+            
             List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
             List<string> data = new List<string>();
             Difficulties difficulty = Difficulties.Basic;
             string wordToTranslate = string.Empty;
             string translation = string.Empty;
             int slot = 1;
+            string iD;
             foreach (AirtableRecord record in dataSource)
             {
                 foreach(var field in record.Fields)
@@ -55,7 +57,9 @@ namespace Flashcard
                     {
                         Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
                     }
+                
                 }
+                iD = record.Id;
                 if (_primaryLanguage != Languages.German)
                 {
                     string tempSave = wordToTranslate;
@@ -63,8 +67,8 @@ namespace Flashcard
                     translation = tempSave;
                 }
 
-                _cardList.Add(new Card(wordToTranslate, translation, slot, difficulty));
-
+                _cardList.Add(new Card(wordToTranslate, translation, slot, difficulty, iD));
+            
             }
         }
 
@@ -178,19 +182,33 @@ namespace Flashcard
             cardData.AddField("GermanWord", germanWord);
             cardData.AddField("EnglishWord", translation);
             cardData.AddField("Difficulty", difficulty);
+            cardData.AddField("Slot", "1");
          
             _dataManager.CreateRecord("Card", cardData);
         }
 
+        public void PostToSaveState()
+        {
+            Fields cardData = new Fields();
+            cardData.AddField("Slot", "1");
+            cardData.AddField("PrimaryLanguage", "Englisch");
+            cardData.AddField("Difficulty", "basis");
+            _dataManager.CreateRecord("SaveState", cardData);
+        }
+
         public void UpdateSaveState()
         {
-            Fields saveStateData = new Fields();
-
-            saveStateData.AddField("Slot", _currentSlotIndex+1);
-            saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
-            saveStateData.AddField("Difficulty", _currentDifficulty);
+            string recordID = String.Empty;
+            List<AirtableRecord> records = _dataManager.GetAllRecords("SaveState");
+            recordID = records.First().Id;
             
-            _dataManager.UpdateRecord("SaveState", "1", saveStateData);
+            Fields saveStateData = new Fields();
+            int slot = _currentSlotIndex + 1;
+            saveStateData.AddField("Slot", slot);
+            saveStateData.AddField("PrimaryLanguage", "german");
+            saveStateData.AddField("Difficulty", "basis");
+            
+            _dataManager.UpdateRecord("SaveState", recordID, saveStateData);
         }
     }
 }

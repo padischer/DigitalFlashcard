@@ -118,6 +118,7 @@ namespace Flashcard
 
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
+            //_box.UpdateSaveState();
             _box.UpdateSaveState();
            
         }

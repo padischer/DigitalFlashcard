@@ -11,14 +11,16 @@ namespace Flashcard
         public CardBox.Difficulties Difficulty { get; private set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
+        public string ID { get; private set; }
         public int SlotID { get; set; }
         //constructor setting German and Englisch word of Card
-        public Card(string wordToTranslate, string translation, int slot, CardBox.Difficulties difficulty)
+        public Card(string wordToTranslate, string translation, int slot, CardBox.Difficulties difficulty, string iD = "")
         {
             WordToTranslate = wordToTranslate;
             Translation = translation;
             SlotID = slot;
             Difficulty = difficulty;
+            ID = iD;
         }
 
         public void SwitchLanguage()
