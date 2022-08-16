@@ -9,7 +9,6 @@ namespace Flashcard
         }
         private CardBox _box = new CardBox();
 
-
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         { 
@@ -118,8 +117,8 @@ namespace Flashcard
 
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
-            //_box.UpdateSaveState();
             _box.UpdateSaveState();
+
            
         }
     }
