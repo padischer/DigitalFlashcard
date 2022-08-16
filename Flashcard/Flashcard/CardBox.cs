@@ -30,24 +30,41 @@ namespace Flashcard
         public CardBox()
         {
             List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
-
             List<string> data = new List<string>();
-            
+            Difficulties difficulty = Difficulties.Basic;
+            string wordToTranslate = string.Empty;
+            string translation = string.Empty;
+            int slot = 1;
             foreach (AirtableRecord record in dataSource)
             {
                 foreach(var field in record.Fields)
                 {
-                    data.Add(field.Value.ToString());
+                    if (field.Key == "GermanWord")
+                    {
+                        wordToTranslate = field.Value.ToString();
+                    }
+                    if (field.Key == "EnglishWord")
+                    {
+                        translation = field.Value.ToString();
+                    }
+                    if (field.Key == "Slot")
+                    {
+                        slot = Int32.Parse(field.Value.ToString());
+                    }
+                    if (field.Key == "Difficulty")
+                    {
+                        Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
+                    }
                 }
-            }
-            string[] fileInputData = data.ToArray();
-            
-            for (int i = 0; i < fileInputData.Length; i=i+3)
-            {
-                string[] dataLine = {fileInputData[i], fileInputData[i+1], fileInputData[i+2]};
-                Difficulties difficulty = Enum.Parse(Difficulties, dataLine[0]);
+                if (_primaryLanguage != Languages.German)
+                {
+                    string tempSave = wordToTranslate;
+                    wordToTranslate = translation;
+                    translation = tempSave;
+                }
 
-                _cardList.Add(new Card(dataLine[2], dataLine[1], 1, difficulty));
+                _cardList.Add(new Card(wordToTranslate, translation, slot, difficulty));
+
             }
         }
 
@@ -107,7 +124,7 @@ namespace Flashcard
         {
             _currentSlotIndex = slotNumber-1;
         }
-        1
+        
         //switching cardtext between ger->eng and eng->ger
         public void SwitchLanguage()
         {
@@ -126,8 +143,12 @@ namespace Flashcard
             }
         }
 
-        public void AddNewCard(string gerWord, string engWord, string difficulty)
+        public void AddNewCard(string gerWord, string engWord, string difficultyNumber)
         {
+
+            Difficulties difficulty = Difficulties.Basic;
+            Enum.TryParse<Difficulties>(difficultyNumber.ToString(), out difficulty);
+
             if(_primaryLanguage == Languages.German)
             {
                 _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
@@ -140,13 +161,13 @@ namespace Flashcard
         
         public void SwitchDifficulty()
         {
-            if(_currentDifficulty == Difficulties.basic)
+            if(_currentDifficulty == Difficulties.Basic)
             {
-                _currentDifficulty = Difficulties.advanced;
+                _currentDifficulty = Difficulties.Advanced;
             }
             else
             {
-                _currentDifficulty = "basis";
+                _currentDifficulty = Difficulties.Basic;
             }
         }
 
@@ -164,7 +185,6 @@ namespace Flashcard
         public void UpdateSaveState()
         {
             Fields saveStateData = new Fields();
-            
 
             saveStateData.AddField("Slot", _currentSlotIndex+1);
             saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
