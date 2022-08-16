@@ -9,9 +9,10 @@ namespace Flashcard
         }
         private CardBox _box = new CardBox();
 
+
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
-        {
+        { 
             //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add("1");
             _cbSlotNumber.Items.Add("2");
@@ -88,7 +89,7 @@ namespace Flashcard
 
         private void BtnSwitchLanguage_Click(object sender, EventArgs e)
         {
-            _box.SwitchAllCardLanguage();
+            _box.SwitchLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
             if(_btnSwitchLanguage.Text == "deu->eng")
@@ -113,6 +114,12 @@ namespace Flashcard
                 _box.PostNewCard(addCard.GetEnglishWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
+        }
+
+        private void BtnEndProgram_Click(object sender, EventArgs e)
+        {
+            _box.UpdateSaveState();
+           
         }
     }
 }

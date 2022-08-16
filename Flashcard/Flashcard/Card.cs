@@ -8,12 +8,12 @@ namespace Flashcard
 {
     internal class Card
     {
-        public string Difficulty { get; set; }
+        public CardBox.Difficulties Difficulty { get; private set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
         public int SlotID { get; set; }
         //constructor setting German and Englisch word of Card
-        public Card(string wordToTranslate, string translation, int slot, string difficulty)
+        public Card(string wordToTranslate, string translation, int slot, CardBox.Difficulties difficulty)
         {
             WordToTranslate = wordToTranslate;
             Translation = translation;
@@ -28,7 +28,7 @@ namespace Flashcard
             Translation = tempSave;
         }
 
-        public bool VerityTranslation(string input)
+        public bool VerifyTranslation(string input)
         {
             return input == Translation;
         }

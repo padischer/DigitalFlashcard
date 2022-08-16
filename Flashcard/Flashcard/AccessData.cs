@@ -15,11 +15,11 @@ namespace Flashcard
 		private readonly string _baseId = "appeI57le2itTZ5OB";
 		private readonly string _appKey = "keyRRvdduRcmmFRuY";
 
-		public async void UpdateRecord(string table, string idOfRecord, Fields input)
+		public async void UpdateRecord(string tableName, string idOfRecord, Fields input)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(table, input, idOfRecord);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(tableName, input, idOfRecord);
 				var response = await task;
 				 
 				if (!response.Success)
@@ -39,14 +39,10 @@ namespace Flashcard
 						}
 					}
 				}
-                else
-                {
-
-                }
 			}
 		}
 
-		private async Task GetAllRecordsTask(string table)
+		private async Task GetAllRecordsTask(string tableName)
 		{
 			string offset = null;
 			string errorMessage = null;
@@ -55,7 +51,7 @@ namespace Flashcard
 			{
 				do
 				{
-					Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(table);
+					Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(tableName);
 					AirtableListRecordsResponse response = await task;
 
 					if (response.Success)
@@ -83,11 +79,11 @@ namespace Flashcard
 			
 		}
 
-		private async Task GetRecordTask(string table, string idOfRecord)
+		private async Task GetRecordTask(string tableName, string idOfRecord)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableRetrieveRecordResponse> task = airtableBase.RetrieveRecord(table, idOfRecord);
+				Task<AirtableRetrieveRecordResponse> task = airtableBase.RetrieveRecord(tableName, idOfRecord);
 				var response = await task;
 				if (!response.Success)
 				{
@@ -101,22 +97,18 @@ namespace Flashcard
 						errorMessage = "Unknown error";
 					}
 				}
-				else
-				{
-					_entity = response.Record;
-				}
 			}
 		}
 
 
-		public async void CreateRecord(string table, Fields recordInput)
+		public async void CreateRecord(string tableName, Fields record)
         {
 			string offset = null;
 			string errorMessage = null;
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord(table, recordInput, false);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.CreateRecord(tableName, record, false);
 				AirtableCreateUpdateReplaceRecordResponse response = await task;
 
 				if (!response.Success)
@@ -130,24 +122,20 @@ namespace Flashcard
 						errorMessage = "Unknown error";
 					}
 				}
-				else
-				{
-					var record = response.Record;
-				}
 			}
 		}
 		
 
-		public AirtableRecord GetRecord(string table, string id)
+		public AirtableRecord GetRecord(string tableName, string id)
         {
-			var task = GetRecordTask(table, id);
+			var task = GetRecordTask(tableName, id);
 			task.Wait();
 			return _entity;
         }
 
-		public List<AirtableRecord> GetAllRecords(string table)
+		public List<AirtableRecord> GetAllRecords(string tableName)
 		{
-			var task = GetAllRecordsTask(table);
+			var task = GetAllRecordsTask(tableName);
 			task.Wait();
 			return _data;
 		}

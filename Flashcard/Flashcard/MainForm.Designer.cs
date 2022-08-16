@@ -37,6 +37,7 @@
             this._lbTranslationList = new System.Windows.Forms.ListBox();
             this._btnSubmit = new System.Windows.Forms.Button();
             this._lblValidation = new System.Windows.Forms.Label();
+            this._btnEndProgram = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _btnSwitchLanguage
@@ -62,9 +63,9 @@
             // _btnAddCard
             // 
             this._btnAddCard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._btnAddCard.Location = new System.Drawing.Point(139, 448);
+            this._btnAddCard.Location = new System.Drawing.Point(135, 442);
             this._btnAddCard.Name = "_btnAddCard";
-            this._btnAddCard.Size = new System.Drawing.Size(108, 23);
+            this._btnAddCard.Size = new System.Drawing.Size(121, 23);
             this._btnAddCard.TabIndex = 2;
             this._btnAddCard.Text = "Karte Hinzufügen";
             this._btnAddCard.UseVisualStyleBackColor = true;
@@ -74,7 +75,7 @@
             // 
             this._cbSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._cbSlotNumber.FormattingEnabled = true;
-            this._cbSlotNumber.Location = new System.Drawing.Point(12, 448);
+            this._cbSlotNumber.Location = new System.Drawing.Point(8, 442);
             this._cbSlotNumber.Name = "_cbSlotNumber";
             this._cbSlotNumber.Size = new System.Drawing.Size(121, 23);
             this._cbSlotNumber.TabIndex = 3;
@@ -84,7 +85,7 @@
             // 
             this._lblSlotNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._lblSlotNumber.AutoSize = true;
-            this._lblSlotNumber.Location = new System.Drawing.Point(48, 426);
+            this._lblSlotNumber.Location = new System.Drawing.Point(44, 420);
             this._lblSlotNumber.Name = "_lblSlotNumber";
             this._lblSlotNumber.Size = new System.Drawing.Size(48, 15);
             this._lblSlotNumber.TabIndex = 4;
@@ -95,7 +96,7 @@
             this._lblWordToTranslate.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this._lblWordToTranslate.AutoSize = true;
             this._lblWordToTranslate.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this._lblWordToTranslate.Location = new System.Drawing.Point(110, 197);
+            this._lblWordToTranslate.Location = new System.Drawing.Point(110, 202);
             this._lblWordToTranslate.Name = "_lblWordToTranslate";
             this._lblWordToTranslate.Size = new System.Drawing.Size(119, 54);
             this._lblWordToTranslate.TabIndex = 5;
@@ -106,7 +107,7 @@
             this._lbTranslationList.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this._lbTranslationList.FormattingEnabled = true;
             this._lbTranslationList.ItemHeight = 15;
-            this._lbTranslationList.Location = new System.Drawing.Point(525, 25);
+            this._lbTranslationList.Location = new System.Drawing.Point(525, 30);
             this._lbTranslationList.Name = "_lbTranslationList";
             this._lbTranslationList.Size = new System.Drawing.Size(186, 379);
             this._lbTranslationList.Sorted = true;
@@ -115,9 +116,9 @@
             // _btnSubmit
             // 
             this._btnSubmit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this._btnSubmit.Location = new System.Drawing.Point(580, 410);
+            this._btnSubmit.Location = new System.Drawing.Point(583, 415);
             this._btnSubmit.Name = "_btnSubmit";
-            this._btnSubmit.Size = new System.Drawing.Size(71, 31);
+            this._btnSubmit.Size = new System.Drawing.Size(71, 22);
             this._btnSubmit.TabIndex = 7;
             this._btnSubmit.Text = "Bestätigen";
             this._btnSubmit.UseVisualStyleBackColor = true;
@@ -125,19 +126,31 @@
             // 
             // _lblValidation
             // 
-            this._lblValidation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._lblValidation.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this._lblValidation.AutoEllipsis = true;
-            this._lblValidation.Location = new System.Drawing.Point(485, 448);
+            this._lblValidation.Location = new System.Drawing.Point(484, 441);
             this._lblValidation.Name = "_lblValidation";
             this._lblValidation.Size = new System.Drawing.Size(256, 23);
             this._lblValidation.TabIndex = 8;
             this._lblValidation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // _btnEndProgram
+            // 
+            this._btnEndProgram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._btnEndProgram.Location = new System.Drawing.Point(8, 469);
+            this._btnEndProgram.Name = "_btnEndProgram";
+            this._btnEndProgram.Size = new System.Drawing.Size(121, 23);
+            this._btnEndProgram.TabIndex = 9;
+            this._btnEndProgram.Text = "Beenden";
+            this._btnEndProgram.UseVisualStyleBackColor = true;
+            this._btnEndProgram.Click += new System.EventHandler(this.BtnEndProgram_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 487);
+            this.ClientSize = new System.Drawing.Size(792, 497);
+            this.Controls.Add(this._btnEndProgram);
             this.Controls.Add(this._lblValidation);
             this.Controls.Add(this._btnSubmit);
             this.Controls.Add(this._lbTranslationList);
@@ -166,5 +179,6 @@
         private ListBox _lbTranslationList;
         private Button _btnSubmit;
         private Label _lblValidation;
+        private Button _btnEndProgram;
     }
 }
