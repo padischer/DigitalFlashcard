@@ -15,13 +15,12 @@ namespace Flashcard
         private bool _gerTextIsSet;
         private bool _engTextIsSet;
         public bool ShouldExecute { get; private set; }
-        private MainForm OriginalForm { get; set; }
+        private MainForm _originalForm;
         public AddCard(MainForm form)
         {
-            OriginalForm = form;
+            _originalForm = form;
             InitializeComponent();
         }
-
 
         private void AddCard_Load(object sender, EventArgs e)
         {
@@ -52,7 +51,7 @@ namespace Flashcard
             {
                 ShouldExecute = true;
                 this.Close();
-                OriginalForm.Show();
+                _originalForm.Show();
             }      
         }
         
@@ -60,7 +59,7 @@ namespace Flashcard
         {
             ShouldExecute = false;
             this.Close();
-            OriginalForm.Show();
+            _originalForm.Show();
         }
                
         private void ValidateGermanWord(object sender, EventArgs e)
