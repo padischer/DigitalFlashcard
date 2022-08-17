@@ -17,9 +17,8 @@ namespace Flashcard
         private MainForm _originalForm;
         public bool ShouldExecute { get; private set; }
         
-        public AddCard(MainForm form)
+        public AddCard()
         {
-            _originalForm = form;
             InitializeComponent();
         }
 
@@ -52,7 +51,6 @@ namespace Flashcard
             {
                 ShouldExecute = true;
                 this.Close();
-                _originalForm.Show();
             }      
         }
         
@@ -60,7 +58,6 @@ namespace Flashcard
         {
             ShouldExecute = false;
             this.Close();
-            _originalForm.Show();
         }
                
         private void ValidateGermanWord(object sender, EventArgs e)

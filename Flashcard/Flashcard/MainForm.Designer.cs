@@ -39,6 +39,7 @@
             this._lblValidation = new System.Windows.Forms.Label();
             this._btnEndProgram = new System.Windows.Forms.Button();
             this._btnReset = new System.Windows.Forms.Button();
+            this._btnCardList = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _btnSwitchLanguage
@@ -154,13 +155,24 @@
             this._btnReset.TabIndex = 10;
             this._btnReset.Text = "Zurücksetzen";
             this._btnReset.UseVisualStyleBackColor = true;
-            this._btnReset.Click += new System.EventHandler(this.BtnReset);
+            this._btnReset.Click += new System.EventHandler(this.BtnReset_OnClick);
+            // 
+            // _btnCardList
+            // 
+            this._btnCardList.Location = new System.Drawing.Point(262, 469);
+            this._btnCardList.Name = "_btnCardList";
+            this._btnCardList.Size = new System.Drawing.Size(121, 23);
+            this._btnCardList.TabIndex = 11;
+            this._btnCardList.Text = "Kartenliste";
+            this._btnCardList.UseVisualStyleBackColor = true;
+            this._btnCardList.Click += new System.EventHandler(this.BtnCardList_OnClick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 497);
+            this.Controls.Add(this._btnCardList);
             this.Controls.Add(this._btnReset);
             this.Controls.Add(this._btnEndProgram);
             this.Controls.Add(this._lblValidation);
@@ -194,5 +206,6 @@
         private Label _lblValidation;
         private Button _btnEndProgram;
         private Button _btnReset;
+        private Button _btnCardList;
     }
 }

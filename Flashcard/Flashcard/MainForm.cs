@@ -127,7 +127,7 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            AddCard addCard = new AddCard(this);
+            AddCard addCard = new AddCard();
             addCard.ShowDialog();
             if (addCard.ShouldExecute)
             {
@@ -145,7 +145,13 @@ namespace Flashcard
            
         }
 
-        private void BtnReset(object sender, EventArgs e)
+        private void BtnCardList_OnClick(object sender, EventArgs e)
+        {
+            CardList cardList = new CardList(_box.GetCurrentCards());
+            cardList.ShowDialog();
+        }
+
+        private void BtnReset_OnClick(object sender, EventArgs e)
         {
             _box.ResetAllCardSlots();
             FillTranslationList();

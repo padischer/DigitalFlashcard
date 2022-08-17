@@ -7,7 +7,7 @@ using AirtableApiClient;
 
 namespace Flashcard
 {
-    internal class CardBox
+    public class CardBox
     {
         private int _currentSlotIndex = 1;
         private Languages _primaryLanguage;
