@@ -16,12 +16,77 @@ namespace Flashcard
 		private readonly string _appKey = "keyRRvdduRcmmFRuY";
 		private const string _saveStateID = "reciz8CK3CwjtINCY";
 		private const string _saveStateTableName = "SaveState";
-		public async void UpdateSaveState(string tableName, Fields input)
+		private const string _cardTableName = "Card";
+
+		public void UpdateCard(Fields input, string cardID)
+		{
+			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
+			{
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_cardTableName, input, cardID);
+				var response = task.Result;
+
+				if (!response.Success)
+				{
+					string errorMessage = String.Empty;
+					if (response.AirtableApiError is AirtableApiException)
+					{
+						errorMessage = response.AirtableApiError.ErrorMessage;
+						if (response.AirtableApiError is AirtableInvalidRequestException)
+						{
+							errorMessage += "\nDetailed error message: ";
+							errorMessage += response.AirtableApiError.DetailedErrorMessage;
+						}
+						else
+						{
+							errorMessage = "Unknown error";
+						}
+					}
+				}
+			}
+		}
+
+		public void UpdateAllCards(IdFields[] fields)
+        {
+			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
+			{
+				// Do something to obtain a AirtableRecord[] records to use as an input argument. 
+				// This AirtableRecord[] records has the same syntax as AirtableListRecordsResponse.Records returned by ListRecords().
+				// The fields of input records are the fields to be used in this update operation.
+
+				Task<AirtableCreateUpdateReplaceMultipleRecordsResponse> task = airtableBase.UpdateMultipleRecords(_cardTableName, fields);
+				var response = task.Result;
+				if (!response.Success)
+				{
+					string errorMessage = String.Empty;
+					if (response.AirtableApiError is AirtableApiException)
+					{
+						errorMessage = response.AirtableApiError.ErrorMessage;
+						if (response.AirtableApiError is AirtableInvalidRequestException)
+						{
+							errorMessage += "\nDetailed error message: ";
+							errorMessage += response.AirtableApiError.DetailedErrorMessage;
+						}
+					}
+					else
+					{
+						errorMessage = "Unknown error";
+					}
+					// Report error message
+				}
+				else
+				{
+					AirtableRecord[] records = response.Records;
+					// Do something with the updated records.
+				}
+			}
+		}
+
+		public void UpdateSaveState(string tableName, Fields input)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
 				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, input, _saveStateID);
-				var response = await task;
+				var response = task.Result;
 				 
 				if (!response.Success)
 				{
@@ -46,6 +111,7 @@ namespace Flashcard
 		private async Task GetAllRecordsTask(string tableName)
 		{
 			string errorMessage = String.Empty;
+			_data = new List<AirtableRecord>();
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
@@ -76,6 +142,7 @@ namespace Flashcard
 
 		private async Task GetRecordTask(string tableName, string idOfRecord)
         {
+			_entity = new AirtableRecord();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
 				Task<AirtableRetrieveRecordResponse> task = airtableBase.RetrieveRecord(tableName, idOfRecord);

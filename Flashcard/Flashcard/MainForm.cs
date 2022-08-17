@@ -7,21 +7,18 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        private CardBox _box;
+        private CardBox _box = new CardBox();
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _box = new CardBox();
-            LoadSaveState();
-
-            //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add("1");
             _cbSlotNumber.Items.Add("2");
             _cbSlotNumber.Items.Add("3");
-            _cbSlotNumber.SelectedIndex = 0;
-            
-            //printing data to interface
+
+
+            LoadSaveState();
+
             FillTranslationList();
             SetRandomWordToTranslate();
         }
@@ -144,8 +141,14 @@ namespace Flashcard
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
             _box.UpdateSaveState();
-
+            this.Close();
            
+        }
+
+        private void BtnReset(object sender, EventArgs e)
+        {
+            _box.ResetAllCardSlots();
+            FillTranslationList();
         }
     }
 }
