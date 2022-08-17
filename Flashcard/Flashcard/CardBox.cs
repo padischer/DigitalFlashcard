@@ -9,9 +9,9 @@ namespace Flashcard
 {
     internal class CardBox
     {
-        public int _currentSlotIndex = 0;
-        public Languages _primaryLanguage = Languages.German;
-        public Difficulties _currentDifficulty = Difficulties.Basic;
+        private int _currentSlotIndex = 1;
+        private Languages _primaryLanguage;
+        private Difficulties _currentDifficulty;
         private Card _currentCard;
         private List<Card> _cardList = new List<Card>();
         private AccessData _dataManager = new AccessData();
@@ -33,17 +33,19 @@ namespace Flashcard
             foreach (AirtableRecord record in saveState)
             {
                 foreach(var field in record.Fields){
-                    if (field.Key == "Slot")
+                    switch (field.Key)
                     {
-                        _currentSlotIndex = Int32.Parse(field.Value.ToString());
-                    }
-                    if (field.Key == "PrimaryLanguage")
-                    {
-                        Enum.TryParse<Languages>(field.Value.ToString(), out _primaryLanguage);
-                    }
-                    if (field.Key == "Difficulty")
-                    {
-                        Enum.TryParse<Difficulties>(field.Value.ToString(), out _currentDifficulty);
+                        case "SlotIndex":
+                            _currentSlotIndex = Int32.Parse(field.Value.ToString());
+                        break;
+
+                        case "PrimaryLanguage":
+                            Enum.TryParse<Languages>(field.Value.ToString(), out _primaryLanguage);
+                        break;
+
+                        case "Difficulty":
+                            Enum.TryParse<Difficulties>(field.Value.ToString(), out _currentDifficulty);
+                        break;
                     }
                 }
             }
@@ -58,22 +60,24 @@ namespace Flashcard
             {
                 foreach(var field in record.Fields)
                 {
-                    if (field.Key == "GermanWord")
+                    switch (field.Key)
                     {
-                        wordToTranslate = field.Value.ToString();
+                        case "GermanWord":
+                            wordToTranslate = field.Value.ToString();
+                        break;
+
+                        case "EnglishWord":
+                            translation = field.Value.ToString();
+                        break;
+
+                        case "Difficulty":
+                            Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
+                        break;
+
+                        case "Slot":
+                            slot = Int32.Parse(field.Value.ToString());
+                        break;
                     }
-                    if (field.Key == "EnglishWord")
-                    {
-                        translation = field.Value.ToString();
-                    }
-                    if (field.Key == "Slot")
-                    {
-                        slot = Int32.Parse(field.Value.ToString());
-                    }
-                    if (field.Key == "Difficulty")
-                    {
-                        Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
-                    } 
                 }
                 iD = record.Id;
                 if (_primaryLanguage != Languages.German)
@@ -125,6 +129,7 @@ namespace Flashcard
                 if(_currentSlotIndex != 2)
                 {
                     _currentCard.SlotID++;
+                    UpdateCard(_currentCard.SlotID, _currentCard.ID);
                 }
                 return "Korrekt";
             }
@@ -133,9 +138,12 @@ namespace Flashcard
                 if(_currentSlotIndex != 0)
                 {
                     _currentCard.SlotID--;
+                    UpdateCard(_currentCard.SlotID, _currentCard.ID);
                 }
                 return "Falsch! " + _currentCard.Translation + " wäre richtig gewesen";
-            }        
+            }
+
+            
         }
 
         //changing current Slotnumber
@@ -192,11 +200,20 @@ namespace Flashcard
 
         public void PostNewCard(string germanWord, string translation, string difficulty)
         {
+            int difficultyNumber;
             Fields cardData = new Fields();
-            
+            if(difficulty == "basis")
+            {
+                difficultyNumber = 0;
+            }
+            else
+            {
+                difficultyNumber = 1;
+            }
+
             cardData.AddField("GermanWord", germanWord);
             cardData.AddField("EnglishWord", translation);
-            cardData.AddField("Difficulty", difficulty);
+            cardData.AddField("Difficulty", difficultyNumber);
             cardData.AddField("Slot", "1");
          
             _dataManager.CreateRecord("Card", cardData);
@@ -204,14 +221,44 @@ namespace Flashcard
 
         public void UpdateSaveState()
         {
-            
             Fields saveStateData = new Fields();
-            int slot = _currentSlotIndex + 1;
-            saveStateData.AddField("Slot", slot);
+            int slot = _currentSlotIndex;
+            saveStateData.AddField("SlotIndex", slot);
             saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
             saveStateData.AddField("Difficulty", _currentDifficulty);
             
             _dataManager.UpdateSaveState("SaveState", saveStateData);
+        }
+
+        public void UpdateCard(int slot, string cardID)
+        {
+            Fields cardData = new Fields();
+            cardData.AddField("Slot", slot);
+            _dataManager.UpdateCard(cardData, cardID);
+        }
+
+        public int GetCurrentSlotIndex()
+        {
+            return _currentSlotIndex;
+        }
+
+        public Difficulties GetCurrentDifficulty()
+        {
+            return _currentDifficulty;
+        }
+        
+        public Languages GetPrimaryLanguage()
+        {
+            return _primaryLanguage;
+        }
+
+        public void ResetAllCardSlots()
+        {
+            foreach(Card card in _cardList)
+            {
+                card.SlotID = 1;
+                UpdateCard(1, card.ID);
+            }
         }
     }
 }

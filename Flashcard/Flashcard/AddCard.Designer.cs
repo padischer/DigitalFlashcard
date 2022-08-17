@@ -146,6 +146,7 @@
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnSubmit);
             this.Controls.Add(this._lblNewCard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AddCard";
             this.Text = "AddCard";
             this.Load += new System.EventHandler(this.AddCard_Load);

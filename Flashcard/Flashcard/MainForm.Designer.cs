@@ -38,6 +38,7 @@
             this._btnSubmit = new System.Windows.Forms.Button();
             this._lblValidation = new System.Windows.Forms.Label();
             this._btnEndProgram = new System.Windows.Forms.Button();
+            this._btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _btnSwitchLanguage
@@ -145,11 +146,22 @@
             this._btnEndProgram.UseVisualStyleBackColor = true;
             this._btnEndProgram.Click += new System.EventHandler(this.BtnEndProgram_Click);
             // 
+            // _btnReset
+            // 
+            this._btnReset.Location = new System.Drawing.Point(135, 469);
+            this._btnReset.Name = "_btnReset";
+            this._btnReset.Size = new System.Drawing.Size(121, 23);
+            this._btnReset.TabIndex = 10;
+            this._btnReset.Text = "Zurücksetzen";
+            this._btnReset.UseVisualStyleBackColor = true;
+            this._btnReset.Click += new System.EventHandler(this.BtnReset);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 497);
+            this.Controls.Add(this._btnReset);
             this.Controls.Add(this._btnEndProgram);
             this.Controls.Add(this._lblValidation);
             this.Controls.Add(this._btnSubmit);
@@ -160,6 +172,7 @@
             this.Controls.Add(this._btnAddCard);
             this.Controls.Add(this._btnSwitchDifficulty);
             this.Controls.Add(this._btnSwitchLanguage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -180,5 +193,6 @@
         private Button _btnSubmit;
         private Label _lblValidation;
         private Button _btnEndProgram;
+        private Button _btnReset;
     }
 }

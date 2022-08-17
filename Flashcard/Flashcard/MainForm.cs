@@ -11,16 +11,39 @@ namespace Flashcard
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
-        { 
-            //editing comboBox _cbSlotNumber
+        {
             _cbSlotNumber.Items.Add("1");
             _cbSlotNumber.Items.Add("2");
             _cbSlotNumber.Items.Add("3");
-            _cbSlotNumber.SelectedIndex = 0;
-            
-            //printing data to interface
+
+
+            LoadSaveState();
+
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void LoadSaveState()
+        {
+            if(_box.GetCurrentDifficulty() == CardBox.Difficulties.Basic)
+            {
+                _btnSwitchDifficulty.Text = "basis";
+            }
+            else
+            {
+                _btnSwitchDifficulty.Text = "erweitert";
+            }
+
+            if(_box.GetPrimaryLanguage() == CardBox.Languages.German)
+            {
+                _btnSwitchLanguage.Text = "deu->eng";
+            }
+            else
+            {
+                _btnSwitchLanguage.Text = "eng->deu";
+            }
+
+            _cbSlotNumber.SelectedIndex = _box.GetCurrentSlotIndex();
         }
 
         //temp choosing a random word to Translate
@@ -110,7 +133,7 @@ namespace Flashcard
             {
                 
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
-                _box.PostNewCard(addCard.GetEnglishWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
+                _box.PostNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
         }
@@ -118,8 +141,15 @@ namespace Flashcard
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
             _box.UpdateSaveState();
-
+            this.Close();
            
+        }
+
+        private void BtnReset(object sender, EventArgs e)
+        {
+            _box.ResetAllCardSlots();
+            FillTranslationList();
+            SetRandomWordToTranslate();
         }
     }
 }
