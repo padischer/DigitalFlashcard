@@ -49,13 +49,14 @@ namespace Flashcard
                     }
                 }
             }
+
             List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
-            List<string> data = new List<string>();
             Difficulties difficulty = Difficulties.Basic;
             string wordToTranslate = string.Empty;
             string translation = string.Empty;
             int slot = 1;
             string iD = String.Empty;
+
             foreach (AirtableRecord record in dataSource)
             {
                 foreach(var field in record.Fields)
@@ -79,7 +80,9 @@ namespace Flashcard
                         break;
                     }
                 }
+
                 iD = record.Id;
+
                 if (_primaryLanguage != Languages.German)
                 {
                     string tempSave = wordToTranslate;
@@ -202,6 +205,7 @@ namespace Flashcard
         {
             int difficultyNumber;
             Fields cardData = new Fields();
+
             if(difficulty == "basis")
             {
                 difficultyNumber = 0;
@@ -223,6 +227,7 @@ namespace Flashcard
         {
             Fields saveStateData = new Fields();
             int slot = _currentSlotIndex;
+
             saveStateData.AddField("SlotIndex", slot);
             saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
             saveStateData.AddField("Difficulty", _currentDifficulty);
