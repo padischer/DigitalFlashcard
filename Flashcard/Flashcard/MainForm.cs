@@ -7,11 +7,14 @@ namespace Flashcard
         {
             InitializeComponent();
         }
-        private CardBox _box = new CardBox();
+        private CardBox _box;
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
-        { 
+        {
+            _box = new CardBox();
+            LoadSaveState();
+
             //editing comboBox _cbSlotNumber
             _cbSlotNumber.Items.Add("1");
             _cbSlotNumber.Items.Add("2");
@@ -21,6 +24,29 @@ namespace Flashcard
             //printing data to interface
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void LoadSaveState()
+        {
+            if(_box.GetCurrentDifficulty() == CardBox.Difficulties.Basic)
+            {
+                _btnSwitchDifficulty.Text = "basis";
+            }
+            else
+            {
+                _btnSwitchDifficulty.Text = "erweitert";
+            }
+
+            if(_box.GetPrimaryLanguage() == CardBox.Languages.German)
+            {
+                _btnSwitchLanguage.Text = "deu->eng";
+            }
+            else
+            {
+                _btnSwitchLanguage.Text = "eng->deu";
+            }
+
+            _cbSlotNumber.SelectedIndex = _box.GetCurrentSlotIndex();
         }
 
         //temp choosing a random word to Translate

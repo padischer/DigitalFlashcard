@@ -10,16 +10,17 @@ namespace Flashcard
     internal class AccessData
     {
 
-		private List<AirtableRecord> _data = new List<AirtableRecord>();
-		private AirtableRecord _entity = new AirtableRecord();
+		private List<AirtableRecord> _data;
+		private AirtableRecord _entity;
 		private readonly string _baseId = "appeI57le2itTZ5OB";
 		private readonly string _appKey = "keyRRvdduRcmmFRuY";
 		private const string _saveStateID = "reciz8CK3CwjtINCY";
+		private const string _saveStateTableName = "SaveState";
 		public async void UpdateSaveState(string tableName, Fields input)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(tableName, input, _saveStateID);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, input, _saveStateID);
 				var response = await task;
 				 
 				if (!response.Success)
@@ -122,6 +123,7 @@ namespace Flashcard
 
 		public AirtableRecord GetRecord(string tableName, string id)
         {
+			_entity = new AirtableRecord();
 			var task = GetRecordTask(tableName, id);
 			task.Wait();
 			return _entity;
@@ -129,10 +131,10 @@ namespace Flashcard
 
 		public List<AirtableRecord> GetAllRecords(string tableName)
 		{
+			_data = new List<AirtableRecord>();
 			var task = GetAllRecordsTask(tableName);
 			task.Wait();
 			return _data;
 		}
-
 	}
 }

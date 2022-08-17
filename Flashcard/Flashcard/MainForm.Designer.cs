@@ -160,6 +160,7 @@
             this.Controls.Add(this._btnAddCard);
             this.Controls.Add(this._btnSwitchDifficulty);
             this.Controls.Add(this._btnSwitchLanguage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);

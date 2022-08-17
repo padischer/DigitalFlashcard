@@ -9,9 +9,9 @@ namespace Flashcard
 {
     internal class CardBox
     {
-        public int _currentSlotIndex = 0;
-        public Languages _primaryLanguage = Languages.German;
-        public Difficulties _currentDifficulty = Difficulties.Basic;
+        private int _currentSlotIndex;
+        private Languages _primaryLanguage;
+        private Difficulties _currentDifficulty;
         private Card _currentCard;
         private List<Card> _cardList = new List<Card>();
         private AccessData _dataManager = new AccessData();
@@ -206,12 +206,27 @@ namespace Flashcard
         {
             
             Fields saveStateData = new Fields();
-            int slot = _currentSlotIndex + 1;
-            saveStateData.AddField("Slot", slot);
+            int slot = _currentSlotIndex;
+            saveStateData.AddField("SlotIndex", slot);
             saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
             saveStateData.AddField("Difficulty", _currentDifficulty);
             
             _dataManager.UpdateSaveState("SaveState", saveStateData);
+        }
+
+        public int GetCurrentSlotIndex()
+        {
+            return _currentSlotIndex;
+        }
+
+        public Difficulties GetCurrentDifficulty()
+        {
+            return _currentDifficulty;
+        }
+        
+        public Languages GetPrimaryLanguage()
+        {
+            return _primaryLanguage;
         }
     }
 }

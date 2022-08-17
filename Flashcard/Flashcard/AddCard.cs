@@ -14,8 +14,9 @@ namespace Flashcard
     {
         private bool _gerTextIsSet;
         private bool _engTextIsSet;
-        public bool ShouldExecute { get; private set; }
         private MainForm _originalForm;
+        public bool ShouldExecute { get; private set; }
+        
         public AddCard(MainForm form)
         {
             _originalForm = form;
