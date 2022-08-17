@@ -133,7 +133,7 @@ namespace Flashcard
             {
                 
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
-                _box.PostNewCard(addCard.GetEnglishWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
+                _box.PostNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
             }
         }
@@ -149,6 +149,7 @@ namespace Flashcard
         {
             _box.ResetAllCardSlots();
             FillTranslationList();
+            SetRandomWordToTranslate();
         }
     }
 }

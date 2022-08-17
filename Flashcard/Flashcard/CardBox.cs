@@ -33,17 +33,19 @@ namespace Flashcard
             foreach (AirtableRecord record in saveState)
             {
                 foreach(var field in record.Fields){
-                    if (field.Key == "SlotIndex")
+                    switch (field.Key)
                     {
-                        _currentSlotIndex = Int32.Parse(field.Value.ToString());
-                    }
-                    if (field.Key == "PrimaryLanguage")
-                    {
-                        Enum.TryParse<Languages>(field.Value.ToString(), out _primaryLanguage);
-                    }
-                    if (field.Key == "Difficulty")
-                    {
-                        Enum.TryParse<Difficulties>(field.Value.ToString(), out _currentDifficulty);
+                        case "SlotIndex":
+                            _currentSlotIndex = Int32.Parse(field.Value.ToString());
+                        break;
+
+                        case "PrimaryLanguage":
+                            Enum.TryParse<Languages>(field.Value.ToString(), out _primaryLanguage);
+                        break;
+
+                        case "Difficulty":
+                            Enum.TryParse<Difficulties>(field.Value.ToString(), out _currentDifficulty);
+                        break;
                     }
                 }
             }
@@ -198,11 +200,20 @@ namespace Flashcard
 
         public void PostNewCard(string germanWord, string translation, string difficulty)
         {
+            int difficultyNumber;
             Fields cardData = new Fields();
-            
+            if(difficulty == "basis")
+            {
+                difficultyNumber = 0;
+            }
+            else
+            {
+                difficultyNumber = 1;
+            }
+
             cardData.AddField("GermanWord", germanWord);
             cardData.AddField("EnglishWord", translation);
-            cardData.AddField("Difficulty", difficulty);
+            cardData.AddField("Difficulty", difficultyNumber);
             cardData.AddField("Slot", "1");
          
             _dataManager.CreateRecord("Card", cardData);
