@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AirtableApiClient;
 
 namespace Flashcard
 {
@@ -14,12 +15,27 @@ namespace Flashcard
     {
         private bool _gerTextIsSet;
         private bool _engTextIsSet;
-        private MainForm _originalForm;
+        private Card _cardToEdit;
+        private Mode _currentMode;
+        private AccessData accessData = new AccessData();
+        private enum Mode
+        {
+            Add = 0,
+            Edit = 1
+        }
         public bool ShouldExecute { get; private set; }
-        
+
         public EditCard()
         {
             InitializeComponent();
+            _currentMode = Mode.Add;
+        }
+
+        public EditCard(Card cardToEdit)
+        {
+            InitializeComponent();
+            _cardToEdit = cardToEdit;
+            _currentMode = Mode.Edit;
         }
 
         private void AddCard_Load(object sender, EventArgs e)
@@ -27,6 +43,13 @@ namespace Flashcard
             _cbDifficulty.Items.Add("basis");
             _cbDifficulty.Items.Add("erweitert");
             _cbDifficulty.SelectedIndex = 0;
+
+            if(_currentMode == Mode.Edit)
+            {
+                _txtEngWord.Text = _cardToEdit.GetEnglishWord();
+                _txtGerWord.Text = _cardToEdit.GetGermanWord();
+                _cbDifficulty.SelectedIndex = (int)_cardToEdit.Difficulty;
+            }
         }
 
         public string GetGermanWord()
@@ -49,8 +72,35 @@ namespace Flashcard
         {
             if(_engTextIsSet && _gerTextIsSet)
             {
-                ShouldExecute = true;
-                this.Close();
+                if(_currentMode == Mode.Add)
+                {
+                    ShouldExecute = true;
+                    this.Close();
+                }
+                else
+                {
+                    int difficultyNumber;
+                    Fields cardData = new Fields();
+
+                    if (_cbDifficulty.SelectedItem.ToString() == "basis")
+                    {
+                        difficultyNumber = 0;
+                    }
+                    else
+                    {
+                        difficultyNumber = 1;
+                    }
+
+                    _cardToEdit.Update(_txtGerWord.Text, _txtEngWord.Text, (CardBox.Difficulties)difficultyNumber);
+                    cardData.AddField("GermanWord", _txtGerWord.Text);
+                    cardData.AddField("EnglishWord", _txtEngWord.Text);
+                    cardData.AddField("Difficulty", difficultyNumber);
+                    cardData.AddField("Slot", _cardToEdit.SlotID);
+                    accessData.UpdateCard(cardData, _cardToEdit.ID);
+
+                    this.Close();
+                }
+                
             }      
         }
         
