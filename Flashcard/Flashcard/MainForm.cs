@@ -127,12 +127,12 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            AddCard addCard = new AddCard();
-            addCard.ShowDialog();
-            if (addCard.ShouldExecute)
+            EditCard editCard = new EditCard();
+            editCard.ShowDialog();
+            if (editCard.ShouldExecute)
             {
-                _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
-                _box.PostNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
+                _box.AddNewCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
+                _box.PostNewCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
                 FillTranslationList();
             }
         }
