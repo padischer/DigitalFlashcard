@@ -149,6 +149,8 @@ namespace Flashcard
         {
             CardList cardList = new CardList(_box.GetCardList());
             cardList.ShowDialog();
+
+            _box.SetCardList(cardList._cardList);
         }
 
         private void BtnReset_OnClick(object sender, EventArgs e)

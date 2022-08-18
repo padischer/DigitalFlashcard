@@ -276,5 +276,10 @@ namespace Flashcard
         {
             return _cardList;
         }
+
+        public void SetCardList(List<Card> cardList)
+        {
+            this._cardList = cardList;
+        }
     }
 }

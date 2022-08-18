@@ -45,19 +45,15 @@ namespace Flashcard
 			}
 		}
 
-		public void UpdateAllCards(IdFields[] fields)
+		public void DeleteCard(string recordID)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				// Do something to obtain a AirtableRecord[] records to use as an input argument. 
-				// This AirtableRecord[] records has the same syntax as AirtableListRecordsResponse.Records returned by ListRecords().
-				// The fields of input records are the fields to be used in this update operation.
-
-				Task<AirtableCreateUpdateReplaceMultipleRecordsResponse> task = airtableBase.UpdateMultipleRecords(_cardTableName, fields);
+				Task<AirtableDeleteRecordResponse> task = airtableBase.DeleteRecord(_cardTableName, recordID);
 				var response = task.Result;
 				if (!response.Success)
 				{
-					string errorMessage = String.Empty;
+					string errorMessage = null;
 					if (response.AirtableApiError is AirtableApiException)
 					{
 						errorMessage = response.AirtableApiError.ErrorMessage;
@@ -66,17 +62,13 @@ namespace Flashcard
 							errorMessage += "\nDetailed error message: ";
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
+						else
+						{
+							errorMessage = "Unknown error";
+						}
 					}
-					else
-					{
-						errorMessage = "Unknown error";
-					}
-					// Report error message
-				}
-				else
-				{
-					AirtableRecord[] records = response.Records;
-					// Do something with the updated records.
+
+					// Report errorMessage
 				}
 			}
 		}
