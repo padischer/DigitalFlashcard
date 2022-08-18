@@ -12,7 +12,7 @@ namespace Flashcard
         public CardBox.Languages PrimaryLanguage { get; private set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
-        public string ID { get; private set; }
+        public string ID { get; set; }
         public int SlotID { get; set; }
         //constructor setting German and Englisch word of Card
         public Card(string wordToTranslate, string translation, int slot, CardBox.Difficulties difficulty, string iD = "")
@@ -23,6 +23,13 @@ namespace Flashcard
             Difficulty = difficulty;
             ID = iD;
             PrimaryLanguage = CardBox.Languages.German;
+        }
+
+        public void Update(string wordToTranslate, string translation, CardBox.Difficulties difficulty)
+        {
+            WordToTranslate = wordToTranslate;
+            Translation = translation;
+            Difficulty = difficulty;
         }
 
         public void SwitchLanguage()

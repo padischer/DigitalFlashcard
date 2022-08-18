@@ -30,9 +30,6 @@ namespace Flashcard
             _lvCardList.GridLines = true;
             _lvCardList.FullRowSelect = true;
 
-
-            
-
             FillListView();
         }
 
@@ -46,6 +43,8 @@ namespace Flashcard
         {
             EditCard editCard = new EditCard(GetSelectedCard());
             editCard.ShowDialog();
+
+            //_cardList.Where(c => c.ID = editCard.CardToEdit.ID).First() = editCard.CardToEdit;
             FillListView();
         }
 

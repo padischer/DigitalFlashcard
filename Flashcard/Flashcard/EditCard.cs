@@ -43,6 +43,8 @@ namespace Flashcard
             int difficultyNumber;
             Fields cardData = new Fields();
 
+            
+
             if (_cbDifficulty.SelectedItem.ToString() == "basis")
             {
                 difficultyNumber = 0;
@@ -52,6 +54,8 @@ namespace Flashcard
                 difficultyNumber = 1;
             }
 
+            CardToEdit.Update(_txtGerWord.Text, _txtEngWord.Text, (CardBox.Difficulties)difficultyNumber);
+            var diff = CardToEdit.Difficulty;
             cardData.AddField("GermanWord", _txtGerWord.Text);
             cardData.AddField("EnglishWord", _txtEngWord.Text);
             cardData.AddField("Difficulty", difficultyNumber);
