@@ -127,11 +127,10 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            AddCard addCard = new AddCard(this);
+            AddCard addCard = new AddCard();
             addCard.ShowDialog();
             if (addCard.ShouldExecute)
             {
-                
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 _box.PostNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
@@ -145,7 +144,17 @@ namespace Flashcard
            
         }
 
-        private void BtnReset(object sender, EventArgs e)
+        private void BtnCardList_OnClick(object sender, EventArgs e)
+        {
+            CardList cardList = new CardList(_box.GetCardList());
+            cardList.ShowDialog();
+
+            _box.SetCardList(cardList._cardList);
+            FillTranslationList();
+            SetRandomWordToTranslate();
+        }
+
+        private void BtnReset_OnClick(object sender, EventArgs e)
         {
             _box.ResetAllCardSlots();
             FillTranslationList();

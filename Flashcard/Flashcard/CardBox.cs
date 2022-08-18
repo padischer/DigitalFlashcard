@@ -7,7 +7,7 @@ using AirtableApiClient;
 
 namespace Flashcard
 {
-    internal class CardBox
+    public class CardBox
     {
         private int _currentSlotIndex = 1;
         private Languages _primaryLanguage;
@@ -173,13 +173,19 @@ namespace Flashcard
             }
         }
 
-        public void AddNewCard(string gerWord, string engWord, string difficultyNumber)
+        public void AddNewCard(string gerWord, string engWord, string difficultyString)
         {
+            Difficulties difficulty;
+            if (difficultyString == "basis")
+            {
+                difficulty = CardBox.Difficulties.Basic;
+            }
+            else
+            {
+                difficulty = CardBox.Difficulties.Advanced;
+            }
 
-            Difficulties difficulty = Difficulties.Basic;
-            Enum.TryParse<Difficulties>(difficultyNumber.ToString(), out difficulty);
-
-            if(_primaryLanguage == Languages.German)
+            if (_primaryLanguage == Languages.German)
             {
                 _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
             }
@@ -264,6 +270,16 @@ namespace Flashcard
                 card.SlotID = 1;
                 UpdateCard(1, card.ID);
             }
+        }
+
+        public List<Card> GetCardList()
+        {
+            return _cardList;
+        }
+
+        public void SetCardList(List<Card> cardList)
+        {
+            this._cardList = cardList;
         }
     }
 }
