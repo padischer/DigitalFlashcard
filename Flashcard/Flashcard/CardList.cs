@@ -41,7 +41,7 @@ namespace Flashcard
         }
         private void BtnEdit_OnClick(object sender, EventArgs e)
         {
-            EditCard editCard = new EditCard(GetSelectedCard());
+            WSBD editCard = new WSBD(GetSelectedCard());
             editCard.ShowDialog();
 
             //_cardList.Where(c => c.ID = editCard.CardToEdit.ID).First() = editCard.CardToEdit;

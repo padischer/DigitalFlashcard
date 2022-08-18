@@ -7,64 +7,82 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AirtableApiClient;
 
 namespace Flashcard
 {
     public partial class EditCard : Form
     {
-        private AccessData accessData = new AccessData();
-        public Card CardToEdit { get; private set; }
-
-        public EditCard(Card card)
+        private bool _gerTextIsSet;
+        private bool _engTextIsSet;
+        private MainForm _originalForm;
+        public bool ShouldExecute { get; private set; }
+        
+        public EditCard()
         {
             InitializeComponent();
-            CardToEdit = card;
         }
 
-        private void EditCard_Load(object sender, EventArgs e)
+        private void AddCard_Load(object sender, EventArgs e)
         {
             _cbDifficulty.Items.Add("basis");
             _cbDifficulty.Items.Add("erweitert");
             _cbDifficulty.SelectedIndex = 0;
-
-            _txtEngWord.Text = CardToEdit.GetEnglishWord();
-            _txtGerWord.Text = CardToEdit.GetGermanWord();
-            _cbDifficulty.SelectedIndex = (int)CardToEdit.Difficulty;
         }
 
-        private void _btnCancel_Click(object sender, EventArgs e)
+        public string GetGermanWord()
         {
+            return _txtGerWord.Text;
+        }
+
+        public string GetEnglishWord()
+        {
+            return _txtEngWord.Text;
+        }
+
+        public string GetDifficulty()
+        {
+            return _cbDifficulty.SelectedItem.ToString();
+        }
+        
+
+        private void BtnSubmit_Click(object sender, EventArgs e)
+        {
+            if(_engTextIsSet && _gerTextIsSet)
+            {
+                ShouldExecute = true;
+                this.Close();
+            }      
+        }
+        
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            ShouldExecute = false;
             this.Close();
         }
-
-        private void _btnSubmit_Click(object sender, EventArgs e)
+               
+        private void ValidateGermanWord(object sender, EventArgs e)
         {
-            int difficultyNumber;
-            Fields cardData = new Fields();
+            _gerTextIsSet = ValidateTextBox(_txtGerWord, _errorProviderGer);
+        }
 
-            
+        private void ValidateEnglishWord(object sender, EventArgs e)
+        {
+            _engTextIsSet = ValidateTextBox(_txtEngWord, _errorProviderEng);
+        }
 
-            if (_cbDifficulty.SelectedItem.ToString() == "basis")
+        private bool ValidateTextBox(TextBox textBox, ErrorProvider errorProv)
+        {
+            if (string.IsNullOrEmpty(textBox.Text) || string.IsNullOrWhiteSpace(textBox.Text))
             {
-                difficultyNumber = 0;
+                textBox.Focus();
+                errorProv.SetError(textBox, "Bitte geben sie etwas ein");
+                return false;
             }
             else
             {
-                difficultyNumber = 1;
+                errorProv.SetError(textBox, "");
+                return true;
             }
-
-            CardToEdit.Update(_txtGerWord.Text, _txtEngWord.Text, (CardBox.Difficulties)difficultyNumber);
-            var diff = CardToEdit.Difficulty;
-            cardData.AddField("GermanWord", _txtGerWord.Text);
-            cardData.AddField("EnglishWord", _txtEngWord.Text);
-            cardData.AddField("Difficulty", difficultyNumber);
-            cardData.AddField("Slot", CardToEdit.SlotID);
-            accessData.UpdateCard(cardData, CardToEdit.ID);
-
-            this.Close();
         }
-
-        
     }
 }

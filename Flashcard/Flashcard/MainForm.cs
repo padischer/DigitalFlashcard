@@ -127,7 +127,7 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            AddCard addCard = new AddCard();
+            EditCard addCard = new EditCard();
             addCard.ShowDialog();
             if (addCard.ShouldExecute)
             {
