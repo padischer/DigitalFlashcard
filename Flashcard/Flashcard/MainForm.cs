@@ -131,7 +131,6 @@ namespace Flashcard
             addCard.ShowDialog();
             if (addCard.ShouldExecute)
             {
-                
                 _box.AddNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 _box.PostNewCard(addCard.GetGermanWord(), addCard.GetEnglishWord(), addCard.GetDifficulty());
                 FillTranslationList();
@@ -151,6 +150,8 @@ namespace Flashcard
             cardList.ShowDialog();
 
             _box.SetCardList(cardList._cardList);
+            FillTranslationList();
+            SetRandomWordToTranslate();
         }
 
         private void BtnReset_OnClick(object sender, EventArgs e)

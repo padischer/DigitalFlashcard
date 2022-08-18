@@ -31,11 +31,39 @@ namespace Flashcard
             _lvCardList.FullRowSelect = true;
 
 
+            
+
+            FillListView();
+        }
+
+
+        private Card GetSelectedCard()
+        {
+            int selectedID = Int32.Parse(_lvCardList.SelectedItems[0].Text);
+            return _cardList.ElementAt(selectedID - 1);
+        }
+        private void BtnEdit_OnClick(object sender, EventArgs e)
+        {
+            EditCard editCard = new EditCard(GetSelectedCard());
+            editCard.ShowDialog();
+            FillListView();
+        }
+
+        private void BtnDelete_OnClick(object sender, EventArgs e)
+        {
+            accessData.DeleteCard(GetSelectedCard().ID);
+            _cardList.Remove(GetSelectedCard());
+            FillListView();
+        }
+
+        private void FillListView()
+        {
+            _lvCardList.Clear();
+
             _lvCardList.Columns.Add("Nr.", _lvCardList.ClientSize.Width / 4);
             _lvCardList.Columns.Add("Deutsch", _lvCardList.ClientSize.Width / 4);
             _lvCardList.Columns.Add("Englisch", _lvCardList.ClientSize.Width / 4);
             _lvCardList.Columns.Add("Schwierigkeit", _lvCardList.ClientSize.Width / 4);
-           
 
             int count = 1;
 
@@ -60,26 +88,6 @@ namespace Flashcard
                 _lvCardList.Items.Add(item);
                 count++;
             }
-        }
-
-        private void LvCardList_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            _lvCardList.Sorting = SortOrder.Descending;           
-        }
-
-        private void BtnEdit_OnClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDelete_OnClick(object sender, EventArgs e)
-        {
-            
-            int selectedID = Int32.Parse(_lvCardList.SelectedItems[0].Text);
-            
-            Card cardToDelete = _cardList.ElementAt(selectedID - 1);
-            accessData.DeleteCard(cardToDelete.ID);
-            _cardList.Remove(cardToDelete);
         }
     }
 }
