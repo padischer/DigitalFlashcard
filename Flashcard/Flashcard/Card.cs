@@ -44,5 +44,30 @@ namespace Flashcard
         {
             return input == Translation;
         }
+
+        public string GetGermanWord()
+        {
+            if(PrimaryLanguage == CardBox.Languages.German)
+            {
+                return WordToTranslate;
+            }
+            else
+            {
+                return Translation;
+            }
+        }
+        
+        public string GetEnglishWord()
+        {
+            if(PrimaryLanguage == CardBox.Languages.English)
+            {
+                return WordToTranslate;
+            }
+            else
+            {
+                return Translation;
+            }
+        }
+
     }
 }

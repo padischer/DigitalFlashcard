@@ -34,7 +34,7 @@
             // 
             // _btnCancel
             // 
-            this._btnCancel.Location = new System.Drawing.Point(298, 415);
+            this._btnCancel.Location = new System.Drawing.Point(302, 415);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 1;
@@ -44,9 +44,10 @@
             // 
             // _lvCardList
             // 
-            this._lvCardList.Location = new System.Drawing.Point(84, 12);
+            this._lvCardList.Location = new System.Drawing.Point(120, 12);
             this._lvCardList.Name = "_lvCardList";
             this._lvCardList.Size = new System.Drawing.Size(432, 368);
+            this._lvCardList.Sorting = System.Windows.Forms.SortOrder.Descending;
             this._lvCardList.TabIndex = 2;
             this._lvCardList.UseCompatibleStateImageBehavior = false;
             // 

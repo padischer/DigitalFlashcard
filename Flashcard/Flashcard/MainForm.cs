@@ -147,7 +147,7 @@ namespace Flashcard
 
         private void BtnCardList_OnClick(object sender, EventArgs e)
         {
-            CardList cardList = new CardList(_box.GetCurrentCards());
+            CardList cardList = new CardList(_box.GetCardList());
             cardList.ShowDialog();
         }
 
