@@ -12,7 +12,7 @@ namespace Flashcard
     public partial class CardList : Form
     {
         public List<Card> ListOfCards { get; private set; }
-        private AccessData accessData = new AccessData();
+        private AccessData _accessData = new AccessData();
         public CardList(List<Card> list)
         {
             InitializeComponent();
@@ -46,15 +46,17 @@ namespace Flashcard
                 EditCard editCard = new EditCard(GetSelectedCard());
                 editCard.ShowDialog();
             }
-
             FillListView();
         }
 
         private void BtnDelete_OnClick(object sender, EventArgs e)
         {
-            accessData.DeleteCard(GetSelectedCard().ID);
-            ListOfCards.Remove(GetSelectedCard());
-            FillListView();
+            if(_lvCardList.SelectedItems.Count == 1)
+            {
+                _accessData.DeleteCard(GetSelectedCard().ID);
+                ListOfCards.Remove(GetSelectedCard());
+                FillListView();
+            }    
         }
 
         private void FillListView()

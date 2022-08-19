@@ -50,34 +50,40 @@ namespace Flashcard
                 }
             }
 
+            _cardList = GetAllCards();
+            
+        }
+
+        public List<Card> GetAllCards()
+        {
             List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
             Difficulties difficulty = Difficulties.Basic;
             string wordToTranslate = string.Empty;
             string translation = string.Empty;
             int slot = 1;
             string iD = String.Empty;
-
+            List<Card> cards = new List<Card>();
             foreach (AirtableRecord record in dataSource)
             {
-                foreach(var field in record.Fields)
+                foreach (var field in record.Fields)
                 {
                     switch (field.Key)
                     {
                         case "GermanWord":
                             wordToTranslate = field.Value.ToString();
-                        break;
+                            break;
 
                         case "EnglishWord":
                             translation = field.Value.ToString();
-                        break;
+                            break;
 
                         case "Difficulty":
                             Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
-                        break;
+                            break;
 
                         case "Slot":
                             slot = Int32.Parse(field.Value.ToString());
-                        break;
+                            break;
                     }
                 }
 
@@ -90,10 +96,10 @@ namespace Flashcard
                     translation = tempSave;
                 }
 
-                _cardList.Add(new Card(wordToTranslate, translation, slot, difficulty, iD));
+                cards.Add(new Card(wordToTranslate, translation, slot, difficulty, iD));
             }
+            return cards;
         }
-
 
         //returning all translations from current Slot
         public string[] GetPossibleTranslations()
@@ -265,11 +271,22 @@ namespace Flashcard
 
         public void ResetAllCardSlots()
         {
-            foreach(Card card in _cardList)
+            int count = 0;
+            for (int j = 0; j<_cardList.Count/10;j++)
             {
-                card.SlotID = 1;
-                UpdateCard(1, card.ID);
+                IdFields[] idFields = new IdFields[10];
+                int maxIterations = count;
+                for (int i = count; i < maxIterations+10; i++)
+                {
+                    idFields[i-maxIterations] = new IdFields(_cardList[i].ID);
+                    idFields[i-maxIterations].AddField("Slot", 1);
+                    count++;
+                }
+
+                _dataManager.UpdateALlCards(idFields);
             }
+
+            _cardList = GetAllCards();
         }
 
         public List<Card> GetCardList()

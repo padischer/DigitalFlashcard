@@ -73,6 +73,38 @@ namespace Flashcard
 			}
 		}
 
+		public void UpdateALlCards(IdFields[] idFields)
+        {
+			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
+			{
+				Task<AirtableCreateUpdateReplaceMultipleRecordsResponse> task = airtableBase.UpdateMultipleRecords(_cardTableName, idFields);
+				var response = task.Result;
+				if (!response.Success)
+				{
+					string errorMessage = null;
+					if (response.AirtableApiError is AirtableApiException)
+					{
+						errorMessage = response.AirtableApiError.ErrorMessage;
+						if (response.AirtableApiError is AirtableInvalidRequestException)
+						{
+							errorMessage += "\nDetailed error message: ";
+							errorMessage += response.AirtableApiError.DetailedErrorMessage;
+						}
+					}
+					else
+					{
+						errorMessage = "Unknown error";
+					}
+					// Report errorMessage
+				}
+				else
+				{
+					AirtableRecord[] records = response.Records;
+					// Do something with the updated records.
+				}
+			}
+		}
+
 		public void UpdateSaveState(string tableName, Fields input)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
@@ -100,19 +132,20 @@ namespace Flashcard
 			}
 		}
 
-		private async Task GetAllRecordsTask(string tableName)
+		private List<AirtableRecord> ReadAllRecords(string tableName)
 		{
 			string errorMessage = String.Empty;
-			_data = new List<AirtableRecord>();
+			List<AirtableRecord> data = new List<AirtableRecord>();
 			var records = new List<AirtableRecord>();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
 					Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(tableName);
-					AirtableListRecordsResponse response = await task;
+					AirtableListRecordsResponse response = task.Result;
 
 					if (response.Success)
 					{
-						_data.AddRange(response.Records.ToList());
+						data.AddRange(response.Records.ToList());
+						return data;
 					}
 					else if (response.AirtableApiError is AirtableApiException)
 					{
@@ -122,10 +155,12 @@ namespace Flashcard
 							errorMessage += "\nDetailed error message: ";
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
+						return null;
 					}
 					else
 					{
 						errorMessage = "Unknown error";
+						return null;
 					}
 			}
 
@@ -154,7 +189,6 @@ namespace Flashcard
 			}
 		}
 
-
 		public async void CreateRecord(string tableName, Fields record)
         {
 			string offset = null;
@@ -179,7 +213,6 @@ namespace Flashcard
 			}
 		}
 		
-
 		public AirtableRecord GetRecord(string tableName, string id)
         {
 			_entity = new AirtableRecord();
@@ -190,10 +223,7 @@ namespace Flashcard
 
 		public List<AirtableRecord> GetAllRecords(string tableName)
 		{
-			_data = new List<AirtableRecord>();
-			var task = GetAllRecordsTask(tableName);
-			task.Wait();
-			return _data;
+			return ReadAllRecords(tableName);
 		}
 	}
 }
