@@ -46,9 +46,9 @@
             // 
             // _lvCardList
             // 
-            this._lvCardList.Location = new System.Drawing.Point(120, 12);
+            this._lvCardList.Location = new System.Drawing.Point(115, 12);
             this._lvCardList.Name = "_lvCardList";
-            this._lvCardList.Size = new System.Drawing.Size(432, 368);
+            this._lvCardList.Size = new System.Drawing.Size(437, 368);
             this._lvCardList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this._lvCardList.TabIndex = 2;
             this._lvCardList.UseCompatibleStateImageBehavior = false;

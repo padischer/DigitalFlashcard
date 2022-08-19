@@ -11,12 +11,12 @@ namespace Flashcard
 {
     public partial class CardList : Form
     {
-        public List<Card> _cardList { get; private set; }
-        private AccessData accessData = new AccessData();
+        public List<Card> ListOfCards { get; private set; }
+        private AccessData _accessData = new AccessData();
         public CardList(List<Card> list)
         {
             InitializeComponent();
-            _cardList = list;
+            ListOfCards = list;
         }
 
         private void BtnCancel_OnClick(object sender, EventArgs e)
@@ -37,36 +37,40 @@ namespace Flashcard
         private Card GetSelectedCard()
         {
             int selectedID = Int32.Parse(_lvCardList.SelectedItems[0].Text);
-            return _cardList.ElementAt(selectedID - 1);
+            return ListOfCards.ElementAt(selectedID - 1);
         }
         private void BtnEdit_OnClick(object sender, EventArgs e)
         {
-            WSBD editCard = new WSBD(GetSelectedCard());
-            editCard.ShowDialog();
-
-            //_cardList.Where(c => c.ID = editCard.CardToEdit.ID).First() = editCard.CardToEdit;
+            if(_lvCardList.SelectedItems.Count == 1)
+            {
+                EditCard editCard = new EditCard(GetSelectedCard());
+                editCard.ShowDialog();
+            }
             FillListView();
         }
 
         private void BtnDelete_OnClick(object sender, EventArgs e)
         {
-            accessData.DeleteCard(GetSelectedCard().ID);
-            _cardList.Remove(GetSelectedCard());
-            FillListView();
+            if(_lvCardList.SelectedItems.Count == 1)
+            {
+                _accessData.DeleteCard(GetSelectedCard().ID);
+                ListOfCards.Remove(GetSelectedCard());
+                FillListView();
+            }    
         }
 
         private void FillListView()
         {
             _lvCardList.Clear();
 
-            _lvCardList.Columns.Add("Nr.", _lvCardList.ClientSize.Width / 4);
-            _lvCardList.Columns.Add("Deutsch", _lvCardList.ClientSize.Width / 4);
-            _lvCardList.Columns.Add("Englisch", _lvCardList.ClientSize.Width / 4);
-            _lvCardList.Columns.Add("Schwierigkeit", _lvCardList.ClientSize.Width / 4);
+            _lvCardList.Columns.Add("Nr.", _lvCardList.ClientSize.Width / 10);
+            _lvCardList.Columns.Add("Deutsch", _lvCardList.ClientSize.Width / 3);
+            _lvCardList.Columns.Add("Englisch", _lvCardList.ClientSize.Width / 3);
+            _lvCardList.Columns.Add("Schwierigkeit", _lvCardList.ClientSize.Width / 5);
 
             int count = 1;
 
-            foreach (Card card in _cardList)
+            foreach (Card card in ListOfCards)
             {
                 string difficulty = string.Empty;
                 if (card.Difficulty == 0)
