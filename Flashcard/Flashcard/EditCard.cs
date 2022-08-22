@@ -18,6 +18,8 @@ namespace Flashcard
         private Card _cardToEdit;
         private Mode _currentMode;
         private AccessData accessData = new AccessData();
+        private const string _basisText = "basis";
+        private const string _advancedText = "erweitert";
         private enum Mode
         {
             Add = 0,
@@ -40,8 +42,8 @@ namespace Flashcard
 
         private void AddCard_Load(object sender, EventArgs e)
         {
-            _cbDifficulty.Items.Add("basis");
-            _cbDifficulty.Items.Add("erweitert");
+            _cbDifficulty.Items.Add(_basisText);
+            _cbDifficulty.Items.Add(_basisText);
             _cbDifficulty.SelectedIndex = 0;
 
             if(_currentMode == Mode.Edit)
@@ -82,7 +84,7 @@ namespace Flashcard
                     int difficultyNumber;
                     Fields cardData = new Fields();
 
-                    if (_cbDifficulty.SelectedItem.ToString() == "basis")
+                    if (_cbDifficulty.SelectedItem.ToString() == _basisText)
                     {
                         difficultyNumber = 0;
                     }
@@ -130,7 +132,7 @@ namespace Flashcard
             }
             else
             {
-                errorProv.SetError(textBox, "");
+                errorProv.SetError(textBox, String.Empty) ;
                 return true;
             }
         }

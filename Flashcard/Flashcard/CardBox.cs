@@ -10,11 +10,16 @@ namespace Flashcard
     public class CardBox
     {
         private int _currentSlotIndex = 1;
-        private Languages _primaryLanguage;
+        public int SlotCount { get; private set; }
+        private Languages _currentPrimaryLanguage;
         private Difficulties _currentDifficulty;
         private Card _currentCard;
         private List<Card> _cardList = new List<Card>();
         private AccessData _dataManager = new AccessData();
+        private const string _cardText = "Card";
+        private const string _basisText = "basis";
+        private const string _slotText = "Slot";
+        private const string _difficultyText = "Difficulty";
         public enum Languages
         {
             German = 0,
@@ -29,76 +34,32 @@ namespace Flashcard
         //constructor reading input data and putting into 
         public CardBox()
         {
-            List<AirtableRecord> saveState = _dataManager.GetAllRecords("SaveState");
-            foreach (AirtableRecord record in saveState)
-            {
-                foreach(var field in record.Fields){
-                    switch (field.Key)
-                    {
-                        case "SlotIndex":
-                            _currentSlotIndex = Int32.Parse(field.Value.ToString());
-                        break;
-
-                        case "PrimaryLanguage":
-                            Enum.TryParse<Languages>(field.Value.ToString(), out _primaryLanguage);
-                        break;
-
-                        case "Difficulty":
-                            Enum.TryParse<Difficulties>(field.Value.ToString(), out _currentDifficulty);
-                        break;
-                    }
-                }
-            }
-
-            _cardList = GetAllCards();
+            SlotCount = 3;
+            _cardList = _dataManager.GetAllCards(_cardText);
+            InitializeSaveState();
             
+            
+        }
+
+        public void InitializeSaveState()
+        {
+            int[] saveState = _dataManager.GetSaveState();
+            _currentSlotIndex = saveState[0];
+            Enum.TryParse<Difficulties>(saveState[1].ToString(), out _currentDifficulty);
         }
 
         public List<Card> GetAllCards()
         {
-            List<AirtableRecord> dataSource = _dataManager.GetAllRecords("Card");
-            Difficulties difficulty = Difficulties.Basic;
-            string wordToTranslate = string.Empty;
-            string translation = string.Empty;
-            int slot = 1;
-            string iD = String.Empty;
-            List<Card> cards = new List<Card>();
-            foreach (AirtableRecord record in dataSource)
+            List<Card> newCards = _dataManager.GetAllCards(_cardText);
+            if(_currentPrimaryLanguage == CardBox.Languages.English)
             {
-                foreach (var field in record.Fields)
+                foreach(Card card in newCards)
                 {
-                    switch (field.Key)
-                    {
-                        case "GermanWord":
-                            wordToTranslate = field.Value.ToString();
-                            break;
-
-                        case "EnglishWord":
-                            translation = field.Value.ToString();
-                            break;
-
-                        case "Difficulty":
-                            Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
-                            break;
-
-                        case "Slot":
-                            slot = Int32.Parse(field.Value.ToString());
-                            break;
-                    }
+                    card.SwitchLanguage();
                 }
-
-                iD = record.Id;
-
-                if (_primaryLanguage != Languages.German)
-                {
-                    string tempSave = wordToTranslate;
-                    wordToTranslate = translation;
-                    translation = tempSave;
-                }
-
-                cards.Add(new Card(wordToTranslate, translation, slot, difficulty, iD));
             }
-            return cards;
+
+            return newCards;
         }
 
         //returning all translations from current Slot
@@ -115,18 +76,18 @@ namespace Flashcard
             return cardsFromCurrentSlot.Where(c => c.Difficulty == _currentDifficulty).ToList();
         }
 
-        //returning a random german word from current Slot
-        public string SelectRandomWordToTranslate()
+        //statt nächstes Wort die nächste
+        public Card SelectRandomCard()
         {
             if (GetCurrentCards().Where(c => c.SlotID == _currentSlotIndex+1).ToList().Count > 0)
             {
                 Random rnd = new Random();
                 _currentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
-                return _currentCard.WordToTranslate;
+                return _currentCard;
             }
             else
             {
-                return "";
+                return null;
             }
         }
 
@@ -155,10 +116,12 @@ namespace Flashcard
             
         }
 
-        //changing current Slotnumber
         public void SwitchSlot(int slotNumber)
         {
-            _currentSlotIndex = slotNumber-1;
+            if(slotNumber > 0 && slotNumber <= SlotCount)
+            {
+                _currentSlotIndex = slotNumber - 1;
+            }            
         }
         
         //switching cardtext between ger->eng and eng->ger
@@ -169,20 +132,20 @@ namespace Flashcard
                 card.SwitchLanguage();
             }
 
-            if (_primaryLanguage == Languages.German)
+            if (_currentPrimaryLanguage == Languages.German)
             {
-                _primaryLanguage = Languages.English;
+                _currentPrimaryLanguage = Languages.English;
             }
             else
             {
-                _primaryLanguage = Languages.German;
+                _currentPrimaryLanguage = Languages.German;
             }
         }
 
         public void AddNewCard(string gerWord, string engWord, string difficultyString)
         {
             Difficulties difficulty;
-            if (difficultyString == "basis")
+            if (difficultyString == _basisText)
             {
                 difficulty = CardBox.Difficulties.Basic;
             }
@@ -191,7 +154,7 @@ namespace Flashcard
                 difficulty = CardBox.Difficulties.Advanced;
             }
 
-            if (_primaryLanguage == Languages.German)
+            if (_currentPrimaryLanguage == Languages.German)
             {
                 _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
             }
@@ -199,8 +162,32 @@ namespace Flashcard
             {
                 _cardList.Add(new Card(engWord, gerWord, 1, difficulty));
             }
+            PostNewCardToDB(gerWord, engWord, difficultyString);
         }
-        
+
+
+        private void PostNewCardToDB(string germanWord, string translation, string difficulty)
+        {
+            int difficultyNumber;
+            Fields cardData = new Fields();
+
+            if (difficulty == _basisText)
+            {
+                difficultyNumber = 0;
+            }
+            else
+            {
+                difficultyNumber = 1;
+            }
+
+            cardData.AddField("GermanWord", germanWord);
+            cardData.AddField("EnglishWord", translation);
+            cardData.AddField(_difficultyText, difficultyNumber);
+            cardData.AddField(_slotText, 1);
+
+            _dataManager.CreateRecord(_cardText, cardData);
+        }
+
         public void SwitchDifficulty()
         {
             if(_currentDifficulty == Difficulties.Basic)
@@ -213,27 +200,7 @@ namespace Flashcard
             }
         }
 
-        public void PostNewCard(string germanWord, string translation, string difficulty)
-        {
-            int difficultyNumber;
-            Fields cardData = new Fields();
-
-            if(difficulty == "basis")
-            {
-                difficultyNumber = 0;
-            }
-            else
-            {
-                difficultyNumber = 1;
-            }
-
-            cardData.AddField("GermanWord", germanWord);
-            cardData.AddField("EnglishWord", translation);
-            cardData.AddField("Difficulty", difficultyNumber);
-            cardData.AddField("Slot", "1");
-         
-            _dataManager.CreateRecord("Card", cardData);
-        }
+        
 
         public void UpdateSaveState()
         {
@@ -241,8 +208,8 @@ namespace Flashcard
             int slot = _currentSlotIndex;
 
             saveStateData.AddField("SlotIndex", slot);
-            saveStateData.AddField("PrimaryLanguage", _primaryLanguage);
-            saveStateData.AddField("Difficulty", _currentDifficulty);
+            saveStateData.AddField("PrimaryLanguage", _currentPrimaryLanguage);
+            saveStateData.AddField(_difficultyText, _currentDifficulty);
             
             _dataManager.UpdateSaveState("SaveState", saveStateData);
         }
@@ -250,7 +217,7 @@ namespace Flashcard
         public void UpdateCard(int slot, string cardID)
         {
             Fields cardData = new Fields();
-            cardData.AddField("Slot", slot);
+            cardData.AddField(_slotText, slot);
             _dataManager.UpdateCard(cardData, cardID);
         }
 
@@ -266,7 +233,7 @@ namespace Flashcard
         
         public Languages GetPrimaryLanguage()
         {
-            return _primaryLanguage;
+            return _currentPrimaryLanguage;
         }
 
         public void ResetAllCardSlots()
@@ -292,11 +259,6 @@ namespace Flashcard
         public List<Card> GetCardList()
         {
             return _cardList;
-        }
-
-        public void SetCardList(List<Card> cardList)
-        {
-            this._cardList = cardList;
         }
     }
 }
