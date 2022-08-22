@@ -16,11 +16,11 @@ namespace Flashcard
             {
                 if(_currentDifficulty == 0)
                 {
-                    return "deu->eng";
+                    return "basis";
                 }
                 else
                 {
-                    return "end->deu";
+                    return "erweitert";
                 }
             }
         }
@@ -30,11 +30,11 @@ namespace Flashcard
             {
                 if (_currentPrimaryLanguage == 0)
                 {
-                    return "basis";
+                    return "deu->eng";
                 }
                 else
                 {
-                    return "erweitert";
+                    return "end->deu";
                 }
             }
         }

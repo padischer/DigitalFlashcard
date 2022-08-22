@@ -44,6 +44,33 @@ namespace Flashcard
 			}
 		}
 
+		public void UpdateSaveState(string tableName, Fields input)
+		{
+			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
+			{
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, input, _saveStateID);
+				var response = task.Result;
+
+				if (!response.Success)
+				{
+					string errorMessage = String.Empty;
+					if (response.AirtableApiError is AirtableApiException)
+					{
+						errorMessage = response.AirtableApiError.ErrorMessage;
+						if (response.AirtableApiError is AirtableInvalidRequestException)
+						{
+							errorMessage += "\nDetailed error message: ";
+							errorMessage += response.AirtableApiError.DetailedErrorMessage;
+						}
+						else
+						{
+							errorMessage = "Unknown error";
+						}
+					}
+				}
+			}
+		}
+
 		public void DeleteCard(string recordID)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
@@ -104,32 +131,7 @@ namespace Flashcard
 			}
 		}
 
-		public void UpdateSaveState(string tableName, Fields input)
-        {
-			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
-			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, input, _saveStateID);
-				var response = task.Result;
-				 
-				if (!response.Success)
-				{
-					string errorMessage = String.Empty;
-					if (response.AirtableApiError is AirtableApiException)
-					{
-						errorMessage = response.AirtableApiError.ErrorMessage;
-						if (response.AirtableApiError is AirtableInvalidRequestException)
-						{
-							errorMessage += "\nDetailed error message: ";
-							errorMessage += response.AirtableApiError.DetailedErrorMessage;
-						}
-						else
-						{
-							errorMessage = "Unknown error";
-						}
-					}
-				}
-			}
-		}
+		
 
 		private List<AirtableRecord> ReadAllRecords(string tableName)
 		{
@@ -185,6 +187,10 @@ namespace Flashcard
 						errorMessage = "Unknown error";
 					}
 				}
+                else
+                {
+
+                }
 			}
 		}
 
@@ -212,7 +218,7 @@ namespace Flashcard
 			}
 		}
 		
-		public AirtableRecord GetRecord(string tableName, string id)
+		private AirtableRecord GetRecord(string tableName, string id)
         {
 			_entity = new AirtableRecord();
 			var task = GetRecordTask(tableName, id);

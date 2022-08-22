@@ -17,7 +17,9 @@ namespace Flashcard
         private List<Card> _cardList = new List<Card>();
         private AccessData _dataManager = new AccessData();
         private const string _cardText = "Card";
-        private const string _basisText = "Card";
+        private const string _basisText = "basis";
+        private const string _slotText = "Slot";
+        private const string _difficultyText = "Difficulty";
         public enum Languages
         {
             German = 0,
@@ -180,8 +182,8 @@ namespace Flashcard
 
             cardData.AddField("GermanWord", germanWord);
             cardData.AddField("EnglishWord", translation);
-            cardData.AddField("Difficulty", difficultyNumber);
-            cardData.AddField("Slot", "1");
+            cardData.AddField(_difficultyText, difficultyNumber);
+            cardData.AddField(_slotText, 1);
 
             _dataManager.CreateRecord(_cardText, cardData);
         }
@@ -207,7 +209,7 @@ namespace Flashcard
 
             saveStateData.AddField("SlotIndex", slot);
             saveStateData.AddField("PrimaryLanguage", _currentPrimaryLanguage);
-            saveStateData.AddField("Difficulty", _currentDifficulty);
+            saveStateData.AddField(_difficultyText, _currentDifficulty);
             
             _dataManager.UpdateSaveState("SaveState", saveStateData);
         }
@@ -215,7 +217,7 @@ namespace Flashcard
         public void UpdateCard(int slot, string cardID)
         {
             Fields cardData = new Fields();
-            cardData.AddField("Slot", slot);
+            cardData.AddField(_slotText, slot);
             _dataManager.UpdateCard(cardData, cardID);
         }
 
