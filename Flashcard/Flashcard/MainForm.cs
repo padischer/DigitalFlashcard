@@ -68,14 +68,16 @@ namespace Flashcard
             _box.SwitchDifficulty();
             FillTranslationList();
             SetRandomWordToTranslate();
-            if (_btnSwitchDifficulty.Text == DifficultyText)
+            if (_currentDifficulty == CardBox.Difficulties.Basic)
             {
-                _btnSwitchDifficulty.Text = DifficultyText;
+                _currentDifficulty = CardBox.Difficulties.Advanced;
             }
             else
             {
-                _btnSwitchDifficulty.Text = DifficultyText;
+                _currentDifficulty = CardBox.Difficulties.Basic;
             }
+
+            _btnSwitchDifficulty.Text = DifficultyText;
         }
 
         //clear lbTanslation List and fill it with each eng word of a list of cards 
@@ -131,13 +133,13 @@ namespace Flashcard
             _box.SwitchLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
-            if(_btnSwitchLanguage.Text == LanguageText)
+            if (_currentPrimaryLanguage == CardBox.Languages.German)
             {
-                _btnSwitchLanguage.Text = LanguageText;
+                _currentPrimaryLanguage = CardBox.Languages.English;
             }
             else
             {
-                _btnSwitchLanguage.Text = LanguageText;
+                _currentPrimaryLanguage = CardBox.Languages.German;
             }
         }
 
