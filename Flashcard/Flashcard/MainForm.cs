@@ -141,6 +141,8 @@ namespace Flashcard
             {
                 _currentPrimaryLanguage = CardBox.Languages.German;
             }
+
+            _btnSwitchLanguage.Text = LanguageText;
         }
 
         private void BtnAddCard_OnClick(object sender, EventArgs e)

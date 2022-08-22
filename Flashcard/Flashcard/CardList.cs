@@ -31,6 +31,10 @@ namespace Flashcard
             _lvCardList.FullRowSelect = true;
 
             FillListView();
+
+
+
+            
         }
 
 
