@@ -72,21 +72,13 @@ namespace Flashcard
 
             foreach (Card card in ListOfCards)
             {
-                string difficulty = string.Empty;
-                if (card.Difficulty == 0)
-                {
-                    difficulty = "basis";
-                }
-                else
-                {
-                    difficulty = "erweitert";
-                }
+                
 
                 ListViewItem item = new ListViewItem();
                 item.Text = count.ToString();
                 item.SubItems.Add(card.GetEnglishWord());
                 item.SubItems.Add(card.GetGermanWord());
-                item.SubItems.Add(difficulty);
+                item.SubItems.Add(card.DifficultyText);
 
                 _lvCardList.Items.Add(item);
                 count++;

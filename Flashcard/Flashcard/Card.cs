@@ -12,6 +12,15 @@ namespace Flashcard
         public CardBox.Languages PrimaryLanguage { get; private set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
+        
+        public string DifficultyText
+        {
+            get
+            {
+                return Difficulty == 0 ? "basis" : "erweitert";
+            }
+        }
+
         public string ID { get; set; }
         public int SlotID { get; set; }
         //constructor setting German and Englisch word of Card
@@ -24,6 +33,8 @@ namespace Flashcard
             ID = iD;
             PrimaryLanguage = CardBox.Languages.German;
         }
+
+
 
         public void Update(string wordToTranslate, string translation, CardBox.Difficulties difficulty)
         {

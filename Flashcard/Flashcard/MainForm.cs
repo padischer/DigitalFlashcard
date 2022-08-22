@@ -7,41 +7,57 @@ namespace Flashcard
         {
             InitializeComponent();
         }
+        private CardBox.Languages _currentPrimaryLanguage;
+        private CardBox.Difficulties _currentDifficulty;
         private CardBox _box = new CardBox();
+        private string DifficultyText
+        {
+            get
+            {
+                if(_currentDifficulty == 0)
+                {
+                    return "deu->eng";
+                }
+                else
+                {
+                    return "end->deu";
+                }
+            }
+        }
+        private string LanguageText
+        {
+            get
+            {
+                if (_currentPrimaryLanguage == 0)
+                {
+                    return "basis";
+                }
+                else
+                {
+                    return "erweitert";
+                }
+            }
+        }
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _cbSlotNumber.Items.Add("1");
-            _cbSlotNumber.Items.Add("2");
-            _cbSlotNumber.Items.Add("3");
-
+            for(int i = 1; i <= _box.SlotCount; i++)
+            {
+                _cbSlotNumber.Items.Add(i.ToString());
+            }
 
             LoadSaveState();
-
             FillTranslationList();
             SetRandomWordToTranslate();
         }
 
         private void LoadSaveState()
         {
-            if(_box.GetCurrentDifficulty() == CardBox.Difficulties.Basic)
-            {
-                _btnSwitchDifficulty.Text = "basis";
-            }
-            else
-            {
-                _btnSwitchDifficulty.Text = "erweitert";
-            }
-
-            if(_box.GetPrimaryLanguage() == CardBox.Languages.German)
-            {
-                _btnSwitchLanguage.Text = "deu->eng";
-            }
-            else
-            {
-                _btnSwitchLanguage.Text = "eng->deu";
-            }
+            _currentDifficulty = _box.GetCurrentDifficulty();
+            _currentPrimaryLanguage = _box.GetPrimaryLanguage();
+            _btnSwitchDifficulty.Text = DifficultyText;
+            _btnSwitchLanguage.Text = LanguageText;
 
             _cbSlotNumber.SelectedIndex = _box.GetCurrentSlotIndex();
         }
@@ -52,13 +68,13 @@ namespace Flashcard
             _box.SwitchDifficulty();
             FillTranslationList();
             SetRandomWordToTranslate();
-            if (_btnSwitchDifficulty.Text == "basis")
+            if (_btnSwitchDifficulty.Text == DifficultyText)
             {
-                _btnSwitchDifficulty.Text = "erweitert";
+                _btnSwitchDifficulty.Text = DifficultyText;
             }
             else
             {
-                _btnSwitchDifficulty.Text = "basis";
+                _btnSwitchDifficulty.Text = DifficultyText;
             }
         }
 
@@ -88,7 +104,7 @@ namespace Flashcard
                 else
                 {
                     _btnSubmit.Text = buttonText;
-                    _lblValidation.Text = "";
+                    _lblValidation.Text = String.Empty;
                     SetRandomWordToTranslate();
                     FillTranslationList();
                 }
@@ -98,7 +114,8 @@ namespace Flashcard
         //choosing a random word to Translate
         private void SetRandomWordToTranslate()
         {
-            _lblWordToTranslate.Text = _box.SelectRandomWordToTranslate();
+            var randomCard = _box.SelectRandomCard();
+            _lblWordToTranslate.Text = randomCard != null ? randomCard.WordToTranslate : String.Empty; 
         }
 
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
@@ -114,13 +131,13 @@ namespace Flashcard
             _box.SwitchLanguage();
             FillTranslationList();
             SetRandomWordToTranslate();
-            if(_btnSwitchLanguage.Text == "deu->eng")
+            if(_btnSwitchLanguage.Text == LanguageText)
             {
-                _btnSwitchLanguage.Text = "eng->deu";
+                _btnSwitchLanguage.Text = LanguageText;
             }
             else
             {
-                _btnSwitchLanguage.Text = "deu->eng";
+                _btnSwitchLanguage.Text = LanguageText;
             }
         }
 
@@ -132,7 +149,6 @@ namespace Flashcard
             if (editCard.ShouldExecute)
             {
                 _box.AddNewCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
-                _box.PostNewCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
                 FillTranslationList();
             }
         }
@@ -149,7 +165,6 @@ namespace Flashcard
             CardList cardList = new CardList(_box.GetCardList());
             cardList.ShowDialog();
 
-            _box.SetCardList(cardList.ListOfCards);
             FillTranslationList();
             SetRandomWordToTranslate();
         }

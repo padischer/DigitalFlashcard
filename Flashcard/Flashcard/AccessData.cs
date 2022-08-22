@@ -10,7 +10,6 @@ namespace Flashcard
     internal class AccessData
     {
 
-		private List<AirtableRecord> _data;
 		private AirtableRecord _entity;
 		private readonly string _baseId = "appeI57le2itTZ5OB";
 		private readonly string _appKey = "keyRRvdduRcmmFRuY";
@@ -221,9 +220,60 @@ namespace Flashcard
 			return _entity;
         }
 
-		public List<AirtableRecord> GetAllRecords(string tableName)
+		public int[] GetSaveState()
+        {
+			GetRecord("SaveState", _saveStateID);
+
+			int[] saveState = new int[3];
+			for (int i = 0; i < _entity.Fields.Count; i++)
+            {
+				saveState[i] = Int32.Parse(_entity.Fields.ElementAt(i).ToString());
+            }
+			return saveState;
+		}
+
+		public List<Card> GetAllCards(string tableName)
 		{
-			return ReadAllRecords(tableName);
+			List<AirtableRecord> recordList = ReadAllRecords(tableName);
+			CardBox.Difficulties difficulty = CardBox.Difficulties.Basic;
+			string wordToTranslate = string.Empty;
+			string translation = string.Empty;
+			int slot = 1;
+			List<Card> cards = new List<Card>();
+			foreach (AirtableRecord record in recordList)
+			{
+				foreach (var field in record.Fields)
+				{
+					switch (field.Key)
+					{
+						case "GermanWord":
+							wordToTranslate = field.Value.ToString();
+							break;
+
+						case "EnglishWord":
+							translation = field.Value.ToString();
+							break;
+
+						case "Difficulty":
+							Enum.TryParse<CardBox.Difficulties>(field.Value.ToString(), out difficulty);
+							break;
+
+						case "Slot":
+							slot = Int32.Parse(field.Value.ToString());
+							break;
+					}
+				}
+
+				//if (_primaryLanguage != CardBox.Languages.German)
+				//{
+				//	string tempSave = wordToTranslate;
+				//	wordToTranslate = translation;
+				//	translation = tempSave;
+				//}
+
+				cards.Add(new Card(wordToTranslate, translation, slot, difficulty, record.Id));
+			}
+			return cards;
 		}
 	}
 }
