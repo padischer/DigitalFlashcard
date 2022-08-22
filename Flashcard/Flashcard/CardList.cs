@@ -66,7 +66,6 @@ namespace Flashcard
         private void FillListView()
         {
             _lvCardList.Clear();
-
             _lvCardList.Columns.Add("Nr.", _lvCardList.ClientSize.Width / 10);
             _lvCardList.Columns.Add("Deutsch", _lvCardList.ClientSize.Width / 3);
             _lvCardList.Columns.Add("Englisch", _lvCardList.ClientSize.Width / 3);
@@ -74,19 +73,29 @@ namespace Flashcard
 
             int count = 1;
 
-            foreach (Card card in ListOfCards)
-            {
-                
+            count = AddCardsWithCertainDifficultyToListView(count, CardBox.Difficulties.Basic);
+            AddCardsWithCertainDifficultyToListView(count, CardBox.Difficulties.Advanced);
 
+            
+        }
+
+        private int AddCardsWithCertainDifficultyToListView(int counter, CardBox.Difficulties difficulty)
+        {
+            List<Card> advancedCards = ListOfCards.Where(c => c.Difficulty == difficulty).ToList();
+
+            foreach (Card card in advancedCards)
+            {
                 ListViewItem item = new ListViewItem();
-                item.Text = count.ToString();
-                item.SubItems.Add(card.GetEnglishWord());
+                item.Text = counter.ToString();
                 item.SubItems.Add(card.GetGermanWord());
+                item.SubItems.Add(card.GetEnglishWord());
                 item.SubItems.Add(card.DifficultyText);
 
                 _lvCardList.Items.Add(item);
-                count++;
+                counter++;
             }
+
+            return counter;
         }
     }
 }
