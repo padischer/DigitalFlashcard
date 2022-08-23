@@ -241,20 +241,33 @@ namespace Flashcard
             int count = 0;
             for (int j = 0; j<_cardList.Count/10;j++)
             {
-                IdFields[] idFields = new IdFields[10];
-                int maxIterations = count;
-                for (int i = count; i < maxIterations+10; i++)
-                {
-                    idFields[i-maxIterations] = new IdFields(_cardList[i].ID);
-                    idFields[i-maxIterations].AddField("Slot", 1);
-                    count++;
-                }
-
-                _dataManager.UpdateALlCards(idFields);
+                count = ResetSlotOfCertainCards(10, count);
             }
 
+            int restOfCardsCount = _cardList.Count % 10;
+
+            if(restOfCardsCount != 0)
+            {
+                ResetSlotOfCertainCards(restOfCardsCount, count);
+ 
+            }
             _cardList = GetAllCards();
         }
+
+        private int ResetSlotOfCertainCards(int amount, int indexOfCardList)
+        {
+            IdFields[] idFields = new IdFields[amount];
+            int maxIterations = indexOfCardList;
+            for (int i = indexOfCardList; i < maxIterations + amount; i++)
+            {
+                idFields[i - maxIterations] = new IdFields(_cardList[i].ID);
+                idFields[i - maxIterations].AddField("Slot", 1);
+                indexOfCardList++;
+            }
+            _dataManager.UpdateALlCards(idFields);
+            return indexOfCardList;
+        }
+
 
         public List<Card> GetCardList()
         {
