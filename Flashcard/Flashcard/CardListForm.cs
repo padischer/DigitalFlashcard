@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace Flashcard
 {
-    public partial class CardList : Form
+    public partial class CardListForm : Form
     {
         public List<Card> ListOfCards { get; private set; }
         private AccessData _accessData = new AccessData();
-        public CardList(List<Card> list)
+        public CardListForm(List<Card> list)
         {
             InitializeComponent();
             ListOfCards = list;
@@ -31,10 +31,6 @@ namespace Flashcard
             _lvCardList.FullRowSelect = true;
 
             FillListView();
-
-
-
-            
         }
 
 
@@ -47,7 +43,7 @@ namespace Flashcard
         {
             if(_lvCardList.SelectedItems.Count == 1)
             {
-                EditCard editCard = new EditCard(GetSelectedCard());
+                EditCardForm editCard = new EditCardForm(GetSelectedCard());
                 editCard.ShowDialog();
             }
             FillListView();

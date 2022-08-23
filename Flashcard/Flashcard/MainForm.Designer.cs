@@ -40,6 +40,7 @@
             this._btnEndProgram = new System.Windows.Forms.Button();
             this._btnReset = new System.Windows.Forms.Button();
             this._btnCardList = new System.Windows.Forms.Button();
+            this._btnSkip = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _btnSwitchLanguage
@@ -167,11 +168,22 @@
             this._btnCardList.UseVisualStyleBackColor = true;
             this._btnCardList.Click += new System.EventHandler(this.BtnCardList_OnClick);
             // 
+            // _btnSkip
+            // 
+            this._btnSkip.Location = new System.Drawing.Point(262, 442);
+            this._btnSkip.Name = "_btnSkip";
+            this._btnSkip.Size = new System.Drawing.Size(121, 23);
+            this._btnSkip.TabIndex = 12;
+            this._btnSkip.Text = "Überspringen";
+            this._btnSkip.UseVisualStyleBackColor = true;
+            this._btnSkip.Click += new System.EventHandler(this._btnSkip_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 497);
+            this.Controls.Add(this._btnSkip);
             this.Controls.Add(this._btnCardList);
             this.Controls.Add(this._btnReset);
             this.Controls.Add(this._btnEndProgram);
@@ -207,5 +219,6 @@
         private Button _btnEndProgram;
         private Button _btnReset;
         private Button _btnCardList;
+        private Button _btnSkip;
     }
 }

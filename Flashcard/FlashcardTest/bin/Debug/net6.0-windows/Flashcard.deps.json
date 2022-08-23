@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "RestTesting/1.0.0": {
+      "Flashcard/1.0.0": {
         "dependencies": {
           "Airtable": "1.2.0"
         },
         "runtime": {
-          "RestTesting.dll": {}
+          "Flashcard.dll": {}
         }
       },
       "Airtable/1.2.0": {
@@ -46,7 +46,7 @@
     }
   },
   "libraries": {
-    "RestTesting/1.0.0": {
+    "Flashcard/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

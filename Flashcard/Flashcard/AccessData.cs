@@ -17,12 +17,12 @@ namespace Flashcard
 		private const string _saveStateTableName = "SaveState";
 		private const string _cardTableName = "Card";
 
-		public void UpdateCard(Fields input, string cardID)
+		public async void UpdateCard(Fields input, string cardID)
 		{
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
 				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_cardTableName, input, cardID);
-				var response = task.Result;
+				var response = await task;
 
 				if (!response.Success)
 				{
@@ -125,8 +125,7 @@ namespace Flashcard
 				}
 				else
 				{
-					AirtableRecord[] records = response.Records;
-					// Do something with the updated records.
+
 				}
 			}
 		}

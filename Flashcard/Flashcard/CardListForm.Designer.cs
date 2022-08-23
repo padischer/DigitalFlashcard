@@ -1,6 +1,6 @@
 ﻿namespace Flashcard
 {
-    partial class CardList
+    partial class CardListForm
     {
         /// <summary>
         /// Required designer variable.
