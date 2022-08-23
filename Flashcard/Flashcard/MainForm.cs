@@ -148,7 +148,7 @@ namespace Flashcard
         private void BtnAddCard_OnClick(object sender, EventArgs e)
         { 
             
-            EditCard editCard = new EditCard();
+            EditCardForm editCard = new EditCardForm();
             editCard.ShowDialog();
             if (editCard.ShouldExecute)
             {
@@ -166,7 +166,7 @@ namespace Flashcard
 
         private void BtnCardList_OnClick(object sender, EventArgs e)
         {
-            CardList cardList = new CardList(_box.GetCardList());
+            CardListForm cardList = new CardListForm(_box.GetCardList());
             cardList.ShowDialog();
 
             FillTranslationList();
@@ -178,6 +178,12 @@ namespace Flashcard
             _box.ResetAllCardSlots();
             FillTranslationList();
             SetRandomWordToTranslate();
+        }
+
+        private void _btnSkip_Click(object sender, EventArgs e)
+        {
+            SetRandomWordToTranslate();
+            FillTranslationList();
         }
     }
 }

@@ -11,7 +11,7 @@ using AirtableApiClient;
 
 namespace Flashcard
 {
-    public partial class EditCard : Form
+    public partial class EditCardForm : Form
     {
         private bool _gerTextIsSet;
         private bool _engTextIsSet;
@@ -27,13 +27,13 @@ namespace Flashcard
         }
         public bool ShouldExecute { get; private set; }
 
-        public EditCard()
+        public EditCardForm()
         {
             InitializeComponent();
             _currentMode = Mode.Add;
         }
 
-        public EditCard(Card cardToEdit)
+        public EditCardForm(Card cardToEdit)
         {
             InitializeComponent();
             _cardToEdit = cardToEdit;
