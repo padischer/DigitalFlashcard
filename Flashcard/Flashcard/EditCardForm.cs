@@ -19,7 +19,6 @@ namespace Flashcard
         private Mode _currentMode;
         private AccessData accessData = new AccessData();
         private const string _basisText = "basis";
-        private const string _advancedText = "erweitert";
         private enum Mode
         {
             Add = 0,
