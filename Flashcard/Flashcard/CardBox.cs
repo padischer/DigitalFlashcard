@@ -37,8 +37,6 @@ namespace Flashcard
             SlotCount = 3;
             _cardList = cardList;
             InitializeSaveState(saveState);
-            
-            
         }
 
         public void InitializeSaveState(int[] saveState)
@@ -88,6 +86,11 @@ namespace Flashcard
             {
                 return null;
             }
+        }
+
+        public void SetCurrentCard(Card card)
+        {
+            _currentCard = card;
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
@@ -171,6 +174,19 @@ namespace Flashcard
         }
 
 
+        public string GetCurrentDifficultyText()
+        {
+            if (_currentDifficulty == Difficulties.Basic)
+            {
+                return "basis";
+            }
+            else
+            {
+                return "erweitert";
+            }
+        }
+
+
 
         public void SwitchDifficulty()
         {
@@ -210,6 +226,18 @@ namespace Flashcard
         public Languages GetPrimaryLanguage()
         {
             return _currentPrimaryLanguage;
+        }
+
+        public string GetCurrentPrimaryLanguageText()
+        {
+            if (_currentPrimaryLanguage == Languages.German)
+            {
+                return "deu->eng";
+            }
+            else
+            {
+                return "end->deu";
+            }
         }
 
         public List<Card> GetCardList()

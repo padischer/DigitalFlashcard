@@ -3,8 +3,6 @@ namespace Flashcard
 {
     public partial class MainForm : Form
     {
-        private CardBox.Languages _currentPrimaryLanguage;
-        private CardBox.Difficulties _currentDifficulty;
         private CardBox _box;
         private AccessData _dataManager = new AccessData();
         public MainForm()
@@ -13,35 +11,6 @@ namespace Flashcard
             InitializeComponent();
         }
         
-       
-        private string DifficultyText
-        {
-            get
-            {
-                if(_currentDifficulty == 0)
-                {
-                    return "basis";
-                }
-                else
-                {
-                    return "erweitert";
-                }
-            }
-        }
-        private string LanguageText
-        {
-            get
-            {
-                if (_currentPrimaryLanguage == 0)
-                {
-                    return "deu->eng";
-                }
-                else
-                {
-                    return "end->deu";
-                }
-            }
-        }
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
@@ -59,10 +28,8 @@ namespace Flashcard
         {
             _dataManager.GetSaveState();
             
-            _currentDifficulty = _box.GetCurrentDifficulty();
-            _currentPrimaryLanguage = _box.GetPrimaryLanguage();
-            _btnSwitchDifficulty.Text = DifficultyText;
-            _btnSwitchLanguage.Text = LanguageText;
+            _btnSwitchDifficulty.Text = _box.GetCurrentDifficultyText();
+            _btnSwitchLanguage.Text = _box.GetCurrentPrimaryLanguageText();
 
             _cbSlotNumber.SelectedIndex = _box.GetCurrentSlotIndex();
         }
@@ -72,16 +39,7 @@ namespace Flashcard
         {
             _box.SwitchDifficulty();
             RefreshListAndWordToTranslate();
-            if (_currentDifficulty == CardBox.Difficulties.Basic)
-            {
-                _currentDifficulty = CardBox.Difficulties.Advanced;
-            }
-            else
-            {
-                _currentDifficulty = CardBox.Difficulties.Basic;
-            }
-
-            _btnSwitchDifficulty.Text = DifficultyText;
+            _btnSwitchDifficulty.Text = _box.GetCurrentDifficultyText();
         }
 
         //clear lbTanslation List and fill it with each eng word of a list of cards 
@@ -135,16 +93,7 @@ namespace Flashcard
         {
             _box.SwitchLanguage();
             RefreshListAndWordToTranslate();
-            if (_currentPrimaryLanguage == CardBox.Languages.German)
-            {
-                _currentPrimaryLanguage = CardBox.Languages.English;
-            }
-            else
-            {
-                _currentPrimaryLanguage = CardBox.Languages.German;
-            }
-
-            _btnSwitchLanguage.Text = LanguageText;
+            _btnSwitchLanguage.Text = _box.GetCurrentPrimaryLanguageText();
         }
 
         private void BtnAddCard_OnClick(object sender, EventArgs e)
