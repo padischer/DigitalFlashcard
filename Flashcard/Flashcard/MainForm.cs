@@ -3,13 +3,17 @@ namespace Flashcard
 {
     public partial class MainForm : Form
     {
-        public MainForm()
-        {
-            InitializeComponent();
-        }
         private CardBox.Languages _currentPrimaryLanguage;
         private CardBox.Difficulties _currentDifficulty;
-        private CardBox _box = new CardBox();
+        private CardBox _box;
+        private AccessData _dataManager = new AccessData();
+        public MainForm()
+        {
+            _box = new CardBox(_dataManager.GetSaveState(), _dataManager.GetAllCards());
+            InitializeComponent();
+        }
+        
+       
         private string DifficultyText
         {
             get
@@ -41,19 +45,20 @@ namespace Flashcard
 
         //on start of Form adding Slotnumbers to combobox
         private void MainForm_Load(object sender, EventArgs e)
-        {
-            for(int i = 1; i <= _box.SlotCount; i++)
+        {  
+            for (int i = 1; i <= _box.SlotCount; i++)
             {
                 _cbSlotNumber.Items.Add(i.ToString());
             }
 
             LoadSaveState();
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
         }
 
         private void LoadSaveState()
         {
+            _dataManager.GetSaveState();
+            
             _currentDifficulty = _box.GetCurrentDifficulty();
             _currentPrimaryLanguage = _box.GetPrimaryLanguage();
             _btnSwitchDifficulty.Text = DifficultyText;
@@ -66,8 +71,7 @@ namespace Flashcard
         private void BtnSwitchDifficulty_Click(object sender, EventArgs e)
         {
             _box.SwitchDifficulty();
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
             if (_currentDifficulty == CardBox.Difficulties.Basic)
             {
                 _currentDifficulty = CardBox.Difficulties.Advanced;
@@ -105,10 +109,10 @@ namespace Flashcard
                 }
                 else
                 {
+                    _dataManager.UpdateCardSlot(_box.GetCurrentSlotIndex()+1, _box._currentCard.ID); ;
                     _btnSubmit.Text = buttonText;
                     _lblValidation.Text = String.Empty;
-                    SetRandomWordToTranslate();
-                    FillTranslationList();
+                    RefreshListAndWordToTranslate();
                 }
             }
         }
@@ -124,15 +128,13 @@ namespace Flashcard
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
             _box.SwitchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
         }
 
         private void BtnSwitchLanguage_Click(object sender, EventArgs e)
         {
             _box.SwitchLanguage();
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
             if (_currentPrimaryLanguage == CardBox.Languages.German)
             {
                 _currentPrimaryLanguage = CardBox.Languages.English;
@@ -152,6 +154,7 @@ namespace Flashcard
             editCard.ShowDialog();
             if (editCard.ShouldExecute)
             {
+                _dataManager.CreateCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
                 _box.AddNewCard(editCard.GetGermanWord(), editCard.GetEnglishWord(), editCard.GetDifficulty());
                 FillTranslationList();
             }
@@ -159,7 +162,7 @@ namespace Flashcard
 
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
-            _box.UpdateSaveState();
+            _dataManager.UpdateSaveState(_box.UpdateSaveState());
             this.Close();
            
         }
@@ -169,21 +172,25 @@ namespace Flashcard
             CardListForm cardList = new CardListForm(_box.GetCardList());
             cardList.ShowDialog();
 
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
         }
 
         private void BtnReset_OnClick(object sender, EventArgs e)
         {
+            _dataManager.ResetAllCardSlots(_box.GetCardList());
             _box.ResetAllCardSlots();
-            FillTranslationList();
-            SetRandomWordToTranslate();
+            RefreshListAndWordToTranslate();
         }
 
-        private void _btnSkip_Click(object sender, EventArgs e)
+        private void RefreshListAndWordToTranslate()
         {
             SetRandomWordToTranslate();
             FillTranslationList();
+        }
+
+        private void BtnSkip_Click(object sender, EventArgs e)
+        {
+            RefreshListAndWordToTranslate();
         }
     }
 }

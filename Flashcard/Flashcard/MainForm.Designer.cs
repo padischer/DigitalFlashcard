@@ -176,7 +176,7 @@
             this._btnSkip.TabIndex = 12;
             this._btnSkip.Text = "Überspringen";
             this._btnSkip.UseVisualStyleBackColor = true;
-            this._btnSkip.Click += new System.EventHandler(this._btnSkip_Click);
+            this._btnSkip.Click += new System.EventHandler(this.BtnSkip_Click);
             // 
             // MainForm
             // 

@@ -13,13 +13,13 @@ namespace Flashcard
         public int SlotCount { get; private set; }
         private Languages _currentPrimaryLanguage;
         private Difficulties _currentDifficulty;
-        private Card _currentCard;
-        private List<Card> _cardList = new List<Card>();
-        private AccessData _dataManager = new AccessData();
+        public Card _currentCard { get; private set; }
+        public List<Card> _cardList = new List<Card>();
         private const string _cardText = "Card";
-        private const string _basisText = "basis";
         private const string _slotText = "Slot";
         private const string _difficultyText = "Difficulty";
+        private const string _basisText = "basis";
+
         public enum Languages
         {
             German = 0,
@@ -32,25 +32,24 @@ namespace Flashcard
         }
 
         //constructor reading input data and putting into 
-        public CardBox()
+        public CardBox(int[] saveState, List<Card> cardList)
         {
             SlotCount = 3;
-            _cardList = _dataManager.GetAllCards(_cardText);
-            InitializeSaveState();
+            _cardList = cardList;
+            InitializeSaveState(saveState);
             
             
         }
 
-        public void InitializeSaveState()
+        public void InitializeSaveState(int[] saveState)
         {
-            int[] saveState = _dataManager.GetSaveState();
             _currentSlotIndex = saveState[0];
-            Enum.TryParse<Difficulties>(saveState[1].ToString(), out _currentDifficulty);
+            Enum.TryParse<Languages>(saveState[1].ToString(), out _currentPrimaryLanguage);
+            Enum.TryParse<Difficulties>(saveState[2].ToString(), out _currentDifficulty);
         }
 
-        public List<Card> GetAllCards()
+        public List<Card> CorrectLanguageOfCards(List<Card> newCards)
         {
-            List<Card> newCards = _dataManager.GetAllCards(_cardText);
             if(_currentPrimaryLanguage == CardBox.Languages.English)
             {
                 foreach(Card card in newCards)
@@ -99,7 +98,6 @@ namespace Flashcard
                 if(_currentSlotIndex != 2)
                 {
                     _currentCard.SlotID++;
-                    UpdateCard(_currentCard.SlotID, _currentCard.ID);
                 }
                 return "Korrekt";
             }
@@ -108,12 +106,20 @@ namespace Flashcard
                 if(_currentSlotIndex != 0)
                 {
                     _currentCard.SlotID--;
-                    UpdateCard(_currentCard.SlotID, _currentCard.ID);
+
                 }
                 return "Falsch! " + _currentCard.Translation + " wäre richtig gewesen";
             }
 
             
+        }
+
+        public void ResetAllCardSlots()
+        {
+            foreach (Card card in _cardList)
+            {
+                card.SlotID = 1;
+            }
         }
 
         public void SwitchSlot(int slotNumber)
@@ -124,7 +130,7 @@ namespace Flashcard
             }            
         }
         
-        //switching cardtext between ger->eng and eng->ger
+
         public void SwitchLanguage()
         {
             foreach(Card card in _cardList)
@@ -162,31 +168,9 @@ namespace Flashcard
             {
                 _cardList.Add(new Card(engWord, gerWord, 1, difficulty));
             }
-            PostNewCardToDB(gerWord, engWord, difficultyString);
         }
 
 
-        private void PostNewCardToDB(string germanWord, string translation, string difficulty)
-        {
-            int difficultyNumber;
-            Fields cardData = new Fields();
-
-            if (difficulty == _basisText)
-            {
-                difficultyNumber = 0;
-            }
-            else
-            {
-                difficultyNumber = 1;
-            }
-
-            cardData.AddField("GermanWord", germanWord);
-            cardData.AddField("EnglishWord", translation);
-            cardData.AddField(_difficultyText, difficultyNumber);
-            cardData.AddField(_slotText, 1);
-
-            _dataManager.CreateRecord(_cardText, cardData);
-        }
 
         public void SwitchDifficulty()
         {
@@ -202,23 +186,15 @@ namespace Flashcard
 
         
 
-        public void UpdateSaveState()
+        public int[] UpdateSaveState()
         {
-            Fields saveStateData = new Fields();
-            int slot = _currentSlotIndex;
+            int[] saveStateData = new int[3];
 
-            saveStateData.AddField("SlotIndex", slot);
-            saveStateData.AddField("PrimaryLanguage", _currentPrimaryLanguage);
-            saveStateData.AddField(_difficultyText, _currentDifficulty);
-            
-            _dataManager.UpdateSaveState("SaveState", saveStateData);
-        }
+            saveStateData[0] = _currentSlotIndex;
+            saveStateData[1] = (int)_currentPrimaryLanguage;
+            saveStateData[2] = (int)_currentDifficulty;
 
-        public void UpdateCard(int slot, string cardID)
-        {
-            Fields cardData = new Fields();
-            cardData.AddField(_slotText, slot);
-            _dataManager.UpdateCard(cardData, cardID);
+            return saveStateData;
         }
 
         public int GetCurrentSlotIndex()
@@ -235,39 +211,6 @@ namespace Flashcard
         {
             return _currentPrimaryLanguage;
         }
-
-        public void ResetAllCardSlots()
-        {
-            int count = 0;
-            for (int j = 0; j<_cardList.Count/10;j++)
-            {
-                count = ResetSlotOfCertainCards(10, count);
-            }
-
-            int restOfCardsCount = _cardList.Count % 10;
-
-            if(restOfCardsCount != 0)
-            {
-                ResetSlotOfCertainCards(restOfCardsCount, count);
- 
-            }
-            _cardList = GetAllCards();
-        }
-
-        private int ResetSlotOfCertainCards(int amount, int indexOfCardList)
-        {
-            IdFields[] idFields = new IdFields[amount];
-            int maxIterations = indexOfCardList;
-            for (int i = indexOfCardList; i < maxIterations + amount; i++)
-            {
-                idFields[i - maxIterations] = new IdFields(_cardList[i].ID);
-                idFields[i - maxIterations].AddField("Slot", 1);
-                indexOfCardList++;
-            }
-            _dataManager.UpdateALlCards(idFields);
-            return indexOfCardList;
-        }
-
 
         public List<Card> GetCardList()
         {
