@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirtableApiClient;
+using static Flashcard.CardBox;
 
 namespace Flashcard
 {
@@ -16,12 +17,49 @@ namespace Flashcard
 		private const string _saveStateID = "reciz8CK3CwjtINCY";
 		private const string _saveStateTableName = "SaveState";
 		private const string _cardTableName = "Card";
+		private const string _slotText = "Slot";
+		private const string _slotIndexText = "SlotIndex";
+		private const string _germanWordText = "GermanWord";
+		private const string _englishWordText = "EnglishWord";
+		private const string _baseText = "basis";
+		private const string _difficultyText = "Difficulty";
+		private const string _primaryLanguageText = "PrimaryLanguage";
+		private const string _unkownErrorText = "Unkown error";
+		private const string _detailedErrorText = "\nDetailed error message: ";
 
-		public async void UpdateCard(Fields input, string cardID)
+		public void UpdateCard(string gerWord, string engWord, string difficulty, string cardID) 
+		{
+            int difficultyNumber;
+            Fields cardData = new Fields();
+
+            if (difficulty == _baseText)
+            {
+                difficultyNumber = 0;
+            }
+            else
+            {
+                difficultyNumber = 1;
+            }
+
+            cardData.AddField(_germanWordText, gerWord);
+            cardData.AddField(_englishWordText, engWord);
+            cardData.AddField(_difficultyText, difficultyNumber);
+
+            UpdateRecord(cardData, cardID, _cardTableName);	
+		}
+
+        public void UpdateCardSlot(int slot, string cardID)
+        {
+            Fields cardData = new Fields();
+            cardData.AddField(_slotText, slot);
+            UpdateRecord(cardData, cardID, _cardTableName);
+        }
+
+        public async void UpdateRecord(Fields input, string recordID, string tableName)
 		{
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_cardTableName, input, cardID);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(tableName, input, recordID);
 				var response = await task;
 
 				if (!response.Success)
@@ -32,23 +70,28 @@ namespace Flashcard
 						errorMessage = response.AirtableApiError.ErrorMessage;
 						if (response.AirtableApiError is AirtableInvalidRequestException)
 						{
-							errorMessage += "\nDetailed error message: ";
+							errorMessage += _detailedErrorText;
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
 						else
 						{
-							errorMessage = "Unknown error";
+							errorMessage = _unkownErrorText;
 						}
 					}
 				}
 			}
 		}
 
-		public void UpdateSaveState(string tableName, Fields input)
+		public void UpdateSaveState(int[] input)
 		{
+			Fields saveStateData = new Fields();
+			saveStateData.AddField(_slotIndexText, input[0]);
+			saveStateData.AddField(_primaryLanguageText, input[1]);
+			saveStateData.AddField(_difficultyText, input[2]);
+
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
-				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, input, _saveStateID);
+				Task<AirtableCreateUpdateReplaceRecordResponse> task = airtableBase.UpdateRecord(_saveStateTableName, saveStateData, _saveStateID);
 				var response = task.Result;
 
 				if (!response.Success)
@@ -59,12 +102,12 @@ namespace Flashcard
 						errorMessage = response.AirtableApiError.ErrorMessage;
 						if (response.AirtableApiError is AirtableInvalidRequestException)
 						{
-							errorMessage += "\nDetailed error message: ";
+							errorMessage += _detailedErrorText;
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
 						else
 						{
-							errorMessage = "Unknown error";
+							errorMessage = _unkownErrorText;
 						}
 					}
 				}
@@ -85,12 +128,12 @@ namespace Flashcard
 						errorMessage = response.AirtableApiError.ErrorMessage;
 						if (response.AirtableApiError is AirtableInvalidRequestException)
 						{
-							errorMessage += "\nDetailed error message: ";
+							errorMessage += _detailedErrorText;
 							errorMessage += response.AirtableApiError.DetailedErrorMessage;
 						}
 						else
 						{
-							errorMessage = "Unknown error";
+							errorMessage = _unkownErrorText;
 						}
 					}
 
@@ -99,7 +142,39 @@ namespace Flashcard
 			}
 		}
 
-		public void UpdateALlCards(IdFields[] idFields)
+        public void ResetAllCardSlots(List<Card> cardList)
+        {
+            int count = 0;
+            for (int j = 0; j < cardList.Count / 10; j++)
+            {
+                count = ResetSlotOfCertainCards(10, ref count, cardList);
+            }
+
+            int restOfCardsCount = cardList.Count % 10;
+
+            if (restOfCardsCount != 0)
+            {
+                ResetSlotOfCertainCards(restOfCardsCount, ref count, cardList);
+
+            }
+        }
+
+        private int ResetSlotOfCertainCards(int amount, ref int indexOfCardList, List<Card> cardList)
+        {
+            IdFields[] idFields = new IdFields[amount];
+            int maxIterations = indexOfCardList;
+            for (int i = indexOfCardList; i < maxIterations + amount; i++)
+            {
+                idFields[i - maxIterations] = new IdFields(cardList[i].ID);
+                idFields[i - maxIterations].AddField(_slotText, 1);
+                indexOfCardList++;
+            }
+
+            UpdateAllCards(idFields);
+			return indexOfCardList;
+        }
+
+        public void UpdateAllCards(IdFields[] idFields)
         {
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
@@ -167,13 +242,13 @@ namespace Flashcard
 			
 		}
 
-		private async Task GetRecordTask(string tableName, string idOfRecord)
+		public void GetRecord(string tableName, string idOfRecord)
         {
 			_entity = new AirtableRecord();
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
 				Task<AirtableRetrieveRecordResponse> task = airtableBase.RetrieveRecord(tableName, idOfRecord);
-				var response = await task;
+				var response = task.Result;
 				if (!response.Success)
 				{
 					string errorMessage = null;
@@ -188,7 +263,7 @@ namespace Flashcard
 				}
                 else
                 {
-
+					_entity = response.Record;
                 }
 			}
 		}
@@ -217,29 +292,37 @@ namespace Flashcard
 			}
 		}
 		
-		private AirtableRecord GetRecord(string tableName, string id)
-        {
-			_entity = new AirtableRecord();
-			var task = GetRecordTask(tableName, id);
-			task.Wait();
-			return _entity;
-        }
 
 		public int[] GetSaveState()
         {
-			GetRecord("SaveState", _saveStateID);
+			
+			GetRecord(_saveStateTableName, _saveStateID);
 
 			int[] saveState = new int[3];
-			for (int i = 0; i < _entity.Fields.Count; i++)
+			foreach(var field in _entity.Fields)
             {
-				saveState[i] = Int32.Parse(_entity.Fields.ElementAt(i).ToString());
+				switch (field.Key)
+				{
+					case _slotIndexText:
+						saveState[0] = Int32.Parse(field.Value.ToString());
+						break;
+
+                    case _primaryLanguageText:
+                        saveState[1] = Int32.Parse(field.Value.ToString());
+                        break;
+
+                    case _difficultyText:
+                        saveState[2] = Int32.Parse(field.Value.ToString());
+                        break;
+                }
             }
+
 			return saveState;
 		}
 
-		public List<Card> GetAllCards(string tableName)
+		public List<Card> GetAllCards()
 		{
-			List<AirtableRecord> recordList = ReadAllRecords(tableName);
+			List<AirtableRecord> recordList = ReadAllRecords(_cardTableName);
 			CardBox.Difficulties difficulty = CardBox.Difficulties.Basic;
 			string wordToTranslate = string.Empty;
 			string translation = string.Empty;
@@ -251,19 +334,19 @@ namespace Flashcard
 				{
 					switch (field.Key)
 					{
-						case "GermanWord":
+						case _germanWordText:
 							wordToTranslate = field.Value.ToString();
 							break;
 
-						case "EnglishWord":
+						case _englishWordText:
 							translation = field.Value.ToString();
 							break;
 
-						case "Difficulty":
+						case _difficultyText:
 							Enum.TryParse<CardBox.Difficulties>(field.Value.ToString(), out difficulty);
 							break;
 
-						case "Slot":
+						case _slotText:
 							slot = Int32.Parse(field.Value.ToString());
 							break;
 					}
@@ -279,6 +362,28 @@ namespace Flashcard
 				cards.Add(new Card(wordToTranslate, translation, slot, difficulty, record.Id));
 			}
 			return cards;
+		}
+
+
+		public void CreateCard(string gerWord, string engWord, string difficultyString)
+		{
+            Difficulties difficulty;
+            if (difficultyString == _baseText)
+            {
+                difficulty = CardBox.Difficulties.Basic;
+            }
+            else
+            {
+                difficulty = CardBox.Difficulties.Advanced;
+            }
+
+			Fields cardData = new Fields();
+			cardData.AddField(_germanWordText, gerWord);
+			cardData.AddField(_englishWordText, engWord);
+			cardData.AddField(_difficultyText, difficulty);
+			cardData.AddField(_slotText, 1);
+
+            CreateRecord(_cardTableName, cardData);
 		}
 	}
 }
