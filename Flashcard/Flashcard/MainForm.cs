@@ -62,12 +62,19 @@ namespace Flashcard
 
                 if (_btnSubmit.Text == buttonText)
                 {
+                    if (_box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString()))
+                    {
+                        _lblValidation.Text = "Korrekt";
+                    }
+                    else
+                    {
+                        _lblValidation.Text = "Falsch! " + _box.CurrentCard.Translation + " wäre richtig gewesen";
+                    }
                     _btnSubmit.Text = "Weiter";
-                    _lblValidation.Text = _box.VerifyTranslation(_lbTranslationList.SelectedItem.ToString());
                 }
                 else
                 {
-                    _dataManager.UpdateCardSlot(_box.GetCurrentSlotIndex()+1, _box._currentCard.ID); ;
+                    _dataManager.UpdateCardSlot(_box.GetCurrentSlotIndex()+1, _box.CurrentCard.ID); ;
                     _btnSubmit.Text = buttonText;
                     _lblValidation.Text = String.Empty;
                     RefreshListAndWordToTranslate();

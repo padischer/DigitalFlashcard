@@ -13,7 +13,7 @@ namespace Flashcard
         public int SlotCount { get; private set; }
         private Languages _currentPrimaryLanguage;
         private Difficulties _currentDifficulty;
-        public Card _currentCard { get; private set; }
+        public Card CurrentCard { get; private set; }
         public List<Card> _cardList = new List<Card>();
         private const string _cardText = "Card";
         private const string _slotText = "Slot";
@@ -79,8 +79,8 @@ namespace Flashcard
             if (GetCurrentCards().Where(c => c.SlotID == _currentSlotIndex+1).ToList().Count > 0)
             {
                 Random rnd = new Random();
-                _currentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
-                return _currentCard;
+                CurrentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
+                return CurrentCard;
             }
             else
             {
@@ -90,28 +90,27 @@ namespace Flashcard
 
         public void SetCurrentCard(Card card)
         {
-            _currentCard = card;
+            CurrentCard = card;
         }
 
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
-        public string VerifyTranslation(string input)
+        public bool VerifyTranslation(string input)
         {
-            if(_currentCard.VerifyTranslation(input))
+            if(CurrentCard.VerifyTranslation(input))
             {
                 if(_currentSlotIndex != 2)
                 {
-                    _currentCard.SlotID++;
+                    CurrentCard.SlotID++;
                 }
-                return "Korrekt";
+                return true;
             }
             else
             {
                 if(_currentSlotIndex != 0)
                 {
-                    _currentCard.SlotID--;
-
+                    CurrentCard.SlotID--;
                 }
-                return "Falsch! " + _currentCard.Translation + " wäre richtig gewesen";
+                return false;
             }
 
             
