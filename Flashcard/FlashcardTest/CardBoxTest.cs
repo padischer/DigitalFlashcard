@@ -57,24 +57,20 @@ namespace FlashcardTest
         public void TestSwitchSlot()
         {
             var sampleBox = InitCardBox();
-            int expected = 0;
 
             sampleBox.SwitchSlot(0);
 
-            int actual = sampleBox.GetCurrentSlotIndex();
-            Assert.AreEqual(expected, actual, "too small input uncatched");
+            Assert.AreEqual(0, sampleBox.GetCurrentSlotIndex(), "too small input uncatched");
         }
 
         [TestMethod]
         public void TestSwitchSlot1()
         {
             var sampleBox = InitCardBox();
-            int expected = 2;
 
             sampleBox.SwitchSlot(3);
 
-            int actual = sampleBox.GetCurrentSlotIndex();
-            Assert.AreEqual(expected, actual, "SwitchSlot failed");
+            Assert.AreEqual(2, sampleBox.GetCurrentSlotIndex(), "SwitchSlot failed");
         }
 
         [TestMethod]
@@ -82,11 +78,10 @@ namespace FlashcardTest
         {
             var sampleBox = InitCardBox();
             sampleBox.SetCurrentCard(sampleBox.GetCardList().First());
-            bool expected = true;
 
             bool actual = sampleBox.VerifyTranslation("table");
 
-            Assert.AreEqual(expected, actual, "Verification failed");
+            Assert.AreEqual(true, actual, "Verification failed");
         }
 
         [TestMethod]
@@ -94,11 +89,10 @@ namespace FlashcardTest
         {
             var sampleBox = InitCardBox();
             sampleBox.SetCurrentCard(sampleBox.GetCardList().First());
-            bool expected = false;
 
             bool actual = sampleBox.VerifyTranslation("Tisch");
 
-            Assert.AreEqual(expected, actual, "wrongly succeeded");
+            Assert.AreEqual(false, actual, "wrongly succeeded");
         }
 
         [TestMethod]
@@ -109,23 +103,20 @@ namespace FlashcardTest
             {
                 card.SlotID = 2;
             }
-            int expected = 6;
 
             sampleBox.ResetAllCardSlots();
 
-            int actual = sampleBox._cardList.Where(c => c.SlotID == 1).Count();
-            Assert.AreEqual(expected, actual, "not all Slots where reseted");
+            int actual = sampleBox.GetCardList().Where(c => c.SlotID == 1).Count();
+            Assert.AreEqual(6, actual, "not all Slots where reseted");
         }
 
         [TestMethod]
         public void TestAddNewCard()
         {
             var sampleBox = InitCardBox();
-
-            sampleBox.AddNewCard("deutsch", "german", "erweitert");
-
             List<Flashcard.Card> tempList = new List<Flashcard.Card>();
 
+            sampleBox.AddNewCard("deutsch", "german", "erweitert");
             
             Assert.AreEqual(true ,CompareCards(CreateCard("deutsch", "german", Flashcard.CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last()), "Card added wrongly");
         }
@@ -134,11 +125,11 @@ namespace FlashcardTest
         public void TestSwitchLanguage()
         {
             var sampleBox = InitCardBox();
-            sampleBox._cardList.Add(new Flashcard.Card("Test", "Test", 1, Flashcard.CardBox.Difficulties.Basic));
-            int expected = sampleBox.GetCardList().Count;
+            sampleBox.GetCardList().Add(new Flashcard.Card("Test", "Test", 1, Flashcard.CardBox.Difficulties.Basic));
+
             sampleBox.SwitchLanguage();
 
-            Assert.AreEqual(expected, sampleBox.GetCardList().Where(c => c.PrimaryLanguage == Flashcard.CardBox.Languages.English).Count(), "Cards Primary Language not switched correctly");
+            Assert.AreEqual(sampleBox.GetCardList().Count, sampleBox.GetCardList().Where(c => c.PrimaryLanguage == Flashcard.CardBox.Languages.English).Count(), "Cards Primary Language not switched correctly");
             Assert.AreEqual(Flashcard.CardBox.Languages.English, sampleBox.GetCurrentPrimaryLanguage(), "CardBox Difficulty not switched correctly");
         }
 
@@ -150,48 +141,55 @@ namespace FlashcardTest
             sampleBox.SwitchDifficulty();
             sampleBox.SwitchLanguage();
             int[] expectedArray = { 2, 1, 1 };
-            
-            
-            Assert.AreEqual(true, CompareArray(expectedArray, sampleBox.GetSaveState()), "wrong saveState output");
+
+            int[] actualArray = sampleBox.GetSaveState();
+
+            Assert.AreEqual(true, CompareArray(expectedArray, actualArray), "wrong saveState output");
         }
 
         private bool CompareArray(int[] arr1, int[] arr2)
         {
-            if (arr1.Length == arr2.Length)
+            if(arr1 != null && arr2 != null)
             {
-               for(int i = 0; i < arr1.Length; i++)
-               {
-                    if (arr1[i] == arr2[i])
+                if (arr1.Length == arr2.Length)
+                {
+                    for (int i = 0; i < arr1.Length; i++)
                     {
-                        
+                        if (arr1[i] == arr2[i])
+                        {
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        return false;
-                    }      
-               }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(arr1 == null && arr2 == null)
+            {
                 return true;
             }
             else
             {
                 return false;
             }
+            
         }
 
         [TestMethod]
         public void TestSelectRandomCard()
         {
             var sampleBox = InitCardBox();
+
             Flashcard.Card randomCard = sampleBox.SelectRandomCard();
-            bool actual;
-            if (sampleBox.GetCardList().Contains(randomCard)){
-                actual = true;
-            }
-            else
-            {
-                actual = false;
-            }
-            Assert.AreEqual(true, actual, "card is not in cardlist");
+
+            Assert.AreEqual(true, sampleBox.GetCardList().Contains(randomCard), "card is not in cardlist");
         }
 
         [TestMethod]
@@ -208,43 +206,48 @@ namespace FlashcardTest
                     actualCount++;
                 }
             }
+
             Assert.AreEqual(3, actualCount, "did not get possible translations correctly");
         }
         
         [TestMethod]
-        public void TestGetCurrentDifficulty()
+        public void TestGetCurrentDifficultyText()
         {
             var sampleBox = InitCardBox();
-            Assert.AreEqual("basis", sampleBox.GetCurrentDifficultyText(), "GetCurrentDifficultyText sent wrong text");
+
+            string actual = sampleBox.GetCurrentDifficultyText();
+
+            Assert.AreEqual("basis", actual, "GetCurrentDifficultyText sent wrong text");
         }
 
         [TestMethod]
-        public void TestGetCurrentDifficulty1()
+        public void TestGetCurrentDifficultyText1()
         {
             var sampleBox = InitCardBox(new int[] {0,0,1});
-            Assert.AreEqual("erweitert", sampleBox.GetCurrentDifficultyText(), "GetCurrentDifficultyText sent wrong text");
+
+            string actual = sampleBox.GetCurrentDifficultyText();
+
+            Assert.AreEqual("erweitert", actual, "GetCurrentDifficultyText sent wrong text");
         }
 
         [TestMethod]
-        public void TestGetCurrentPrimaryLanguage()
+        public void TestGetCurrentPrimaryLanguageText()
         {
             var sampleBox = InitCardBox();
-            Assert.AreEqual("deu->eng", sampleBox.GetCurrentPrimaryLanguageText(), "GetCurrentPrimaryLanguageText sent wrong text");
+
+            string actual = sampleBox.GetCurrentPrimaryLanguageText();
+
+            Assert.AreEqual("deu->eng", actual, "GetCurrentPrimaryLanguageText sent wrong text");
         }
 
         [TestMethod]
-        public void TestGetCurrentPrimaryLanguage1()
+        public void TestGetCurrentPrimaryLanguageText1()
         {
             var sampleBox = InitCardBox(new int[] {0,1,0});
-            Assert.AreEqual("eng->deu", sampleBox.GetCurrentPrimaryLanguageText(), "GetCurrentPrimaryLanguageText sent wrong text");
-        }
-        /*
-        [TestMethod]
-        public void Test()
-        {
-            var sampleBox = InitCardBox();
-        }
-        */
 
-    }
+            string actual = sampleBox.GetCurrentPrimaryLanguageText();
+
+            Assert.AreEqual("eng->deu", actual, "GetCurrentPrimaryLanguageText sent wrong text");
+        }
+    }   
 }
