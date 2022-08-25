@@ -25,12 +25,10 @@
         public void TestSwitchDifficutly()
         {
             var sampleBox = InitCardBox();
-            Flashcard.CardBox.Difficulties expected = Flashcard.CardBox.Difficulties.Advanced;
 
             sampleBox.SwitchDifficulty();
 
-            Flashcard.CardBox.Difficulties actual = sampleBox.GetCurrentDifficulty();
-            Assert.AreEqual(expected, actual, "SwitchDifficulty failed");
+            Assert.AreEqual(Flashcard.CardBox.Difficulties.Advanced, sampleBox.GetCurrentDifficulty(), "SwitchDifficulty failed");
         }
     }
 }

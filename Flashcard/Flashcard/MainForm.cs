@@ -118,7 +118,7 @@ namespace Flashcard
 
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
-            _dataManager.UpdateSaveState(_box.UpdateSaveState());
+            _dataManager.UpdateSaveState(_box.GetSaveState());
             this.Close();
            
         }

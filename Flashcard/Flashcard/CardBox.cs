@@ -39,7 +39,7 @@ namespace Flashcard
             InitializeSaveState(saveState);
         }
 
-        public void InitializeSaveState(int[] saveState)
+        private void InitializeSaveState(int[] saveState)
         {
             _currentSlotIndex = saveState[0];
             Enum.TryParse<Languages>(saveState[1].ToString(), out _currentPrimaryLanguage);
@@ -201,7 +201,7 @@ namespace Flashcard
 
         
 
-        public int[] UpdateSaveState()
+        public int[] GetSaveState()
         {
             int[] saveStateData = new int[3];
 
@@ -222,7 +222,7 @@ namespace Flashcard
             return _currentDifficulty;
         }
         
-        public Languages GetPrimaryLanguage()
+        public Languages GetCurrentPrimaryLanguage()
         {
             return _currentPrimaryLanguage;
         }
