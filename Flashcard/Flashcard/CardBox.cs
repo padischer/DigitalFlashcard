@@ -15,9 +15,6 @@ namespace Flashcard
         private Difficulties _currentDifficulty;
         public Card CurrentCard { get; private set; }
         public List<Card> _cardList = new List<Card>();
-        private const string _cardText = "Card";
-        private const string _slotText = "Slot";
-        private const string _difficultyText = "Difficulty";
         private const string _basisText = "basis";
 
         public enum Languages
@@ -46,19 +43,6 @@ namespace Flashcard
             Enum.TryParse<Difficulties>(saveState[2].ToString(), out _currentDifficulty);
         }
 
-        public List<Card> CorrectLanguageOfCards(List<Card> newCards)
-        {
-            if(_currentPrimaryLanguage == CardBox.Languages.English)
-            {
-                foreach(Card card in newCards)
-                {
-                    card.SwitchLanguage();
-                }
-            }
-
-            return newCards;
-        }
-
         //returning all translations from current Slot
         public string[] GetPossibleTranslations()
         {
@@ -67,7 +51,7 @@ namespace Flashcard
         }
 
 
-        public List<Card> GetCurrentCards()
+        private List<Card> GetCurrentCards()
         {
             List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.SlotID == _currentSlotIndex + 1).ToList();
             return cardsFromCurrentSlot.Where(c => c.Difficulty == _currentDifficulty).ToList();
@@ -235,7 +219,7 @@ namespace Flashcard
             }
             else
             {
-                return "end->deu";
+                return "eng->deu";
             }
         }
 
