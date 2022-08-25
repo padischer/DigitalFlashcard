@@ -27,9 +27,8 @@ namespace FlashcardTest
             return new Flashcard.Card(wordToTranslate, translation, 1, difficulty, key);
         }
 
-        private Flashcard.CardBox InitCardBox()
-        {
-            int[] saveState = { 0, 0, 0 };
+        private Flashcard.CardBox InitCardBox(int[] saveState=null)
+        {     
             List<Flashcard.Card> sampleCardList = new List<Flashcard.Card>();
             sampleCardList.Add(CreateCard("Tisch", "table", Flashcard.CardBox.Difficulties.Basic, sampleCardList, "rBjSo7Cp3C3TtISnYc"));
             sampleCardList.Add(CreateCard("Sonne", "sun", Flashcard.CardBox.Difficulties.Basic, sampleCardList, "dkjUDlm6oa658k3mnC"));
@@ -37,6 +36,10 @@ namespace FlashcardTest
             sampleCardList.Add(CreateCard("Schrecken", "dread", Flashcard.CardBox.Difficulties.Advanced, sampleCardList, "1Uxk723tr0FzNucsO1"));
             sampleCardList.Add(CreateCard("Zorn", "wrath", Flashcard.CardBox.Difficulties.Advanced, sampleCardList, "F6L8JgL70qpLFu8WlR"));
             sampleCardList.Add(CreateCard("zögern", "hesitate", Flashcard.CardBox.Difficulties.Advanced, sampleCardList, "K0B9I6wEASbQX6bcOx"));
+            if (saveState == null)
+            {
+                return new Flashcard.CardBox(new int[] { 0, 0, 0 }, sampleCardList);
+            }
             return new Flashcard.CardBox(saveState, sampleCardList);
         }
 
@@ -191,35 +194,51 @@ namespace FlashcardTest
             Assert.AreEqual(true, actual, "card is not in cardlist");
         }
 
+        [TestMethod]
+        public void TestGetPossibleTranslations()
+        {
+            var sampleBox = InitCardBox();
+            int actualCount = 0;
+            string[] possibleTranslations = sampleBox.GetPossibleTranslations();
+
+            foreach(Flashcard.Card card in sampleBox.GetCardList())
+            {
+                if (possibleTranslations.Contains(card.Translation))
+                {
+                    actualCount++;
+                }
+            }
+            Assert.AreEqual(3, actualCount, "did not get possible translations correctly");
+        }
         
         [TestMethod]
-        public void TestCorrectLanguageOfCards()
+        public void TestGetCurrentDifficulty()
         {
             var sampleBox = InitCardBox();
-            
+            Assert.AreEqual("basis", sampleBox.GetCurrentDifficultyText(), "GetCurrentDifficultyText sent wrong text");
         }
 
+        [TestMethod]
+        public void TestGetCurrentDifficulty1()
+        {
+            var sampleBox = InitCardBox(new int[] {0,0,1});
+            Assert.AreEqual("erweitert", sampleBox.GetCurrentDifficultyText(), "GetCurrentDifficultyText sent wrong text");
+        }
 
+        [TestMethod]
+        public void TestGetCurrentPrimaryLanguage()
+        {
+            var sampleBox = InitCardBox();
+            Assert.AreEqual("deu->eng", sampleBox.GetCurrentPrimaryLanguageText(), "GetCurrentPrimaryLanguageText sent wrong text");
+        }
 
+        [TestMethod]
+        public void TestGetCurrentPrimaryLanguage1()
+        {
+            var sampleBox = InitCardBox(new int[] {0,1,0});
+            Assert.AreEqual("eng->deu", sampleBox.GetCurrentPrimaryLanguageText(), "GetCurrentPrimaryLanguageText sent wrong text");
+        }
         /*
-        [TestMethod]
-        public void Test()
-        {
-            var sampleBox = InitCardBox();
-        }
-
-        [TestMethod]
-        public void Test()
-        {
-            var sampleBox = InitCardBox();
-        }
-
-        [TestMethod]
-        public void Test()
-        {
-            var sampleBox = InitCardBox();
-        }
-
         [TestMethod]
         public void Test()
         {
