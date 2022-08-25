@@ -3,22 +3,77 @@ namespace FlashcardTest
     [TestClass]
     public class CardTest
     {
-        private string _wordToTranslate = "Tisch";
-        private string _translation = "table";
-        private int _slotNumber = 1;
-        private Flashcard.CardBox.Difficulties _difficulty = Flashcard.CardBox.Difficulties.Basic;
-        private string _iD = "ca3gFnhG74id";
+
+
+        private Flashcard.Card CreateSampleCard()
+        {
+            return new Flashcard.Card("Tisch", "table", 1, Flashcard.CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC");
+        }
 
         [TestMethod]
         public void TestVerifyTranslation()
         {
-            Flashcard.Card card = new Flashcard.Card(_wordToTranslate, _translation, _slotNumber, _difficulty, _iD);
-            string selectedTranslation = "table";
-            bool expected = true;
+            var sampleCard = CreateSampleCard();
 
-            bool actual = card.VerifyTranslation(selectedTranslation);
+            bool actual = sampleCard.VerifyTranslation("table");
 
-            Assert.AreEqual(expected, actual, "didn't verify correct input");
+            Assert.AreEqual(true, actual, "didn't verify correct input");
+        }
+
+        [TestMethod]
+        public void TestVerifyTranslation1()
+        {
+            var sampleCard = CreateSampleCard();
+
+            bool actual = sampleCard.VerifyTranslation("Tisch");
+
+            Assert.AreEqual(false, actual, "didn't verify correct input");
+        }
+
+        [TestMethod]
+        public void TestGetGermanWord()
+        {
+            var sampleCard = CreateSampleCard();
+
+            Assert.AreEqual("Tisch", sampleCard.GetGermanWord());
+        }
+
+        [TestMethod]
+        public void TestGetGermanWord1()
+        {
+            var sampleCard = CreateSampleCard();
+
+            sampleCard.SwitchLanguage();
+
+            Assert.AreEqual("Tisch", sampleCard.GetGermanWord());
+        }
+
+        [TestMethod]
+        public void TestGetEnglishWord()
+        {
+            var sampleCard = CreateSampleCard();
+
+            Assert.AreEqual("table", sampleCard.GetEnglishWord());
+        }
+
+        [TestMethod]
+        public void TestGetEnglishWord1()
+        {
+            var sampleCard = CreateSampleCard();
+
+            sampleCard.SwitchLanguage();
+
+            Assert.AreEqual("table", sampleCard.GetEnglishWord());
+        }
+
+        [TestMethod]
+        public void TestSwitchLanguage()
+        {
+            var sampleCard = CreateSampleCard();
+
+            sampleCard.SwitchLanguage();
+
+            Assert.AreEqual(Flashcard.CardBox.Languages.English, sampleCard.PrimaryLanguage, "did not switch language correctly");
         }
     }
 }
