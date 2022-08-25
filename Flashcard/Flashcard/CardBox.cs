@@ -14,7 +14,7 @@ namespace Flashcard
         private Languages _currentPrimaryLanguage;
         private Difficulties _currentDifficulty;
         public Card CurrentCard { get; private set; }
-        public List<Card> _cardList = new List<Card>();
+        private List<Card> _cardList = new List<Card>();
         private const string _basisText = "basis";
 
         public enum Languages
