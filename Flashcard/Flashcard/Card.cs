@@ -8,10 +8,11 @@ namespace Flashcard
 {
     public class Card
     {
-        public CardBox.Difficulties Difficulty { get; private set; }
-        public CardBox.Languages PrimaryLanguage { get; private set; }
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
+        public CardBox.Difficulties Difficulty { get; private set; }
+        public CardBox.Languages PrimaryLanguage { get; private set; }
+        
         
         public string DifficultyText
         {

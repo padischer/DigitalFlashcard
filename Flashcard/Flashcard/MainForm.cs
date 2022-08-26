@@ -7,7 +7,8 @@ namespace Flashcard
         private AccessData _dataManager = new AccessData();
         public MainForm()
         {
-            _box = new CardBox(_dataManager.GetSaveState(), _dataManager.GetAllCards());
+            object[] saveState = _dataManager.GetSaveState();
+            _box = new CardBox((CardBox.Slots)saveState[0], (CardBox.Languages)saveState[1], (CardBox.Difficulties)saveState[2], _dataManager.GetAllCards());
             InitializeComponent();
         }
         
@@ -31,7 +32,7 @@ namespace Flashcard
             _btnSwitchDifficulty.Text = _box.GetCurrentDifficultyText();
             _btnSwitchLanguage.Text = _box.GetCurrentPrimaryLanguageText();
 
-            _cbSlotNumber.SelectedIndex = _box.GetCurrentSlotIndex();
+            _cbSlotNumber.SelectedIndex = (int)_box.GetCurrentSlot();
         }
 
         //temp choosing a random word to Translate
@@ -74,7 +75,7 @@ namespace Flashcard
                 }
                 else
                 {
-                    _dataManager.UpdateCardSlot(_box.GetCurrentSlotIndex()+1, _box.CurrentCard.ID); ;
+                    _dataManager.UpdateCardSlot((int)_box.GetCurrentSlot()+1, _box.CurrentCard.ID); ;
                     _btnSubmit.Text = buttonText;
                     _lblValidation.Text = String.Empty;
                     RefreshListAndWordToTranslate();
@@ -92,7 +93,7 @@ namespace Flashcard
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
-            _box.SwitchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString()));
+            _box.SwitchSlot(Enum.Parse<CardBox.Slots>(_cbSlotNumber.SelectedItem.ToString()));
             RefreshListAndWordToTranslate();
         }
 

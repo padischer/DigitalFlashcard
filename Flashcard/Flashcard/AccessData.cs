@@ -227,31 +227,37 @@ namespace Flashcard
 		}
 		
 
-		public int[] GetSaveState()
+		public object[] GetSaveState()
         {
 			
 			GetRecord(_saveStateTableName, _saveStateID);
-
-			int[] saveState = new int[3];
+            
+            Difficulties difficulty = Difficulties.Basic;
+            Languages language = Languages.German;
+            Slots slot = Slots.FirstSlot;
 			foreach(var field in _entity.Fields)
             {
 				switch (field.Key)
 				{
 					case _slotIndexText:
-						saveState[0] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse<Slots>(field.Value.ToString(), out slot);
 						break;
 
                     case _primaryLanguageText:
-                        saveState[1] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse<Languages>(field.Value.ToString(), out language);
                         break;
 
                     case _difficultyText:
-                        saveState[2] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
                         break;
-                }
-            }
 
-			return saveState;
+
+                    
+                }
+                
+            }
+            object[] saveState = { slot, language, difficulty };
+            return saveState;
 		}
 
 		public List<Card> GetAllCards()
