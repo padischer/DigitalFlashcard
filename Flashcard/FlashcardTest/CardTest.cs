@@ -7,7 +7,7 @@ namespace FlashcardTest
 
         private Flashcard.Card CreateSampleCard()
         {
-            return new Flashcard.Card("Tisch", "table", 1, Flashcard.CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC");
+            return new Flashcard.Card("Tisch", "table", Flashcard.CardBox.Slots.FirstSlot, Flashcard.CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC");
         }
 
         [TestMethod]

@@ -96,7 +96,7 @@ namespace Flashcard
                     cardData.AddField("GermanWord", _txtGerWord.Text);
                     cardData.AddField("EnglishWord", _txtEngWord.Text);
                     cardData.AddField("Difficulty", difficultyNumber);
-                    cardData.AddField("Slot", _cardToEdit.SlotID);
+                    cardData.AddField("Slot", _cardToEdit.Slot);
                     accessData.UpdateCard(_txtGerWord.Text, _txtEngWord.Text, _cbDifficulty.SelectedItem.ToString(), _cardToEdit.ID);
 
                     this.Close();

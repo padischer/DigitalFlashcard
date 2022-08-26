@@ -9,7 +9,7 @@ namespace Flashcard
 {
     public class CardBox
     {
-        private int _currentSlotIndex = 1;
+        private Slots _currentSlot;
         public int SlotCount { get; private set; }
         private Languages _currentPrimaryLanguage;
         private Difficulties _currentDifficulty;
@@ -17,6 +17,12 @@ namespace Flashcard
         private List<Card> _cardList = new List<Card>();
         private const string _basisText = "basis";
 
+        public enum Slots
+        {
+            FirstSlot = 0,
+            SecondSlot = 1,
+            ThirdSlot = 2,
+        }
         public enum Languages
         {
             German = 0,
@@ -29,18 +35,18 @@ namespace Flashcard
         }
 
         //constructor reading input data and putting into 
-        public CardBox(int[] saveState, List<Card> cardList)
+        public CardBox(Slots slot, Languages primaryLanguage, Difficulties difficulty, List<Card> cardList)
         {
             SlotCount = 3;
             _cardList = cardList;
-            InitializeSaveState(saveState);
+            InitializeSaveState(slot, primaryLanguage, difficulty);
         }
 
-        private void InitializeSaveState(int[] saveState)
+        private void InitializeSaveState(Slots slot, Languages primaryLanguage, Difficulties difficulty)
         {
-            _currentSlotIndex = saveState[0];
-            Enum.TryParse<Languages>(saveState[1].ToString(), out _currentPrimaryLanguage);
-            Enum.TryParse<Difficulties>(saveState[2].ToString(), out _currentDifficulty);
+            _currentSlot = slot;
+            _currentPrimaryLanguage = primaryLanguage;
+            _currentDifficulty = difficulty;
         }
 
         //returning all translations from current Slot
@@ -53,14 +59,14 @@ namespace Flashcard
 
         private List<Card> GetCurrentCards()
         {
-            List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.SlotID == _currentSlotIndex + 1).ToList();
+            List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.Slot == _currentSlot).ToList();
             return cardsFromCurrentSlot.Where(c => c.Difficulty == _currentDifficulty).ToList();
         }
 
         //statt nächstes Wort die nächste
         public Card SelectRandomCard()
         {
-            if (GetCurrentCards().Where(c => c.SlotID == _currentSlotIndex+1).ToList().Count > 0)
+            if (GetCurrentCards().Where(c => c.Slot == _currentSlot).ToList().Count > 0)
             {
                 Random rnd = new Random();
                 CurrentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
@@ -82,17 +88,17 @@ namespace Flashcard
         {
             if(CurrentCard.VerifyTranslation(input))
             {
-                if(_currentSlotIndex != 2)
+                if((int)_currentSlot != 2)
                 {
-                    CurrentCard.SlotID++;
+                    CurrentCard.Slot++;
                 }
                 return true;
             }
             else
             {
-                if(_currentSlotIndex != 0)
+                if((int)_currentSlot != 0)
                 {
-                    CurrentCard.SlotID--;
+                    CurrentCard.Slot--;
                 }
                 return false;
             }
@@ -104,15 +110,15 @@ namespace Flashcard
         {
             foreach (Card card in _cardList)
             {
-                card.SlotID = 1;
+                card.Slot = Slots.FirstSlot;
             }
         }
 
-        public void SwitchSlot(int slotNumber)
+        public void SwitchSlot(Slots slot)
         {
-            if(slotNumber > 0 && slotNumber <= SlotCount)
+            if((int)slot > 0 && (int)slot <= SlotCount)
             {
-                _currentSlotIndex = slotNumber - 1;
+                _currentSlot = slot;
             }            
         }
         
@@ -148,11 +154,11 @@ namespace Flashcard
 
             if (_currentPrimaryLanguage == Languages.German)
             {
-                _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
+                _cardList.Add(new Card(gerWord, engWord, Slots.FirstSlot, difficulty));
             }
             else
             {
-                _cardList.Add(new Card(engWord, gerWord, 1, difficulty));
+                _cardList.Add(new Card(engWord, gerWord, Slots.FirstSlot, difficulty));
             }
         }
 
@@ -189,16 +195,16 @@ namespace Flashcard
         {
             int[] saveStateData = new int[3];
 
-            saveStateData[0] = _currentSlotIndex;
+            saveStateData[0] = (int)_currentSlot;
             saveStateData[1] = (int)_currentPrimaryLanguage;
             saveStateData[2] = (int)_currentDifficulty;
 
             return saveStateData;
         }
 
-        public int GetCurrentSlotIndex()
+        public Slots GetCurrentSlot()
         {
-            return _currentSlotIndex;
+            return _currentSlot;
         }
 
         public Difficulties GetCurrentDifficulty()

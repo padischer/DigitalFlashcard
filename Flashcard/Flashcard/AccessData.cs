@@ -227,31 +227,37 @@ namespace Flashcard
 		}
 		
 
-		public int[] GetSaveState()
+		public object[] GetSaveState()
         {
 			
 			GetRecord(_saveStateTableName, _saveStateID);
-
-			int[] saveState = new int[3];
+            
+            Difficulties difficulty = Difficulties.Basic;
+            Languages language = Languages.German;
+            Slots slot = Slots.FirstSlot;
 			foreach(var field in _entity.Fields)
             {
 				switch (field.Key)
 				{
 					case _slotIndexText:
-						saveState[0] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse(field.Value.ToString(), out slot);
 						break;
 
                     case _primaryLanguageText:
-                        saveState[1] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse(field.Value.ToString(), out language);
                         break;
 
                     case _difficultyText:
-                        saveState[2] = Int32.Parse(field.Value.ToString());
+                        Enum.TryParse(field.Value.ToString(), out difficulty);
                         break;
-                }
-            }
 
-			return saveState;
+
+                    
+                }
+                
+            }
+            object[] saveState = { slot, language, difficulty };
+            return saveState;
 		}
 
 		public List<Card> GetAllCards()
@@ -260,7 +266,7 @@ namespace Flashcard
 			CardBox.Difficulties difficulty = CardBox.Difficulties.Basic;
 			string wordToTranslate = string.Empty;
 			string translation = string.Empty;
-			int slot = 1;
+			Slots slot = Slots.FirstSlot;
 			List<Card> cards = new List<Card>();
 			foreach (AirtableRecord record in recordList)
 			{
@@ -277,12 +283,12 @@ namespace Flashcard
 							break;
 
 						case _difficultyText:
-							Enum.TryParse<CardBox.Difficulties>(field.Value.ToString(), out difficulty);
+							Enum.TryParse(field.Value.ToString(), out difficulty);
 							break;
 
 						case _slotText:
-							slot = Int32.Parse(field.Value.ToString());
-							break;
+                            Enum.TryParse(field.Value.ToString(), out slot);
+                            break;
 					}
 				}
 
