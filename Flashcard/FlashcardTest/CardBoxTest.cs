@@ -111,7 +111,6 @@ namespace FlashcardTest
 
             sampleBox.AddNewCard("deutsch", "german", "erweitert");
 
-            //Assert.AreEqual(true ,CompareCards(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last()), "Card added wrongly");
             Assert.AreEqual(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last(), "Card added wrongly");
         }
 
