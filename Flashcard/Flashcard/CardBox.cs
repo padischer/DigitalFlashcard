@@ -59,14 +59,14 @@ namespace Flashcard
 
         private List<Card> GetCurrentCards()
         {
-            List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.SlotID == (int)_currentSlot + 1).ToList();
+            List<Card> cardsFromCurrentSlot = _cardList.Where(c => c.Slot == _currentSlot).ToList();
             return cardsFromCurrentSlot.Where(c => c.Difficulty == _currentDifficulty).ToList();
         }
 
         //statt nächstes Wort die nächste
         public Card SelectRandomCard()
         {
-            if (GetCurrentCards().Where(c => c.SlotID == (int)_currentSlot+1).ToList().Count > 0)
+            if (GetCurrentCards().Where(c => c.Slot == _currentSlot).ToList().Count > 0)
             {
                 Random rnd = new Random();
                 CurrentCard = GetCurrentCards()[rnd.Next(0, GetCurrentCards().Count)];
@@ -90,7 +90,7 @@ namespace Flashcard
             {
                 if((int)_currentSlot != 2)
                 {
-                    CurrentCard.SlotID++;
+                    CurrentCard.Slot++;
                 }
                 return true;
             }
@@ -98,7 +98,7 @@ namespace Flashcard
             {
                 if((int)_currentSlot != 0)
                 {
-                    CurrentCard.SlotID--;
+                    CurrentCard.Slot--;
                 }
                 return false;
             }
@@ -110,7 +110,7 @@ namespace Flashcard
         {
             foreach (Card card in _cardList)
             {
-                card.SlotID = 1;
+                card.Slot = Slots.FirstSlot;
             }
         }
 
@@ -154,11 +154,11 @@ namespace Flashcard
 
             if (_currentPrimaryLanguage == Languages.German)
             {
-                _cardList.Add(new Card(gerWord, engWord, 1, difficulty));
+                _cardList.Add(new Card(gerWord, engWord, Slots.FirstSlot, difficulty));
             }
             else
             {
-                _cardList.Add(new Card(engWord, gerWord, 1, difficulty));
+                _cardList.Add(new Card(engWord, gerWord, Slots.FirstSlot, difficulty));
             }
         }
 

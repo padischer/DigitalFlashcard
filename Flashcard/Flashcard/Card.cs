@@ -23,13 +23,13 @@ namespace Flashcard
         }
 
         public string ID { get; set; }
-        public int SlotID { get; set; }
+        public CardBox.Slots Slot { get; set; }
         //constructor setting German and Englisch word of Card
-        public Card(string wordToTranslate, string translation, int slot, CardBox.Difficulties difficulty, string iD = "")
+        public Card(string wordToTranslate, string translation, CardBox.Slots slot, CardBox.Difficulties difficulty, string iD = "")
         {
             WordToTranslate = wordToTranslate;
             Translation = translation;
-            SlotID = slot;
+            Slot = slot;
             Difficulty = difficulty;
             ID = iD;
             PrimaryLanguage = CardBox.Languages.German;

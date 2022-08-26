@@ -11,7 +11,7 @@ namespace FlashcardTest
         {
             if (card1 != null && card2 != null)
             {
-                if (card1.WordToTranslate == card2.WordToTranslate && card1.Translation == card2.Translation && card1.Difficulty == card2.Difficulty && card1.PrimaryLanguage == card2.PrimaryLanguage && card1.ID == card2.ID && card1.SlotID == card2.SlotID)
+                if (card1.WordToTranslate == card2.WordToTranslate && card1.Translation == card2.Translation && card1.Difficulty == card2.Difficulty && card1.PrimaryLanguage == card2.PrimaryLanguage && card1.ID == card2.ID && card1.Slot == card2.Slot)
                 {
                     return true;
                 }
@@ -26,7 +26,7 @@ namespace FlashcardTest
 
         private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, List<Card> cardList, string key = "")
         {
-            return new Card(wordToTranslate, translation, 1, difficulty, key);
+            return new Card(wordToTranslate, translation, CardBox.Slots.FirstSlot, difficulty, key);
         }
 
         private CardBox InitCardBox(object[] saveState=null)
@@ -55,17 +55,6 @@ namespace FlashcardTest
             Assert.AreEqual(CardBox.Difficulties.Advanced, sampleBox.GetCurrentDifficulty(), "SwitchDifficulty failed");
         }
 
-        /*
-        [TestMethod]
-        public void TestSwitchSlotToNegative()
-        {
-            var sampleBox = InitCardBox();
-
-            sampleBox.SwitchSlot(0);
-
-            Assert.AreEqual(0, sampleBox.GetCurrentSlotIndex(), "too small input uncatched");
-        }
-        */
         [TestMethod]
         public void TestSwitchSlot()
         {
@@ -105,12 +94,12 @@ namespace FlashcardTest
             var sampleBox = InitCardBox();
             foreach(Card card in sampleBox.GetCardList())
             {
-                card.SlotID = 2;
+                card.Slot = CardBox.Slots.SecondSlot;
             }
 
             sampleBox.ResetAllCardSlots();
 
-            int actual = sampleBox.GetCardList().Where(c => c.SlotID == 1).Count();
+            int actual = sampleBox.GetCardList().Where(c => c.Slot == CardBox.Slots.FirstSlot).Count();
             Assert.AreEqual(6, actual, "not all Slots where reseted");
         }
 
@@ -121,15 +110,16 @@ namespace FlashcardTest
             List<Card> tempList = new List<Card>();
 
             sampleBox.AddNewCard("deutsch", "german", "erweitert");
-            
-            Assert.AreEqual(true ,CompareCards(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last()), "Card added wrongly");
+
+            //Assert.AreEqual(true ,CompareCards(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last()), "Card added wrongly");
+            Assert.AreEqual(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last(), "Card added wrongly");
         }
 
         [TestMethod]
         public void TestSwitchLanguage()
         {
             var sampleBox = InitCardBox();
-            sampleBox.GetCardList().Add(new Card("Test", "Test", 1, CardBox.Difficulties.Basic));
+            sampleBox.GetCardList().Add(new Card("Test", "Test", CardBox.Slots.FirstSlot, CardBox.Difficulties.Basic));
 
             sampleBox.SwitchLanguage();
 
@@ -148,41 +138,6 @@ namespace FlashcardTest
 
             int[] actualArray = sampleBox.GetSaveState();
             CollectionAssert.AreEqual(expectedArray, actualArray, "wrong saveState output");
-        }
-
-        private bool CompareArray(int[] arr1, int[] arr2)
-        {
-            if(arr1 != null && arr2 != null)
-            {
-                if (arr1.Length == arr2.Length)
-                {
-                    for (int i = 0; i < arr1.Length; i++)
-                    {
-                        if (arr1[i] == arr2[i])
-                        {
-
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else if(arr1 == null && arr2 == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
         }
 
         [TestMethod]

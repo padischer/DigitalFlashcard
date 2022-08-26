@@ -240,15 +240,15 @@ namespace Flashcard
 				switch (field.Key)
 				{
 					case _slotIndexText:
-                        Enum.TryParse<Slots>(field.Value.ToString(), out slot);
+                        Enum.TryParse(field.Value.ToString(), out slot);
 						break;
 
                     case _primaryLanguageText:
-                        Enum.TryParse<Languages>(field.Value.ToString(), out language);
+                        Enum.TryParse(field.Value.ToString(), out language);
                         break;
 
                     case _difficultyText:
-                        Enum.TryParse<Difficulties>(field.Value.ToString(), out difficulty);
+                        Enum.TryParse(field.Value.ToString(), out difficulty);
                         break;
 
 
@@ -266,7 +266,7 @@ namespace Flashcard
 			CardBox.Difficulties difficulty = CardBox.Difficulties.Basic;
 			string wordToTranslate = string.Empty;
 			string translation = string.Empty;
-			int slot = 1;
+			Slots slot = Slots.FirstSlot;
 			List<Card> cards = new List<Card>();
 			foreach (AirtableRecord record in recordList)
 			{
@@ -283,12 +283,12 @@ namespace Flashcard
 							break;
 
 						case _difficultyText:
-							Enum.TryParse<CardBox.Difficulties>(field.Value.ToString(), out difficulty);
+							Enum.TryParse(field.Value.ToString(), out difficulty);
 							break;
 
 						case _slotText:
-							slot = Int32.Parse(field.Value.ToString());
-							break;
+                            Enum.TryParse(field.Value.ToString(), out slot);
+                            break;
 					}
 				}
 
