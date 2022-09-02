@@ -27,7 +27,7 @@ namespace FlashcardTest
 
         }
 
-        private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, List<Card> cardList, string key = "")
+        private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, string key = "")
         {
             return new Card(wordToTranslate, translation, CardBox.Slots.FirstSlot, difficulty, key);
         }
@@ -35,12 +35,12 @@ namespace FlashcardTest
         private CardBox InitCardBox(object[] saveState = null)
         {
             List<Card> sampleCardList = new List<Card>();
-            sampleCardList.Add(CreateCard("Tisch", "table", CardBox.Difficulties.Basic, sampleCardList, "rBjSo7Cp3C3TtISnYc"));
-            sampleCardList.Add(CreateCard("Sonne", "sun", CardBox.Difficulties.Basic, sampleCardList, "dkjUDlm6oa658k3mnC"));
-            sampleCardList.Add(CreateCard("Stuhl", "chair", CardBox.Difficulties.Basic, sampleCardList, "r0uj2RIS2NUQpgGXO4"));
-            sampleCardList.Add(CreateCard("Schrecken", "dread", CardBox.Difficulties.Advanced, sampleCardList, "1Uxk723tr0FzNucsO1"));
-            sampleCardList.Add(CreateCard("Zorn", "wrath", CardBox.Difficulties.Advanced, sampleCardList, "F6L8JgL70qpLFu8WlR"));
-            sampleCardList.Add(CreateCard("zögern", "hesitate", CardBox.Difficulties.Advanced, sampleCardList, "K0B9I6wEASbQX6bcOx"));
+            sampleCardList.Add(CreateCard("Tisch", "table", CardBox.Difficulties.Basic, "rBjSo7Cp3C3TtISnYc"));
+            sampleCardList.Add(CreateCard("Sonne", "sun", CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC"));
+            sampleCardList.Add(CreateCard("Stuhl", "chair", CardBox.Difficulties.Basic, "r0uj2RIS2NUQpgGXO4"));
+            sampleCardList.Add(CreateCard("Schrecken", "dread", CardBox.Difficulties.Advanced, "1Uxk723tr0FzNucsO1"));
+            sampleCardList.Add(CreateCard("Zorn", "wrath", CardBox.Difficulties.Advanced, "F6L8JgL70qpLFu8WlR"));
+            sampleCardList.Add(CreateCard("zögern", "hesitate", CardBox.Difficulties.Advanced, "K0B9I6wEASbQX6bcOx"));
             if (saveState == null)
             {
                 return new CardBox(CardBox.Slots.FirstSlot, CardBox.Languages.German, CardBox.Difficulties.Basic, sampleCardList);
@@ -52,10 +52,9 @@ namespace FlashcardTest
         public void CompareObjectsByInstance()
         {
             var sampleBox = InitCardBox();
-            List<Card> tempList = new List<Card>();
 
-            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
-            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
+            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
+            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
 
             Assert.AreEqual(FirstCard, SecondCard, "Not the same Cards");
         }
@@ -66,8 +65,8 @@ namespace FlashcardTest
             var sampleBox = InitCardBox();
             List<Card> tempList = new List<Card>();
 
-            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
-            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
+            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
+            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
             
             Assert.AreEqual(true, CompareCards(FirstCard, SecondCard), "Not the same Cards");
         }
@@ -75,11 +74,8 @@ namespace FlashcardTest
         [TestMethod]
         public void CompareObjectsByEquals()
         {
-            var sampleBox = InitCardBox();
-            List<Card> tempList = new List<Card>();
-
-            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
-            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList);
+            var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
+            var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
 
             Assert.AreEqual(true, FirstCard.Equals(SecondCard), "Not the same Cards");
         }

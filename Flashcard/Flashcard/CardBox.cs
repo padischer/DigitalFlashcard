@@ -15,7 +15,7 @@ namespace Flashcard
         private Difficulties _currentDifficulty;
         public Card CurrentCard { get; private set; }
         private List<Card> _cardList = new List<Card>();
-        private const string _basisText = "basis";
+        private const string _basicText = "basis";
 
         public enum Slots
         {
@@ -143,7 +143,7 @@ namespace Flashcard
         public void AddNewCard(string gerWord, string engWord, string difficultyString)
         {
             Difficulties difficulty;
-            if (difficultyString == _basisText)
+            if (difficultyString == _basicText)
             {
                 difficulty = CardBox.Difficulties.Basic;
             }
@@ -189,15 +189,13 @@ namespace Flashcard
             }
         }
 
-        
-
-        public int[] GetSaveState()
+        public object[] GetSaveState()
         {
-            int[] saveStateData = new int[3];
+            object[] saveStateData = new object[3];
 
-            saveStateData[0] = (int)_currentSlot;
-            saveStateData[1] = (int)_currentPrimaryLanguage;
-            saveStateData[2] = (int)_currentDifficulty;
+            saveStateData[0] = _currentSlot;
+            saveStateData[1] = _currentPrimaryLanguage;
+            saveStateData[2] = _currentDifficulty;
 
             return saveStateData;
         }

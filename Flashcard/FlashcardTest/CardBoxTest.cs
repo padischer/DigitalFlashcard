@@ -24,7 +24,7 @@ namespace FlashcardTest
 
         }
 
-        private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, List<Card> cardList, string key = "")
+        private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, string key = "")
         {
             return new Card(wordToTranslate, translation, CardBox.Slots.FirstSlot, difficulty, key);
         }
@@ -32,12 +32,12 @@ namespace FlashcardTest
         private CardBox InitCardBox(object[] saveState=null)
         {     
             List<Card> sampleCardList = new List<Card>();
-            sampleCardList.Add(CreateCard("Tisch", "table", CardBox.Difficulties.Basic, sampleCardList, "rBjSo7Cp3C3TtISnYc"));
-            sampleCardList.Add(CreateCard("Sonne", "sun", CardBox.Difficulties.Basic, sampleCardList, "dkjUDlm6oa658k3mnC"));
-            sampleCardList.Add(CreateCard("Stuhl", "chair", CardBox.Difficulties.Basic, sampleCardList, "r0uj2RIS2NUQpgGXO4"));
-            sampleCardList.Add(CreateCard("Schrecken", "dread", CardBox.Difficulties.Advanced, sampleCardList, "1Uxk723tr0FzNucsO1"));
-            sampleCardList.Add(CreateCard("Zorn", "wrath", CardBox.Difficulties.Advanced, sampleCardList, "F6L8JgL70qpLFu8WlR"));
-            sampleCardList.Add(CreateCard("zögern", "hesitate", CardBox.Difficulties.Advanced, sampleCardList, "K0B9I6wEASbQX6bcOx"));
+            sampleCardList.Add(CreateCard("Tisch", "table", CardBox.Difficulties.Basic, "rBjSo7Cp3C3TtISnYc"));
+            sampleCardList.Add(CreateCard("Sonne", "sun", CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC"));
+            sampleCardList.Add(CreateCard("Stuhl", "chair", CardBox.Difficulties.Basic, "r0uj2RIS2NUQpgGXO4"));
+            sampleCardList.Add(CreateCard("Schrecken", "dread", CardBox.Difficulties.Advanced, "1Uxk723tr0FzNucsO1"));
+            sampleCardList.Add(CreateCard("Zorn", "wrath", CardBox.Difficulties.Advanced, "F6L8JgL70qpLFu8WlR"));
+            sampleCardList.Add(CreateCard("zögern", "hesitate", CardBox.Difficulties.Advanced, "K0B9I6wEASbQX6bcOx"));
             if (saveState == null)
             {
                 return new CardBox(CardBox.Slots.FirstSlot, CardBox.Languages.German, CardBox.Difficulties.Basic, sampleCardList);
@@ -73,7 +73,7 @@ namespace FlashcardTest
 
             bool actual = sampleBox.VerifyTranslation("table");
 
-            Assert.AreEqual(true, actual, "Verification failed");
+            Assert.IsTrue(actual, "Verification failed");
             
         }
 
@@ -85,7 +85,7 @@ namespace FlashcardTest
 
             bool actual = sampleBox.VerifyTranslation("Tisch");
 
-            Assert.AreEqual(false, actual, "wrongly succeeded");
+            Assert.IsFalse(actual, "wrongly succeeded");
         }
 
         [TestMethod]
@@ -107,11 +107,10 @@ namespace FlashcardTest
         public void TestAddNewCard()
         {
             var sampleBox = InitCardBox();
-            List<Card> tempList = new List<Card>();
 
             sampleBox.AddNewCard("deutsch", "german", "erweitert");
 
-            Assert.AreEqual(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced, tempList), sampleBox.GetCardList().Last(), "Card added wrongly");
+            Assert.IsTrue(CompareCards(CreateCard("deutsch", "german", CardBox.Difficulties.Advanced), sampleBox.GetCardList().Last()), "Card added wrongly");
         }
 
         [TestMethod]
@@ -133,9 +132,9 @@ namespace FlashcardTest
             sampleBox.SwitchSlot(CardBox.Slots.ThirdSlot);
             sampleBox.SwitchDifficulty();
             sampleBox.SwitchLanguage();
-            int[] expectedArray = { 2, 1, 1 };
+            object[] expectedArray = { CardBox.Slots.ThirdSlot, CardBox.Languages.English, CardBox.Difficulties.Advanced};
 
-            int[] actualArray = sampleBox.GetSaveState();
+            object[] actualArray = sampleBox.GetSaveState();
             CollectionAssert.AreEqual(expectedArray, actualArray, "wrong saveState output");
         }
 
@@ -154,8 +153,12 @@ namespace FlashcardTest
         {
             var sampleBox = InitCardBox();
             int actualCount = 0;
+
             string[] possibleTranslations = sampleBox.GetPossibleTranslations();
 
+            
+
+            /*
             foreach(Card card in sampleBox.GetCardList())
             {
                 if (possibleTranslations.Contains(card.Translation))
@@ -163,8 +166,8 @@ namespace FlashcardTest
                     actualCount++;
                 }
             }
-
-            Assert.AreEqual(3, actualCount, "did not get possible translations correctly");
+            */
+            Assert.AreEqual(3, sampleBox.GetCardList().Where(c => possibleTranslations.Contains(c.Translation)).Count(), "did not get possible translations correctly");
         }
         
         [TestMethod]
