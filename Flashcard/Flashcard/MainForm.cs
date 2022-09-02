@@ -7,8 +7,8 @@ namespace Flashcard
         private AccessData _dataManager = new AccessData();
         public MainForm()
         {
-            object[] saveState = _dataManager.GetSaveState();
-            _box = new CardBox((CardBox.Slots)saveState[0], (CardBox.Languages)saveState[1], (CardBox.Difficulties)saveState[2], _dataManager.GetAllCards());
+            Tuple<CardBox.Slots, CardBox.Languages, CardBox.Difficulties> saveState = _dataManager.GetSaveState();
+            _box = new CardBox(saveState.Item1, saveState.Item2, saveState.Item3, _dataManager.GetAllCards());
             InitializeComponent();
         }
         
@@ -25,14 +25,13 @@ namespace Flashcard
             RefreshListAndWordToTranslate();
         }
 
+
         private void LoadSaveState()
         {
-            _dataManager.GetSaveState();
-            
             _btnSwitchDifficulty.Text = _box.GetCurrentDifficultyText();
             _btnSwitchLanguage.Text = _box.GetCurrentPrimaryLanguageText();
 
-            _cbSlotNumber.SelectedIndex = (int)_box.GetCurrentSlot();
+            _cbSlotNumber.SelectedIndex = Convert.ToInt32(_box.GetCurrentSlot());
         }
 
         //temp choosing a random word to Translate
@@ -75,7 +74,7 @@ namespace Flashcard
                 }
                 else
                 {
-                    _dataManager.UpdateCardSlot((int)_box.GetCurrentSlot()+1, _box.CurrentCard.ID); ;
+                    _dataManager.UpdateCardSlot(_box.GetCurrentSlot(), _box.CurrentCard.ID); ;
                     _btnSubmit.Text = buttonText;
                     _lblValidation.Text = String.Empty;
                     RefreshListAndWordToTranslate();
@@ -93,7 +92,7 @@ namespace Flashcard
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
-            _box.SwitchSlot(Enum.Parse<CardBox.Slots>(_cbSlotNumber.SelectedItem.ToString()));
+            _box.SwitchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString())-1);
             RefreshListAndWordToTranslate();
         }
 
@@ -119,7 +118,8 @@ namespace Flashcard
 
         private void BtnEndProgram_Click(object sender, EventArgs e)
         {
-            _dataManager.UpdateSaveState(_box.GetSaveState());
+            Tuple<CardBox.Slots, CardBox.Languages, CardBox.Difficulties> saveState = _box.GetSaveState();
+            _dataManager.UpdateSaveState(saveState.Item1, saveState.Item2, saveState.Item3);
             this.Close();
            
         }

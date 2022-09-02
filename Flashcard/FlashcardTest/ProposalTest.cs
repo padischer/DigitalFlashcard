@@ -10,22 +10,7 @@ namespace FlashcardTest
     [TestClass]
     public class ProposalTest
     {
-        private bool CompareCards(Card card1, Card card2)
-        {
-            if (card1 != null && card2 != null)
-            {
-                if (card1.WordToTranslate == card2.WordToTranslate && card1.Translation == card2.Translation && card1.Difficulty == card2.Difficulty && card1.PrimaryLanguage == card2.PrimaryLanguage && card1.ID == card2.ID && card1.Slot == card2.Slot)
-                {
-                    return true;
-                }
-            }
-            else if (card1 == null && card2 != null)
-            {
-                return false;
-            }
-            return false;
 
-        }
 
         private Card CreateCard(string wordToTranslate, string translation, CardBox.Difficulties difficulty, string key = "")
         {
@@ -68,7 +53,7 @@ namespace FlashcardTest
             var FirstCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
             var SecondCard = CreateCard("deutsch", "german", CardBox.Difficulties.Advanced);
             
-            Assert.AreEqual(true, CompareCards(FirstCard, SecondCard), "Not the same Cards");
+            Assert.IsTrue(FirstCard.Equals(SecondCard), "Not the same Cards");
         }
 
         [TestMethod]

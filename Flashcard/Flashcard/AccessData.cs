@@ -43,7 +43,7 @@ namespace Flashcard
             cardData.AddField(_germanWordText, gerWord);
             cardData.AddField(_englishWordText, engWord);
             cardData.AddField(_difficultyText, difficulty);
-            cardData.AddField(_slotText, 1);
+            cardData.AddField(_slotText, 0);
 
             CreateRecord(_cardTableName, cardData);
         }
@@ -100,7 +100,7 @@ namespace Flashcard
             }
         }
 
-        public void UpdateCardSlot(int slot, string cardID)
+        public void UpdateCardSlot(CardBox.Slots slot, string cardID)
         {
             Fields cardData = new Fields();
             cardData.AddField(_slotText, slot);
@@ -108,12 +108,12 @@ namespace Flashcard
         }
 
 
-		public void UpdateSaveState(object[] input)
+		public void UpdateSaveState(CardBox.Slots slot, CardBox.Languages primaryLanguage, CardBox.Difficulties difficulty)
 		{
 			Fields saveStateData = new Fields();
-			saveStateData.AddField(_slotIndexText, (int)input[0]);
-			saveStateData.AddField(_primaryLanguageText, (int)input[1]);
-			saveStateData.AddField(_difficultyText, (int)input[2]);
+			saveStateData.AddField(_slotIndexText, slot);
+			saveStateData.AddField(_primaryLanguageText, primaryLanguage);
+			saveStateData.AddField(_difficultyText, difficulty);
 
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{
@@ -164,7 +164,7 @@ namespace Flashcard
             for (int i = indexOfCardList; i < maxIterations + amount; i++)
             {
                 idFields[i - maxIterations] = new IdFields(cardList[i].ID);
-                idFields[i - maxIterations].AddField(_slotText, 1);
+                idFields[i - maxIterations].AddField(_slotText, 0);
                 indexOfCardList++;
             }
 
@@ -227,7 +227,7 @@ namespace Flashcard
 		}
 		
 
-		public object[] GetSaveState()
+		public Tuple<Slots, Languages, Difficulties>GetSaveState()
         {
 			
 			GetRecord(_saveStateTableName, _saveStateID);
@@ -256,9 +256,9 @@ namespace Flashcard
                 }
                 
             }
-            object[] saveState = { slot, language, difficulty };
-            return saveState;
-		}
+            
+            return Tuple.Create(slot, language, difficulty);
+        }
 
 		public List<Card> GetAllCards()
 		{

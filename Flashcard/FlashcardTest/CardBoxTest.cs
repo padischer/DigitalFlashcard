@@ -1,6 +1,7 @@
 ﻿
 
 using Flashcard;
+using System;
 
 namespace FlashcardTest
 {
@@ -29,7 +30,7 @@ namespace FlashcardTest
             return new Card(wordToTranslate, translation, CardBox.Slots.FirstSlot, difficulty, key);
         }
 
-        private CardBox InitCardBox(object[] saveState=null)
+        private CardBox InitCardBox(CardBox.Slots slot = CardBox.Slots.FirstSlot, CardBox.Languages primaryLanguage = CardBox.Languages.German, CardBox.Difficulties difficulty = CardBox.Difficulties.Basic)
         {     
             List<Card> sampleCardList = new List<Card>();
             sampleCardList.Add(CreateCard("Tisch", "table", CardBox.Difficulties.Basic, "rBjSo7Cp3C3TtISnYc"));
@@ -38,11 +39,8 @@ namespace FlashcardTest
             sampleCardList.Add(CreateCard("Schrecken", "dread", CardBox.Difficulties.Advanced, "1Uxk723tr0FzNucsO1"));
             sampleCardList.Add(CreateCard("Zorn", "wrath", CardBox.Difficulties.Advanced, "F6L8JgL70qpLFu8WlR"));
             sampleCardList.Add(CreateCard("zögern", "hesitate", CardBox.Difficulties.Advanced, "K0B9I6wEASbQX6bcOx"));
-            if (saveState == null)
-            {
-                return new CardBox(CardBox.Slots.FirstSlot, CardBox.Languages.German, CardBox.Difficulties.Basic, sampleCardList);
-            }
-            return new CardBox((CardBox.Slots)saveState[0], (CardBox.Languages)saveState[1], (CardBox.Difficulties)saveState[2], sampleCardList);
+            return new CardBox(slot, primaryLanguage, difficulty, sampleCardList);
+
         }
 
         [TestMethod]
@@ -132,10 +130,10 @@ namespace FlashcardTest
             sampleBox.SwitchSlot(CardBox.Slots.ThirdSlot);
             sampleBox.SwitchDifficulty();
             sampleBox.SwitchLanguage();
-            object[] expectedArray = { CardBox.Slots.ThirdSlot, CardBox.Languages.English, CardBox.Difficulties.Advanced};
+            Tuple<CardBox.Slots, CardBox.Languages, CardBox.Difficulties> expectedTuple = Tuple.Create(CardBox.Slots.ThirdSlot, CardBox.Languages.English, CardBox.Difficulties.Advanced);
 
-            object[] actualArray = sampleBox.GetSaveState();
-            CollectionAssert.AreEqual(expectedArray, actualArray, "wrong saveState output");
+            Tuple<CardBox.Slots, CardBox.Languages, CardBox.Difficulties> actualTuple = sampleBox.GetSaveState();
+            Assert.AreEqual(expectedTuple, actualTuple, "wrong saveState output");
         }
 
         [TestMethod]
@@ -183,8 +181,7 @@ namespace FlashcardTest
         [TestMethod]
         public void TestGetCurrentDifficultyTextAdvanced()
         {
-            object[] saveState = { CardBox.Slots.FirstSlot, CardBox.Languages.German, CardBox.Difficulties.Advanced };
-            var sampleBox = InitCardBox(saveState);
+            var sampleBox = InitCardBox(CardBox.Slots.FirstSlot, CardBox.Languages.German, CardBox.Difficulties.Advanced);
 
             string actual = sampleBox.GetCurrentDifficultyText();
 
@@ -204,8 +201,7 @@ namespace FlashcardTest
         [TestMethod]
         public void TestGetCurrentPrimaryLanguageTextEnglish()
         {
-            object[] saveState = { CardBox.Slots.FirstSlot, CardBox.Languages.English, CardBox.Difficulties.Basic };
-            var sampleBox = InitCardBox(saveState);
+            var sampleBox = InitCardBox(CardBox.Slots.FirstSlot, CardBox.Languages.English, CardBox.Difficulties.Basic);
 
             string actual = sampleBox.GetCurrentPrimaryLanguageText();
 

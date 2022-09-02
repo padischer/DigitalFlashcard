@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirtableApiClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Flashcard
 {
@@ -88,7 +89,7 @@ namespace Flashcard
         {
             if(CurrentCard.VerifyTranslation(input))
             {
-                if((int)_currentSlot != 2)
+                if(_currentSlot != Slots.ThirdSlot)
                 {
                     CurrentCard.Slot++;
                 }
@@ -96,7 +97,7 @@ namespace Flashcard
             }
             else
             {
-                if((int)_currentSlot != 0)
+                if(_currentSlot != Slots.FirstSlot)
                 {
                     CurrentCard.Slot--;
                 }
@@ -114,11 +115,12 @@ namespace Flashcard
             }
         }
 
-        public void SwitchSlot(Slots slot)
+        public void SwitchSlot(int slotNumber)
         {
-            if((int)slot > 0 && (int)slot <= SlotCount)
+            
+            if(slotNumber> 0 && slotNumber <= SlotCount)
             {
-                _currentSlot = slot;
+                Enum.TryParse<Slots>(slotNumber.ToString(), out _currentSlot);
             }            
         }
         
@@ -175,8 +177,6 @@ namespace Flashcard
             }
         }
 
-
-
         public void SwitchDifficulty()
         {
             if(_currentDifficulty == Difficulties.Basic)
@@ -189,15 +189,9 @@ namespace Flashcard
             }
         }
 
-        public object[] GetSaveState()
+        public Tuple<CardBox.Slots, CardBox.Languages, CardBox.Difficulties> GetSaveState()
         {
-            object[] saveStateData = new object[3];
-
-            saveStateData[0] = _currentSlot;
-            saveStateData[1] = _currentPrimaryLanguage;
-            saveStateData[2] = _currentDifficulty;
-
-            return saveStateData;
+            return Tuple.Create(_currentSlot, _currentPrimaryLanguage, _currentDifficulty);
         }
 
         public Slots GetCurrentSlot()
@@ -231,5 +225,8 @@ namespace Flashcard
         {
             return _cardList;
         }
+
+        
+
     }
 }
