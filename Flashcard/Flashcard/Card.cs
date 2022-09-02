@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Flashcard
 {
-    public class Card : IEquatable<Card>
-    {
+    public class Card
+    { 
         public string WordToTranslate { get; private set; }
         public string Translation { get; private set; }
         public CardBox.Difficulties Difficulty { get; private set; }
@@ -86,11 +86,6 @@ namespace Flashcard
             {
                 return Translation;
             }
-        }
-
-        public bool Equals(Card? other)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -108,12 +108,12 @@ namespace Flashcard
         }
 
 
-		public void UpdateSaveState(int[] input)
+		public void UpdateSaveState(object[] input)
 		{
 			Fields saveStateData = new Fields();
-			saveStateData.AddField(_slotIndexText, input[0]);
-			saveStateData.AddField(_primaryLanguageText, input[1]);
-			saveStateData.AddField(_difficultyText, input[2]);
+			saveStateData.AddField(_slotIndexText, (int)input[0]);
+			saveStateData.AddField(_primaryLanguageText, (int)input[1]);
+			saveStateData.AddField(_difficultyText, (int)input[2]);
 
 			using (AirtableBase airtableBase = new AirtableBase(_appKey, _baseId))
 			{

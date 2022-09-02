@@ -33,7 +33,6 @@ namespace Flashcard
             FillListView();
         }
 
-
         private Card GetSelectedCard()
         {
             int selectedID = Int32.Parse(_lvCardList.SelectedItems[0].Text);

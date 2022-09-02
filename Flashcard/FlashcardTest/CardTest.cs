@@ -3,15 +3,13 @@ namespace FlashcardTest
     [TestClass]
     public class CardTest
     {
-
-
         private Flashcard.Card CreateSampleCard()
         {
             return new Flashcard.Card("Tisch", "table", Flashcard.CardBox.Slots.FirstSlot, Flashcard.CardBox.Difficulties.Basic, "dkjUDlm6oa658k3mnC");
         }
 
         [TestMethod]
-        public void TestVerifyTranslation()
+        public void TestVerifyTranslationWithWrongInput()
         {
             var sampleCard = CreateSampleCard();
 
@@ -21,7 +19,7 @@ namespace FlashcardTest
         }
 
         [TestMethod]
-        public void TestVerifyTranslation1()
+        public void TestVerifyTranslationWithCorrectInput()
         {
             var sampleCard = CreateSampleCard();
 
@@ -39,7 +37,7 @@ namespace FlashcardTest
         }
 
         [TestMethod]
-        public void TestGetGermanWord1()
+        public void TestGetGermanWordWithSwitchedLanguage()
         {
             var sampleCard = CreateSampleCard();
 
@@ -57,7 +55,7 @@ namespace FlashcardTest
         }
 
         [TestMethod]
-        public void TestGetEnglishWord1()
+        public void TestGetEnglishWordWithSwitchedLanguage()
         {
             var sampleCard = CreateSampleCard();
 

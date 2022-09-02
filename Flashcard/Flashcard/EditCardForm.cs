@@ -42,7 +42,7 @@ namespace Flashcard
         private void AddCard_Load(object sender, EventArgs e)
         {
             _cbDifficulty.Items.Add(_basisText);
-            _cbDifficulty.Items.Add(_basisText);
+            _cbDifficulty.Items.Add("erweitert");
             _cbDifficulty.SelectedIndex = 0;
 
             if(_currentMode == Mode.Edit)
