@@ -1,4 +1,6 @@
 using AirtableApiClient;
+using static Flashcard.CardBox;
+
 namespace Flashcard
 {
     public partial class MainForm : Form
@@ -92,7 +94,9 @@ namespace Flashcard
         //if Slotnumber is changed adjust Translationlist and WortToTranslate to the new Slot
         private void CbSlotNumberSelectIndexChanged(object sender, EventArgs e)
         {
-            _box.SwitchSlot(Int32.Parse(_cbSlotNumber.SelectedItem.ToString())-1);
+            CardBox.Slots newSlot;
+            Enum.TryParse(_cbSlotNumber.SelectedItem.ToString(), out newSlot);
+            _box.SwitchSlot(newSlot-1);
             RefreshListAndWordToTranslate();
         }
 

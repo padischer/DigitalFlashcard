@@ -21,7 +21,6 @@ namespace Flashcard
             {
                 Card card = obj as Card;
                 return card.WordToTranslate == this.WordToTranslate && card.Translation == this.Translation && card.Difficulty == this.Difficulty && card.PrimaryLanguage == this.PrimaryLanguage && card.ID == this.ID && card.Slot == this.Slot;
-                
             }
         }
 
@@ -51,8 +50,6 @@ namespace Flashcard
             ID = iD;
             PrimaryLanguage = CardBox.Languages.German;
         }
-
-
 
         public void Update(string wordToTranslate, string translation, CardBox.Difficulties difficulty)
         {
