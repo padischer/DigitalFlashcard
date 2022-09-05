@@ -87,9 +87,9 @@ namespace Flashcard
         //checking wether the translation of the user was correct or not and moving the Card to another Slot and printing a message
         public bool VerifyTranslation(string input)
         {
-            if(CurrentCard.VerifyTranslation(input))
+            if (CurrentCard.VerifyTranslation(input))
             {
-                if(_currentSlot != Slots.ThirdSlot)
+                if (_currentSlot != Slots.ThirdSlot)
                 {
                     CurrentCard.Slot++;
                 }
@@ -97,14 +97,12 @@ namespace Flashcard
             }
             else
             {
-                if(_currentSlot != Slots.FirstSlot)
+                if (_currentSlot != Slots.FirstSlot)
                 {
                     CurrentCard.Slot--;
                 }
                 return false;
             }
-
-            
         }
 
         public void ResetAllCardSlots()
@@ -115,12 +113,12 @@ namespace Flashcard
             }
         }
 
-        public void SwitchSlot(int slotNumber)
+        public void SwitchSlot(Slots newSlot)
         {
             
-            if(slotNumber> 0 && slotNumber <= SlotCount)
+            if(newSlot >= Slots.FirstSlot && newSlot <= Slots.ThirdSlot)
             {
-                Enum.TryParse<Slots>(slotNumber.ToString(), out _currentSlot);
+                _currentSlot = newSlot;
             }            
         }
         

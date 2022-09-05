@@ -227,7 +227,7 @@ namespace Flashcard
 		}
 		
 
-		public Tuple<Slots, Languages, Difficulties>GetSaveState()
+		public Tuple<Slots, Languages, Difficulties> GetSaveState()
         {
 			
 			GetRecord(_saveStateTableName, _saveStateID);
